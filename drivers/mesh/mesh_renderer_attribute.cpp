@@ -1,0 +1,51 @@
+#include "mesh_renderer_attribute.h"
+
+#include <q3D/model/renderer.h>
+#include <q3D/model/colormap.h>
+
+#include <q3D/mesh/property.h>
+#include <q3D/mesh/property_db.h>
+#include <q3D/mesh/property_cube.h>
+
+#include "mesh_model.h"
+
+
+namespace Q3D {
+
+MeshRendererAttribute::MeshRendererAttribute( ModelRenderer* parent )
+    : RendererAttribute(parent),
+      painted_(false),
+      selected_property_(Property::null)
+{
+}
+
+void MeshRendererAttribute::setPainted( bool painted ) {
+    painted_ = painted;
+    emit attributeChanged(this);
+}
+
+
+void MeshRendererAttribute::setSelectedProperty(const Property &property ){
+
+    selected_property_ = property;
+
+    double min = wykobi::infinity<double>();
+    double max = -wykobi::infinity<double>();
+    QListIterator<qint64> it_id( selected_property_.property_db()->cube().get_all() );
+    while( it_id.hasNext() ){
+        qint64 id = it_id.next();
+        QVector<double> value;
+        selected_property_.get_value( id, value );
+
+        if ( value[0] != wykobi::infinity<double>() ){
+            min = qMin( min, value[0] );
+            max = qMax( max, value[0]);
+        }
+    }
+
+    renderer()->colormap()->setMinMax( (float)min, (float)max );
+
+    emit attributeChanged(this);
+}
+
+}

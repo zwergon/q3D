@@ -1,0 +1,12 @@
+#ifndef DRIVERS_GLOBAL_H
+#define DRIVERS_GLOBAL_H
+
+#include <QtCore/QtGlobal>
+
+#if defined(DRIVERS_LIBRARY)
+#  define DRIVERSSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define DRIVERSSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // DRIVERS_GLOBAL_H

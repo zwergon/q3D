@@ -1,0 +1,22 @@
+#ifndef MESH_DRIVER_H
+#define MESH_DRIVER_H
+
+#include <q3D/drivers/drivers_global.h>
+
+#include <q3D/model/model_driver.h>
+
+
+namespace Q3D {
+
+
+class DRIVERSSHARED_EXPORT MeshDriver : public ModelDriver
+{
+public:
+    MeshDriver();
+
+    virtual Model* open( const QString& );
+    virtual void save( const Model& model, const QString& filename );
+};
+
+}
+#endif // MESH_DRIVER_H
