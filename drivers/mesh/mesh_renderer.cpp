@@ -36,14 +36,13 @@ void MeshRenderer::init(){
 
 }
 
-RendererAttribute* MeshRenderer::create_attribute() {
+RendererAttribute* MeshRenderer::createAttribute() {
     return new MeshRendererAttribute(this);
 }
 
 void MeshRenderer::drawNodes( MeshModel* mesh_model ){
 
-
-    RendererAttribute* attr = attribute();
+    MeshRendererAttribute* attr = static_cast<MeshRendererAttribute*>(attribute());
     const QColor& node_color = attr->nodeColor();
 
     glColor3f( node_color.redF(), node_color.greenF(), node_color.blueF() );
@@ -66,7 +65,7 @@ void MeshRenderer::drawNodes( MeshModel* mesh_model ){
 void MeshRenderer::drawSurface( MeshModel* mesh_model ){
     glLineWidth(1.0);
 
-    RendererAttribute* attr = attribute();
+    MeshRendererAttribute* attr = static_cast<MeshRendererAttribute*>(attribute());
     const QColor& face_color = attr->faceColor();
 
     glEnable( GL_BLEND );
@@ -123,7 +122,8 @@ void MeshRenderer::drawSurface( MeshModel* mesh_model ){
 
 void MeshRenderer::setColor( const Property& prop, quint64 id, const QColor& default_color  ){
 
-    double opacity = attribute()->opacity();
+    MeshRendererAttribute* attr = static_cast<MeshRendererAttribute*>(attribute());
+    double opacity = attr->opacity();
     QVector<double> value;
     prop.get_value( id, value );
     if ( value[0] != wykobi::infinity<double>() ){
@@ -272,7 +272,7 @@ void MeshRenderer::drawEdges( MeshModel* mesh_model ){
 
     glLineWidth(1.0);
 
-    RendererAttribute* attr = attribute();
+    MeshRendererAttribute* attr = static_cast<MeshRendererAttribute*>(attribute());
     const QColor& grid_color = attr->gridColor();
     glColor3f( grid_color.redF(), grid_color.greenF(), grid_color.blueF() );
 

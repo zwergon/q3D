@@ -31,6 +31,9 @@ public:
 
     virtual void draw();
 
+protected:
+    virtual RendererAttribute* createAttribute();
+
 private:
     void createTexture( const Cube& cube, Slice slice, GLuint tId );
 

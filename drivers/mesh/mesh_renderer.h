@@ -20,7 +20,7 @@ public:
 
     virtual void init();
     virtual void buildGlList();
-    virtual RendererAttribute* create_attribute();
+    virtual RendererAttribute* createAttribute();
 
 private:
     void drawNodes( MeshModel* mesh );

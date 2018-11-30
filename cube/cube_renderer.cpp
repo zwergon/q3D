@@ -13,6 +13,10 @@ CubeRenderer::CubeRenderer()
 CubeRenderer::~CubeRenderer(){
 }
 
+RendererAttribute* CubeRenderer::createAttribute(){
+    return nullptr; //TODO
+}
+
 void CubeRenderer::init(){
     CubeModel* cube_model = dynamic_cast<CubeModel*>( model() );
     if ( nullptr == cube_model ){
@@ -20,8 +24,8 @@ void CubeRenderer::init(){
     }
 
      Cube& cube = cube_model->cube();
-     xCursor = cube.getNx()/2;
-     yCursor = cube.getNy()/2;
+     xCursor = cube.getNx()/4;
+     yCursor = cube.getNy()/3;
      zCursor = cube.getNz()/2;
 
      colormap()->setMinMax( cube_model->mini()[2], cube_model->maxi()[2] );

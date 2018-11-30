@@ -17,7 +17,7 @@
 #include <QFrame>
 #include <QColor>
 
-#include <q3D/gui/gui_scope.h>
+#include <q3D/gui/gui_global.h>
 
 namespace Q3D {
 

@@ -12,6 +12,8 @@
  */
 #include "gl_area.h"
 
+#include "glu.h"
+
 #include <QMenu>
 #include <QMouseEvent>
 
@@ -21,84 +23,10 @@
 #include <q3D/model/model.h>
 #include <q3D/model/renderer.h>
 
+#include <q3D/gui/camera_tool.h>
+
 
 namespace Q3D {
-
-/*
-** Make m an identity matrix
-*/
-static void __gluMakeIdentityf(GLfloat m[16])
-{
-    m[0+4*0] = 1; m[0+4*1] = 0; m[0+4*2] = 0; m[0+4*3] = 0;
-    m[1+4*0] = 0; m[1+4*1] = 1; m[1+4*2] = 0; m[1+4*3] = 0;
-    m[2+4*0] = 0; m[2+4*1] = 0; m[2+4*2] = 1; m[2+4*3] = 0;
-    m[3+4*0] = 0; m[3+4*1] = 0; m[3+4*2] = 0; m[3+4*3] = 1;
-}
-
-static void normalize(float v[3])
-{
-    float r;
-
-    r = sqrt( v[0]*v[0] + v[1]*v[1] + v[2]*v[2] );
-    if (r == 0.0) return;
-
-    v[0] /= r;
-    v[1] /= r;
-    v[2] /= r;
-}
-
-static void cross(float v1[3], float v2[3], float result[3])
-{
-    result[0] = v1[1]*v2[2] - v1[2]*v2[1];
-    result[1] = v1[2]*v2[0] - v1[0]*v2[2];
-    result[2] = v1[0]*v2[1] - v1[1]*v2[0];
-}
-
-/**
- * @brief gluLookAt
- * The implementation of gluLookAt from http://www.mesa3d.org to avoid link with GLU lib.
- */
-static void
-gluLookAt( GLdouble eyex, GLdouble eyey, GLdouble eyez,
-           GLdouble centerx, GLdouble centery, GLdouble centerz,
-           GLdouble upx, GLdouble upy, GLdouble upz )
-{
-    float forward[3], side[3], up[3];
-    GLfloat m[4][4];
-
-    forward[0] = centerx - eyex;
-    forward[1] = centery - eyey;
-    forward[2] = centerz - eyez;
-
-    up[0] = upx;
-    up[1] = upy;
-    up[2] = upz;
-
-    normalize(forward);
-
-    /* Side = forward x up */
-    cross(forward, up, side);
-    normalize(side);
-
-    /* Recompute up as: up = side x forward */
-    cross(side, forward, up);
-
-    __gluMakeIdentityf(&m[0][0]);
-    m[0][0] = side[0];
-    m[1][0] = side[1];
-    m[2][0] = side[2];
-
-    m[0][1] = up[0];
-    m[1][1] = up[1];
-    m[2][1] = up[2];
-
-    m[0][2] = -forward[0];
-    m[1][2] = -forward[1];
-    m[2][2] = -forward[2];
-
-    glMultMatrixf(&m[0][0]);
-    glTranslated(-eyex, -eyey, -eyez);
-}
 
 
 void
@@ -108,21 +36,29 @@ CGlArea::init()
 
     gl_machine_ = GLData::instance();
 
-    mGlAxis = -1;   /*dummy glList number*/
-    mGlLights = -1;
-
-    mMoveActivated = false;
+    gl_axis_ = -1;   /*dummy glList number*/
+    gl_lights_ = -1;
 
     setMouseTracking( true );
+
+
 }
 
 /*!
 Create a CGlArea widget
 */
 CGlArea::CGlArea( QWidget* parent )
-    : QGLWidget( parent )
+    : QGLWidget( parent ),
+      current_tool_(nullptr)
 {
     init();
+}
+
+CGlArea::~CGlArea(){
+    if ( nullptr != current_tool_ ){
+        current_tool_->deactivate();
+        delete current_tool_;
+    }
 }
 
 /*!
@@ -197,7 +133,6 @@ void CGlArea::paintGL()
         glShadeModel( GL_FLAT );
     }
 
-
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity();
     gluLookAt( view_control_.camX(), view_control_.camY(), view_control_.camZ(),
@@ -221,8 +156,8 @@ void CGlArea::paintGL()
 
     glTranslatef( -view_control_.centreX(), -view_control_.centreY(), -view_control_.centreZ() );
 
-    if ( gl_machine_->withAxis() && glIsList(mGlAxis))
-        glCallList(mGlAxis);
+    if ( gl_machine_->withAxis() && glIsList(gl_axis_))
+        glCallList(gl_axis_);
 
     for ( QSet<ModelRenderer*>::iterator itr = model_renderers_.begin();
           itr != model_renderers_.end();
@@ -263,12 +198,28 @@ CGlArea::computeBoundingBox()
     }
 }
 
+void
+CGlArea::setActiveTool(AbstractTool *tool){
+
+    qDebug() << "setActiveTool";
+    if ( current_tool_ != nullptr ){
+        current_tool_->deactivate();
+        delete current_tool_;
+    }
+
+    current_tool_ = tool;
+    if ( nullptr != current_tool_ ){
+        current_tool_->activate();
+    }
+}
+
 void 
 CGlArea::setGeometry()
 {
+    qDebug() << "setGeometry";
     computeBoundingBox();
 
-    view_control_.setControls( min_, max_ );
+    view_control_.setControls(min_, max_);
 
     GLfloat light[4];
 
@@ -299,85 +250,38 @@ CGlArea::buildAll()
 void  
 CGlArea::mousePressEvent  ( QMouseEvent* mouseEvent )
 {
-    QPoint p = mouseEvent->globalPos();
-    mXPrec = p.x();
-    mYPrec = p.y();
-
-    mMoveActivated = true;
-
     if ( (mouseEvent->buttons() & Qt::RightButton) &&
          !(mouseEvent->modifiers() & Qt::CTRL)) {
         popupMenuExec( mouseEvent );
-        mMoveActivated = false;
+        return;
+    }
+
+    if ( ( nullptr != current_tool_ ) && current_tool_->isActive() ){
+        current_tool_->handleMousePressEvent(mouseEvent);
     }
 
 }
 
 void  
-CGlArea::mouseMoveEvent  ( QMouseEvent* mouseEvent )
-{
-
-    if ( mMoveActivated )
-    {
-        QPoint p = mouseEvent->globalPos();
-
-        if (mouseEvent->buttons() & Qt::LeftButton)
-        {
-            if ( mouseEvent->modifiers() == Qt::CTRL ){
-                cameraTranslate( p.y()-mYPrec,	p.x()-mXPrec  ) ;
-            }
-            else {
-                cameraRotate( p.y()-mYPrec,	p.x()-mXPrec ) ;
-            }
-        }
-
-        if (mouseEvent->buttons() & Qt::MidButton)
-        {
-            view_control_.scaleZIncr( (p.y()-mYPrec) < 0 ) ;
-            updateGL();
-        }
-
-        mXPrec = p.x();
-        mYPrec = p.y();
-
+CGlArea::mouseMoveEvent(QMouseEvent* mouseEvent){
+    if ( ( nullptr != current_tool_ ) && current_tool_->isActive() ){
+        current_tool_->handleMouseMoveEvent(mouseEvent);
     }
-
 }
 
 void
-CGlArea::wheelEvent(QWheelEvent* wevent ){
-    if (!mMoveActivated)
-        cameraZoom( wevent->delta() < 0 ) ;
-}
-
-void
-CGlArea::cameraRotate( int angle_x, int angle_y ){
-    view_control_.angleTranslate(  angle_x,	angle_y ) ;
-    updateGL();
-}
-
-
-void
-CGlArea::cameraZoom( bool increase ){
-    view_control_.scaleXYIncr( increase );
-    view_control_.scaleZIncr( increase ) ;
-    updateGL();
-}
-
-void
-CGlArea::cameraTranslate( int translate_y, int translate_x ){
-    double dx =  (double)translate_x / (double)width()  * (max_[0]- min_[0]);
-    double dy = -(double)translate_y / (double)height() * (max_[1]- min_[1]);
-    view_control_.camTranslate(dx, dy, 0);
-    updateGL();
+CGlArea::wheelEvent(QWheelEvent* wevent){
+    if ( ( nullptr != current_tool_ ) && current_tool_->isActive() ){
+        current_tool_->handleWheelEvent(wevent);
+    }
 }
 
 void 
-CGlArea::mouseReleaseEvent( QMouseEvent*  )
-{
-    mMoveActivated = false;
+CGlArea::mouseReleaseEvent(QMouseEvent* mouseEvent){
+    if ( ( nullptr != current_tool_ ) && current_tool_->isActive() ){
+        current_tool_->handleMouseReleaseEvent(mouseEvent);
+    }
 }
-
 
 void
 CGlArea::buildAxis()
@@ -388,11 +292,11 @@ CGlArea::buildAxis()
     }
 
     /* Liste pour l'objet terrain */
-    if (glIsList(mGlAxis))
-        glDeleteLists(mGlAxis,1);
+    if (glIsList(gl_axis_))
+        glDeleteLists(gl_axis_,1);
 
-    mGlAxis=glGenLists(1);
-    glNewList(mGlAxis, GL_COMPILE);
+    gl_axis_=glGenLists(1);
+    glNewList(gl_axis_, GL_COMPILE);
 
     if (gl_machine_->withLight())
         glDisable( GL_LIGHTING );

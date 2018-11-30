@@ -1,7 +1,7 @@
 #ifndef RENDERER_MENU_H
 #define RENDERER_MENU_H
 
-#include <q3D/gui/gui_scope.h>
+#include <q3D/gui/gui_global.h>
 #include <q3D/model/factory.hpp>
 
 #include <QMenu>

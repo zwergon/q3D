@@ -63,8 +63,7 @@ protected slots:
 
 
 protected:
-
-    virtual RendererAttribute* create_attribute();
+    virtual RendererAttribute* createAttribute();
 
 protected:
     int       gl_list_;

@@ -5,6 +5,8 @@
 
 #include <QDialog>
 
+#include <q3D/model/renderer_attribute_dialog.h>
+
 namespace Ui {
 class MeshRendererAttributeDlg;
 }
@@ -12,14 +14,18 @@ class MeshRendererAttributeDlg;
 namespace Q3D {
 class MeshRendererAttribute;
 
-
-class DRIVERSSHARED_EXPORT MeshRendererAttributeDlg : public QDialog
+class DRIVERSSHARED_EXPORT MeshRendererAttributeDlg :
+        public QDialog /*UI*/,
+        public RendererAttributeDialog /*data interface*/
 {
     Q_OBJECT
     
 public:
     explicit MeshRendererAttributeDlg( MeshRendererAttribute* attribute, QWidget *parent = 0);
     ~MeshRendererAttributeDlg();
+
+    MeshRendererAttribute* getMeshAttribute() const;
+    virtual QDialog* getDialog();
 
 private slots:
     virtual void on_face_cb__toggled( bool checked );
@@ -38,7 +44,6 @@ private:
     
 private:
     Ui::MeshRendererAttributeDlg *ui;
-    MeshRendererAttribute* attribute_;
 };
 
 }

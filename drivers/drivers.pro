@@ -28,7 +28,9 @@ HEADERS += \
     mesh/mesh_renderer_menu.h \
     mesh/mesh_renderer_attribute_dlg.h \
     drivers_plugin.h \
-    drivers_global.h
+    drivers_global.h \
+    drivers_renderer_attribute.h \
+    drivers_renderer_attribute_dlg.h
 
 SOURCES += \
     cpgmesh/cpgmesh.cpp \
@@ -41,10 +43,13 @@ SOURCES += \
     mesh/mesh_renderer_attribute.cpp \
     mesh/mesh_renderer_menu.cpp \
     mesh/mesh_renderer_attribute_dlg.cpp \
-    drivers_plugin.cpp
+    drivers_plugin.cpp \
+    drivers_renderer_attribute.cpp \
+    drivers_renderer_attribute_dlg.cpp
 
 FORMS += \
-    mesh/mesh_renderer_attribute_dlg.ui
+    mesh/mesh_renderer_attribute_dlg.ui \
+    renderer_attribute_dlg.ui
 
 DISTFILES += \
     driversplugin.json

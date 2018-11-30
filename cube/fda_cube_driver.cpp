@@ -51,8 +51,6 @@ Model* FdaCubeDriver::open( const QString& fileName){
 
     cube_model->cube().setData(buffer);
 
-    //delete [] buffer;
-
     cube_model->update();
 
     return cube_model;

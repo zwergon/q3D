@@ -6,15 +6,18 @@
 #include "mesh_model.h"
 
 #include <q3D/mesh/mesh.h>
+#include <q3D/model/renderer_attribute_dialog.h>
 
 Q_DECLARE_METATYPE( Q3D::PropertyInfo )
 
 namespace Q3D {
 
-MeshRendererAttributeDlg::MeshRendererAttributeDlg(MeshRendererAttribute* attribute, QWidget *parent) :
+MeshRendererAttributeDlg::MeshRendererAttributeDlg(
+        MeshRendererAttribute* attribute,
+        QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::MeshRendererAttributeDlg),
-    attribute_( attribute )
+    RendererAttributeDialog(attribute),
+    ui(new Ui::MeshRendererAttributeDlg)
 {
     ui->setupUi(this);
     ui->face_cb_->setChecked( attribute->withFaces() );
@@ -40,13 +43,21 @@ MeshRendererAttributeDlg::MeshRendererAttributeDlg(MeshRendererAttribute* attrib
     }
 }
 
+MeshRendererAttribute* MeshRendererAttributeDlg::getMeshAttribute() const {
+    return static_cast<MeshRendererAttribute*>(getAttribute());
+}
+
+QDialog* MeshRendererAttributeDlg::getDialog() {
+    return this;
+}
+
 MeshRendererAttributeDlg::~MeshRendererAttributeDlg()
 {
     delete ui;
 }
 
 void MeshRendererAttributeDlg::on_face_cb__toggled( bool checked ){
-    attribute_->setWithFaces( checked );
+    getMeshAttribute()->setWithFaces( checked );
 }
 
 void MeshRendererAttributeDlg::on_painted_combo__currentIndexChanged ( int ){
@@ -58,59 +69,61 @@ void MeshRendererAttributeDlg::on_painted_combo__currentIndexChanged ( int ){
 void MeshRendererAttributeDlg::selectProperty(){
     PropertyInfo pinfo = ui->painted_combo_->itemData( ui->painted_combo_->currentIndex() ).value<PropertyInfo>();
 
-    MeshRenderer* mesh_renderer = static_cast<MeshRenderer*>(attribute_->renderer());
+    MeshRenderer* mesh_renderer = static_cast<MeshRenderer*>(getMeshAttribute()->renderer());
     MeshModel* mesh_model = static_cast<MeshModel*>(mesh_renderer->model());
     Mesh& mesh = mesh_model->mesh();
 
     Property prop = mesh.find_property( pinfo, false );
     if ( prop != Property::null ){
-        attribute_->setSelectedProperty( prop );
+        getMeshAttribute()->setSelectedProperty( prop );
     }
 }
 
 void MeshRendererAttributeDlg::on_painted_cb__toggled( bool checked ){
+
+    MeshRendererAttribute* attribute = getMeshAttribute();
      if ( checked ) {
-         attribute_->blockSignals(true);
+         attribute->blockSignals(true);
          selectProperty();
-         attribute_->blockSignals(false);
+         attribute->blockSignals(false);
      }
-    attribute_->setPainted( checked );
+    attribute->setPainted( checked );
 
 }
 
 void MeshRendererAttributeDlg::on_grid_cb__toggled( bool checked ){
-    attribute_->setWithGrid( checked );
+    getMeshAttribute()->setWithGrid( checked );
 }
 
 void MeshRendererAttributeDlg::on_nodes_cb__toggled( bool checked ){
-    attribute_->setWithNode( checked );
+    getMeshAttribute()->setWithNode( checked );
 }
 
 void MeshRendererAttributeDlg::on_nodes_color_button__colorChanged(){
-    attribute_->setNodeColor( ui->nodes_color_button_->color() );
+    getMeshAttribute()->setNodeColor( ui->nodes_color_button_->color() );
 }
 
 void MeshRendererAttributeDlg::on_grid_color_button__colorChanged(){
-    attribute_->setGridColor( ui->grid_color_button_->color() );
+    getMeshAttribute()->setGridColor( ui->grid_color_button_->color() );
 }
 
 void MeshRendererAttributeDlg::on_face_color_button__colorChanged(){
-    attribute_->setFaceColor( ui->face_color_button_->color() );
+    getMeshAttribute()->setFaceColor( ui->face_color_button_->color() );
 }
 
 void MeshRendererAttributeDlg::on_transparency_slider__valueChanged( int value ){
     if ( ui->transparency_group_box_->isChecked() ){
-        attribute_->setOpacity( (float)value/100. );
+        getMeshAttribute()->setOpacity( (float)value/100. );
     }
 }
 
 void MeshRendererAttributeDlg::on_transparency_group_box__toggled( bool checked ){
     if ( checked ){
         float value = (float)ui->transparency_slider_->value()/100.;
-        attribute_->setOpacity( value );
+        getMeshAttribute()->setOpacity( value );
     }
     else {
-        attribute_->setOpacity( 1.0 );
+        getMeshAttribute()->setOpacity( 1.0 );
     }
 }
 }

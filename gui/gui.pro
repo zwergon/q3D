@@ -20,8 +20,7 @@ LIBS += -L$${Q3D_DIR}/libs -lmodel -lplugins
 # Input
 FORMS += main_window.ui \
     level_dlg.ui \
-    colormap_dlg.ui \
-    renderer_attribute_dlg.ui
+    colormap_dlg.ui
 
 HEADERS +=\
            gl_area.h \
@@ -31,9 +30,11 @@ HEADERS +=\
     color_ramp.h \
     colormap_dlg.h \
     color_button.h \
-    gui_scope.h \
-    renderer_attribute_dlg.h \
-    renderer_menu.h
+    renderer_menu.h \
+    abstract_tool.h \
+    gui_global.h \
+    glu.h \
+    camera_tool.h
 
 SOURCES += \
            gl_area.cpp \
@@ -43,5 +44,7 @@ SOURCES += \
     color_ramp.cpp \
     colormap_dlg.cpp \
     color_button.cpp \
-    renderer_attribute_dlg.cpp \
-    renderer_menu.cpp
+    renderer_menu.cpp \
+    abstract_tool.cpp \
+    glu.cpp \
+    camera_tool.cpp

@@ -27,7 +27,8 @@ HEADERS += factory.hpp \
     colormap.h \
     types.h \
     renderer_attribute.h \
-    models_data.h
+    models_data.h \
+    renderer_attribute_dialog.h
 
 SOURCES += model.cpp \
            model_driver.cpp \
@@ -36,5 +37,6 @@ SOURCES += model.cpp \
     gl_data.cpp \
     colormap.cpp \
     renderer_attribute.cpp \
-    models_data.cpp
+    models_data.cpp \
+    renderer_attribute_dialog.cpp
 

@@ -3,12 +3,12 @@
 
 #include <q3D/drivers/drivers_global.h>
 
-#include <q3D/model/renderer_attribute.h>
+#include <q3D/drivers/drivers_renderer_attribute.h>
 #include <q3D/mesh/property.h>
 
 namespace Q3D {
 
-class DRIVERSSHARED_EXPORT MeshRendererAttribute : public RendererAttribute
+class DRIVERSSHARED_EXPORT MeshRendererAttribute : public DriversRendererAttribute
 {
     Q_OBJECT
 public:
@@ -19,6 +19,8 @@ public:
 
     const Property& selectedProperty() const;
     void setSelectedProperty( const Property& property );
+
+    virtual RendererAttributeDialog* createDialog(QWidget* parent = nullptr);
 
 private:
     bool painted_;

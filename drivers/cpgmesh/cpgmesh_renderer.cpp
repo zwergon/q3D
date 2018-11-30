@@ -16,7 +16,7 @@
 
 #include <q3D/model/gl_data.h>
 #include <q3D/model/model.h>
-#include <q3D/model/renderer_attribute.h>
+#include <q3D/drivers/drivers_renderer_attribute.h>
 
 #include <wykobi/wykobi.hpp>
 
@@ -32,6 +32,10 @@ CpgMeshRenderer::CpgMeshRenderer()
 : ModelRenderer() 
 {
 	setObjectName( "Cpg Mesh Renderer" );
+}
+
+RendererAttribute* CpgMeshRenderer::createAttribute(){
+    return new DriversRendererAttribute(this);
 }
 
 void
@@ -91,7 +95,7 @@ CpgMeshRenderer::drawLines( CpgMesh* cpgmesh )
 {
     CpgTopo* topo = cpgmesh->topo();
 
-    RendererAttribute* attr = attribute();
+    DriversRendererAttribute* attr = static_cast<DriversRendererAttribute*>(attribute());
     const QColor& grid_color = attr->gridColor();
     glColor3f( grid_color.redF(), grid_color.greenF(), grid_color.blueF() );
 
@@ -130,7 +134,7 @@ CpgMeshRenderer::buildGlList()
 		return;
 	}
 
-    RendererAttribute* attr = attribute();
+    DriversRendererAttribute* attr = static_cast<DriversRendererAttribute*>(attribute());
 
 	if (glIsList(gl_list_))
 		glDeleteLists(gl_list_,1);

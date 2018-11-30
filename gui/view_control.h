@@ -14,7 +14,7 @@
 #ifndef Q3D_UTILS_VIEW_CONTROL_DLG_H_
 #define Q3D_UTILS_VIEW_CONTROL_DLG_H_ 1
 
-#include <q3D/gui/gui_scope.h>
+#include <q3D/gui/gui_global.h>
 #include <q3D/model/model.h>
 
 namespace Q3D {

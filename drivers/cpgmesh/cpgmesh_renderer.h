@@ -30,6 +30,9 @@ public:
 
     virtual void buildGlList();
     virtual void init();
+
+protected:
+    virtual RendererAttribute* createAttribute();
    
 private:
     void drawSurface ( CpgMesh* cpgmesh );

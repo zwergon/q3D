@@ -1,11 +1,13 @@
 #include "renderer_menu.h"
 
 #include <QDebug>
+#include <QDialog>
 
 #include <q3D/model/colormap.h>
 #include <q3D/gui/main_window.h>
 #include <q3D/gui/colormap_dlg.h>
-#include <q3D/gui/renderer_attribute_dlg.h>
+#include <q3D/model/renderer_attribute.h>
+#include <q3D/model/renderer_attribute_dialog.h>
 #include <q3D/model/renderer.h>
 
 
@@ -75,9 +77,11 @@ RendererMenu::onEditColorMapAction(){
 void
 RendererMenu::onEditAttributesAction(){
     RendererAttribute* attr = renderer_->attribute();
-    if ( 0 != attr ){
-        RendererAttributeDlg* dlg = new RendererAttributeDlg( attr, window_ );
-        dlg->show();
+    if ( nullptr != attr ){
+        RendererAttributeDialog* dlg = attr->createDialog( window_ );
+        if ( nullptr != dlg->getDialog() ){
+           dlg->getDialog()->show();
+        }
     }
 }
 

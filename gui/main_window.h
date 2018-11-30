@@ -14,7 +14,7 @@
 #ifndef Q3D_GUI_MAIN_WINDOW_H_
 #define Q3D_GUI_MAIN_WINDOW_H_ 1
 
-#include <q3D/gui/gui_scope.h>
+#include <q3D/gui/gui_global.h>
 
 #include <QString>
 

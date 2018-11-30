@@ -14,7 +14,7 @@
 #ifndef _LEVELDLG_IMPL_H
 #define _LEVELDLG_IMPL_H 1
 
-#include <q3D/gui/gui_scope.h>
+#include <q3D/gui/gui_global.h>
 
 #include <QDialog>
 

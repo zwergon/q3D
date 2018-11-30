@@ -43,11 +43,11 @@ ModelRenderer::~ModelRenderer()
 void ModelRenderer::setModel( Model* model ){
 	setParent( model );
     RendererAttribute* attr = attribute();
-    if ( 0 != attr ){
+    if ( nullptr != attr ){
         delete attr;
     }
-    attr = create_attribute();
-    if ( 0 != attr ){
+    attr = createAttribute();
+    if ( nullptr != attr ){
         connect( attr, SIGNAL(attributeChanged(RendererAttribute*)),
                  this, SLOT(attributeChangedSlot(RendererAttribute*)) );
     }
@@ -57,8 +57,8 @@ RendererAttribute* ModelRenderer::attribute() const {
     return static_cast<RendererAttribute*>( findChild<RendererAttribute*>() );
 }
 
-RendererAttribute* ModelRenderer::create_attribute(){
-    return new RendererAttribute(this);
+RendererAttribute* ModelRenderer::createAttribute(){
+    return nullptr; //no attribute by default.
 }
 
 void ModelRenderer::colormapChangedSlot( ColorMap* ){

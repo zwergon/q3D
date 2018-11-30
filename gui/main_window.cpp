@@ -29,6 +29,7 @@
 #include <q3D/gui/gl_area.h>
 #include <q3D/gui/main_window.h>
 #include <q3D/gui/renderer_menu.h>
+#include <q3D/gui/camera_tool.h>
 
 Q_DECLARE_METATYPE( Q3D::Model* );
 
@@ -129,12 +130,15 @@ CGlWindow::CGlWindow( ModelsData* data, QWidget *parent )
 	ui_.setupUi( this );
 
     gl_area_ = ui_.gl_area_;
-    gl_area_->setContentsMargins(10, 10, 10, 10);
 
     connect( data_, SIGNAL(modelAdded(Model*)), this, SLOT( modelAddedSlot(Model*) ) );
     connect( data_, SIGNAL(modelRemoved(Model*)), this, SLOT( modelRemovedSlot(Model*) ) );
 
     //populateMenus();
+
+    AbstractTool* tool = new CameraTool();
+    tool->setGlArea(gl_area_);
+    gl_area_->setActiveTool( tool );
 
 }
 

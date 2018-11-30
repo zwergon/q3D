@@ -9,14 +9,20 @@
 
 #include "mesh_model.h"
 
+#include <q3D/drivers/mesh/mesh_renderer_attribute_dlg.h>
+
 
 namespace Q3D {
 
 MeshRendererAttribute::MeshRendererAttribute( ModelRenderer* parent )
-    : RendererAttribute(parent),
+    : DriversRendererAttribute(parent),
       painted_(false),
       selected_property_(Property::null)
 {
+}
+
+RendererAttributeDialog* MeshRendererAttribute::createDialog(QWidget *parent){
+    return new MeshRendererAttributeDlg(this, parent);
 }
 
 void MeshRendererAttribute::setPainted( bool painted ) {

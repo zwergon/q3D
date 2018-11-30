@@ -27,15 +27,23 @@
 
 namespace Q3D {
 
+class AbstractTool;
+
 class CGlArea : public QGLWidget
 {
 	Q_OBJECT
 
 public:
 	CGlArea( QWidget* parent );
+    virtual ~CGlArea();
 
-	void    addCoreRenderer   ( ModelRenderer* );
-	void    removeCoreRenderer( ModelRenderer* );
+    void getBoundingBox( Point3f& min, Point3f& max ) const;
+    ViewControl& getViewControl();
+
+    void addCoreRenderer   ( ModelRenderer* );
+    void removeCoreRenderer( ModelRenderer* );
+
+    void setActiveTool( AbstractTool* tool );
 
 protected:
 	/*overload of QT virtual functions*/
@@ -55,10 +63,6 @@ private:
 	void buildAxis();
     void popupMenuExec( QMouseEvent *);
 
-    void cameraRotate( int angle_x, int angle_y );
-    void cameraZoom( bool increase );
-    void cameraTranslate( int translate_y, int translate_x );
-
 private slots:
     void update( Model* );
 	void smoothOptionSlot();
@@ -68,17 +72,26 @@ private slots:
 
 private:
     QSet<ModelRenderer*> model_renderers_;
-	Point3f           min_, max_; /*bounding box*/
+    AbstractTool* current_tool_;
+    Point3f min_;
+    Point3f max_; /*bounding box*/
 	
 	/*View parameters*/
-	int                 mGlLights, mGlAxis ; 
-    ViewControl         view_control_;
-    GLData*             gl_machine_;
-	int                 mXPrec, mYPrec ;
-	bool                mMoveActivated;
-
+    int gl_lights_;
+    int gl_axis_ ;
+    GLData* gl_machine_;
+    ViewControl view_control_;
 
 };
+
+inline void CGlArea::getBoundingBox(Point3f &min, Point3f &max) const {
+    min = min_;
+    max = max_;
+}
+
+inline ViewControl& CGlArea::getViewControl(){
+    return view_control_;
+}
 
 }
 

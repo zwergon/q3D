@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>192</width>
+    <width>215</width>
     <height>144</height>
    </rect>
   </property>
@@ -93,7 +93,7 @@
   <customwidget>
    <class>Q3D::ColorButton</class>
    <extends>QFrame</extends>
-   <header>color_button.h</header>
+   <header location="global">q3D/gui/color_button.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
