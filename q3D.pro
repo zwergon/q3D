@@ -3,14 +3,16 @@ TEMPLATE =subdirs
 
 SUBDIRS = \
 # q3D
-          model \
-          plugins\
-          gui \
+    model \
+    plugins\
+    gui \
 # drivers
-          mesh \
-          filters \
-          drivers \
-    cube
+    mesh \
+    filters \
+    drivers \
+    cube \
+# unit tests
+    tests
 
 CONFIG+=ordered
 

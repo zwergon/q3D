@@ -35,15 +35,15 @@ void MeshRendererAttribute::setSelectedProperty(const Property &property ){
 
     selected_property_ = property;
 
-    double min = wykobi::infinity<double>();
-    double max = -wykobi::infinity<double>();
+    double min = std::numeric_limits<double>::max();
+    double max = std::numeric_limits<double>::lowest();
     QListIterator<qint64> it_id( selected_property_.property_db()->cube().get_all() );
     while( it_id.hasNext() ){
         qint64 id = it_id.next();
         QVector<double> value;
         selected_property_.get_value( id, value );
 
-        if ( value[0] != wykobi::infinity<double>() ){
+        if ( value[0] != std::numeric_limits<double>::infinity() ){
             min = qMin( min, value[0] );
             max = qMax( max, value[0]);
         }

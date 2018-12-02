@@ -46,23 +46,23 @@ public:
     } Type;
 
 public:
-    ColorMap( QObject* parent = 0 );
+    ColorMap( QObject* parent = nullptr );
 
     void initFrom( const ColorMap& cmap );
 
     ColorMap::Type type() const { return type_; }
     const QString& name() const { return name_; }
 
-    float mini() const { return min_; }
-    float maxi() const { return max_; }
+    double mini() const { return min_; }
+    double maxi() const { return max_; }
 
-	void  setCurrentMin( float min );
-	void  setCurrentMax( float max );
-    float currentMin() const { return cmin_; }
-    float currentMax() const { return cmax_; }
+    void  setCurrentMin( double min );
+    void  setCurrentMax( double max );
+    double currentMin() const { return cmin_; }
+    double currentMax() const { return cmax_; }
 
-    void  setMinMax ( float min, float max );
-    void  getGlColor(float z, GlColor3uv& color) const;
+    void  setMinMax ( double min, double max );
+    void  getGlColor(double z, GlColor3uv& color) const;
 
 	int            getNColors() const;
 	QColor         getQColor( int index ) const;
@@ -83,10 +83,10 @@ private:
 private:
     Type           type_;
     QString        name_;
-    float          min_;
-    float          max_;
-    float          cmin_;
-    float          cmax_ ;
+    double          min_;
+    double          max_;
+    double          cmin_;
+    double          cmax_ ;
     QVector<unsigned char> colormap_;
 
     static StaticPalettes palettes_;
@@ -101,11 +101,11 @@ inline QColor ColorMap::getQColor( int index ) const {
     return QColor( colormap_[3*index], colormap_[3*index+1], colormap_[3*index+2] );
 }
 
-inline void ColorMap::setCurrentMin( float min ){
+inline void ColorMap::setCurrentMin( double min ){
     cmin_ = min;
 }
 
-inline void ColorMap::setCurrentMax( float max ){
+inline void ColorMap::setCurrentMax( double max ){
     cmax_ = max;
 }
 

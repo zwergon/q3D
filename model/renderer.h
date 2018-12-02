@@ -17,6 +17,7 @@
 #include <q3D/model/model_scope.h>
 
 #include <QObject>
+#include <QtOpenGL>
 
 #include <q3D/model/colormap.h>
 
@@ -43,7 +44,7 @@ public:
 
     ColorMap* colormap();
    
-    int          glList() const { return gl_list_; }
+    GLuint glList() const { return gl_list_; }
 
 
     void update();
@@ -66,7 +67,7 @@ protected:
     virtual RendererAttribute* createAttribute();
 
 protected:
-    int       gl_list_;
+    GLuint       gl_list_;
 };
 
 inline ColorMap* ModelRenderer::colormap() {

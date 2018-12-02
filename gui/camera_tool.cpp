@@ -78,7 +78,7 @@ CameraTool::cameraZoom( bool increase ){
 void
 CameraTool::cameraTranslate( int translate_y, int translate_x ){
 
-    Point3f min, max;
+    Point3d min, max;
     gl_area_->getBoundingBox(min, max);
 
     ViewControl& view_control = gl_area_->getViewControl();

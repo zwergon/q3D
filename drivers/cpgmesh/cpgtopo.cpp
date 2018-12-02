@@ -19,7 +19,7 @@ namespace Q3D {
 
 CpgTopo::CpgTopo()
    : n_points_( 0 ),
-     points_( 0 )
+     points_( nullptr )
 {
 }
 
@@ -42,30 +42,30 @@ CpgTopo::setNCells( int n_cells )
 }
 
 void 
-CpgTopo::setCell( int i_cell, Point3f cell[4] )
+CpgTopo::setCell( int i_cell, Point3d cell[4] )
 {
-    int i;
+
     CpgPoints* ptr = points_ + 5*i_cell;
-    Point3f center;
+    Point3d center;
     
     for ( int node = 0; node < 4; ++node )
-	for ( i =0; i<3; ++i )
-	{
-	    ptr[node].vertex[i] = cell[node][i];
-	    if ( 0 == node )
-		center[i] = cell[node][i];
-	    else
-		center[i] += cell[node][i];
-	}
+        for ( quint16 i =0; i<3; ++i )
+        {
+            ptr[node].vertex[i] = cell[node][i];
+            if ( 0 == node )
+                center[i] = cell[node][i];
+            else
+                center[i] += cell[node][i];
+        }
     
-    for ( i =0; i<3; ++i )
+    for ( quint16 i =0; i<3; ++i )
     {
-	ptr[4].vertex[i] = center[i] / 4;
+        ptr[4].vertex[i] = center[i] / 4;
     }
 
 }
 
-Point3f & 
+Point3d &
 CpgTopo::getVertex( int cell, int indice /* 0 .. 4 */)
 {
    CpgPoints* ptr = points_ + 5*cell;

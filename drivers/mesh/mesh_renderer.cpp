@@ -24,7 +24,6 @@
 
 namespace Q3D {
 
-using namespace wykobi;
 
 MeshRenderer::MeshRenderer()
 : ModelRenderer()
@@ -56,7 +55,7 @@ void MeshRenderer::drawNodes( MeshModel* mesh_model ){
     QListIterator<corner_id> it_co( corners );
     while( it_co.hasNext()) {
         const Point3d& pt = mesh.get_point( it_co.next() );
-        glVertex3f(pt.x, pt.y, pt.z );
+        glVertex3f(pt[0], pt[1], pt[2] );
     }
     glEnd();
 
@@ -93,8 +92,11 @@ void MeshRenderer::drawSurface( MeshModel* mesh_model ){
             const Point3d& pt2 = mesh.get_point( co_id2 );
             const Point3d& pt3 = mesh.get_point( co_id3 );
 
-            plane<double,3> pl  = make_plane<double>(pt1, pt2, pt3);
-            glNormal3d( pl.normal.x, pl.normal.y, pl.normal.z );
+            Point3d u = { pt2[0] - pt1[0], pt2[1] - pt1[1], pt2[2] - pt1[2] };
+            Point3d v = { pt3[0] - pt1[0], pt3[1] - pt1[1], pt3[2] - pt1[2] };
+            Point3d uv = cross<double>(u, v);
+
+            glNormal3d( uv[0], uv[1], uv[2] );
 
             int i4 = cell_topo->get_face_indice(i, 3);
             if ( i4 == -1 ){
@@ -126,7 +128,7 @@ void MeshRenderer::setColor( const Property& prop, quint64 id, const QColor& def
     double opacity = attr->opacity();
     QVector<double> value;
     prop.get_value( id, value );
-    if ( value[0] != wykobi::infinity<double>() ){
+    if ( value[0] != std::numeric_limits<double>::infinity() ){
         GlColor3uv color;
         colormap()->getGlColor( value[0], color );
         glColor4ub( color[0], color[1], color[2], opacity*255 );
@@ -177,8 +179,11 @@ void MeshRenderer::drawPaintedCellSurface( MeshModel* mesh_model ){
             const Point3d& pt2 = mesh.get_point( co_id2 );
             const Point3d& pt3 = mesh.get_point( co_id3 );
 
-            plane<double,3> pl  = make_plane<double>(pt1, pt2, pt3);
-            glNormal3d( pl.normal.x, pl.normal.y, pl.normal.z );
+            Point3d u = { pt2[0] - pt1[0], pt2[1] - pt1[1], pt2[2] - pt1[2] };
+            Point3d v = { pt3[0] - pt1[0], pt3[1] - pt1[1], pt3[2] - pt1[2] };
+            Point3d uv = cross<double>(u, v);
+
+            glNormal3d( uv[0], uv[1], uv[2] );
 
             int i4 = cell_topo->get_face_indice(i, 3);
             if ( i4 == -1 ){
@@ -235,8 +240,11 @@ void MeshRenderer::drawPaintedNodeSurface( MeshModel* mesh_model ){
             const Point3d& pt2 = mesh.get_point( co_id2 );
             const Point3d& pt3 = mesh.get_point( co_id3 );
 
-            plane<double,3> pl  = make_plane<double>(pt1, pt2, pt3);
-            glNormal3d( pl.normal.x, pl.normal.y, pl.normal.z );
+            Point3d u = { pt2[0] - pt1[0], pt2[1] - pt1[1], pt2[2] - pt1[2] };
+            Point3d v = { pt3[0] - pt1[0], pt3[1] - pt1[1], pt3[2] - pt1[2] };
+            Point3d uv = cross<double>(u, v);
+
+            glNormal3d( uv[0], uv[1], uv[2] );
 
             int i4 = cell_topo->get_face_indice(i, 3);
             if ( i4 == -1 ){

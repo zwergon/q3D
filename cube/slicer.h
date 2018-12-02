@@ -9,6 +9,7 @@ namespace Q3D {
 class CUBESHARED_EXPORT Slicer2D {
 public:
     Slicer2D(const Cube& cube, int cursor);
+    virtual ~Slicer2D();
 
     virtual int getNx() const = 0;
     virtual int getNy() const = 0;

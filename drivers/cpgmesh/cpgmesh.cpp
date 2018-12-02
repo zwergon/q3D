@@ -30,10 +30,10 @@ CpgMesh::update(){
 	{
 		for (int j=0; j<5; ++j)
 		{
-			Point3f& vertex = mTopo.getVertex( i, j );
-			float x = vertex[0];
-			float y = vertex[1];
-			float z = vertex[2];
+            Point3d& vertex = mTopo.getVertex( i, j );
+            double x = vertex[0];
+            double y = vertex[1];
+            double z = vertex[2];
 
 			if ( first )
 			{

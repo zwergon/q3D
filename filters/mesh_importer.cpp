@@ -9,9 +9,12 @@
 
 #include <QtCore/QDebug>
 #include <QtCore/QTextStream>
+#include <QtGui/QGenericMatrix>
 
 #include <q3D/mesh/region.h>
 #include <q3D/mesh/region_db.h>
+
+#include <q3D/model/matrix.h>
 
 
 namespace Q3D {
@@ -156,18 +159,21 @@ namespace Q3D {
         const Point3d& pt3 = vertices_[co_id3];
         const Point3d& pt4 = vertices_[co_id4];
 
-        dlib::matrix<double,3,3> A;
-        A(0,0) = pt1.x-pt4.x;
-        A(1,0) = pt1.y-pt4.y;
-        A(2,0) = pt1.z-pt4.z;
-        A(0,1) = pt2.x-pt4.x;
-        A(1,1) = pt2.y-pt4.y;
-        A(2,1) = pt2.z-pt4.z;
-        A(0,2) = pt3.x-pt4.x;
-        A(1,2) = pt3.y-pt4.y;
-        A(2,2) = pt3.z-pt4.z;
 
-         if ( dlib::det(A) < 0 ){
+        Matrix3d A;
+        A(0,0) = pt1[0]-pt4[0];
+        A(1,0) = pt1[1]-pt4[1];
+        A(2,0) = pt1[2]-pt4[2];
+        A(0,1) = pt2[0]-pt4[0];
+        A(1,1) = pt2[1]-pt4[1];
+        A(2,1) = pt2[2]-pt4[2];
+        A(0,2) = pt3[0]-pt4[0];
+        A(1,2) = pt3[1]-pt4[1];
+        A(2,2) = pt3[2]-pt4[2];
+
+        // computes the inverse of a matrix m
+        double det = A.det();
+         if ( det < 0 ){
              tetra.replace(1, co_id3);
              tetra.replace(2, co_id2);
          }

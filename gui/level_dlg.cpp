@@ -30,10 +30,10 @@ CLevelDlg::~CLevelDlg()
 }
 
 void
-CLevelDlg::setMinMax( Point3f* min, Point3f* max )
+CLevelDlg::setMinMax( const Point3d& min, const Point3d& max )
 {
-  mMin = (*min)[2];
-  mMax = (*max)[2];
+  mMin = min[2];
+  mMax = max[2];
   
   ui_.mpZMinLabel->setText( QString("Zmin : %1").arg(mMin) );
   ui_.mpZMaxLabel->setText( QString("Zmax : %1").arg(mMax) );

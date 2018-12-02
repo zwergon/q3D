@@ -24,8 +24,8 @@ class DRIVERSSHARED_EXPORT CpgPoints
 {
 public:
   int          idx;
-  Point3f   vertex;
-  Point3f   norm;
+  Point3d   vertex;
+  Point3d   norm;
 
 };
 
@@ -54,9 +54,9 @@ public:
     void setNCells( const int n_cells );
     int  nPoints() const { return n_points_; }
     int  nCells() const { return (n_points_ / 5); }
-    void setCell( int i_cell, Point3f cell[4] );
+    void setCell( int i_cell, Point3d cell[4] );
 
-    Point3f&  getVertex( int cell, int indice /* 0 ...5 */);
+    Point3d&  getVertex( int cell, int indice /* 0 ...5 */);
 
 protected:
     int         n_points_;

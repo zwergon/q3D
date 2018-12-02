@@ -67,7 +67,7 @@ CpgMeshDriver::open( const QString& fileName )
 
 	for (i=0; i< n_cells ; i++)
 	{
-		Point3f cell[4];
+        Point3d cell[4];
 		for (j=0; j<8; ++j)
 		{
 			in >> x >> y  >> z ;

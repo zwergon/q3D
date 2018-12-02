@@ -106,13 +106,13 @@ ColorMap::ColorMap( QObject* parent )
  }
 
 void
-ColorMap::getGlColor(float z, GlColor3uv& color) const
+ColorMap::getGlColor(double z, GlColor3uv& color) const
 {
 	int n_colors = getNColors();
 
     if (z > cmax_) z = cmax_ ;
     else if (z < cmin_ ) z = cmin_ ;
-    int indice = (int)((float)( n_colors - 1. ) *(z - cmin_)/(cmax_-cmin_));
+    int indice = (int)((double)( n_colors - 1. ) *(z - cmin_)/(cmax_-cmin_));
     color[0] = colormap_[3*indice];
     color[1] = colormap_[3*indice+1];
     color[2] = colormap_[3*indice+2];
@@ -210,7 +210,7 @@ void ColorMap::createFromName( const QString& name ){
 }
 
 void 
-ColorMap::setMinMax(float i_min, float i_max)
+ColorMap::setMinMax(double i_min, double i_max)
 {
     min_ = cmin_ = i_min ;
     max_ = cmax_ = i_max ;

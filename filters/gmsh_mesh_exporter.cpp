@@ -132,7 +132,7 @@ bool GmshMeshExporter::serialize( QTextStream& mesh_ostream, Mesh* mesh ){
          corner_id co_id = it_co.next();
 
          const Point3d& point = mesh_->get_point( co_id );
-         mesh_ostream << co_id << " " << point.x << " " << point.y << " " << point.z << endl;
+         mesh_ostream << co_id << " " << point[0] << " " << point[1] << " " << point[2] << endl;
      }
      mesh_ostream << "$EndNodes" << endl;
  }

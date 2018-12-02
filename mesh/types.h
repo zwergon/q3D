@@ -6,7 +6,7 @@
 #include <QtCore/QSet>
 #include <QtCore/QList>
 
-#include <q3D/model/types.h>
+#include <q3D/model/point3d.h>
 
 namespace Q3D {
 

@@ -26,8 +26,8 @@ class GUISHARED_EXPORT ViewControl
 public:
     ViewControl();
 
-    float angleX() { return mAngleX; }
-    float angleY() { return mAngleY; }
+    double angleX() { return mAngleX; }
+    double angleY() { return mAngleY; }
 
     double camX() { return mCamX; }
     double camY() { return mCamY; }
@@ -45,19 +45,19 @@ public:
 
     double pointSize(){ return mPointSize; }
 
-    void   angleTranslate( float angle_x, float angle_y );
+    void   angleTranslate( double angle_x, double angle_y );
     void   scaleZIncr( bool increase  );
     void   scaleXYIncr( bool increase );
     void   camTranslate( double t_x, double t_y, double t_z );
 
 
-    void setControls ( const Point3f& min, const Point3f& max );
+    void setControls ( const Point3d& min, const Point3d& max );
 
 protected:
     void camInit();
 
 private:
-    float               mAngleX, mAngleY;
+    double              mAngleX, mAngleY;
     double              mCamX, mCamY, mCamZ;
     double              mZoomFactor, mZoomInc;
     double              mScaleZ, mScaleZInc;

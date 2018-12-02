@@ -10,7 +10,7 @@ UI_DIR=$${Q3D_DIR}/ui
 
 DEPENDPATH += $${Q3D_DIR}/libs
 
-QMAKE_CXXFLAGS += -Wno-enum-compare -Wno-unused-local-typedefs
+QMAKE_CXXFLAGS += -Wno-enum-compare -Wno-unused-local-typedefs -Wno-sign-conversion
 
 
 

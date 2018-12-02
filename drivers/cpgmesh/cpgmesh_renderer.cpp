@@ -18,15 +18,11 @@
 #include <q3D/model/model.h>
 #include <q3D/drivers/drivers_renderer_attribute.h>
 
-#include <wykobi/wykobi.hpp>
-
 #include "cpgtopo.h"
 #include "cpgmesh.h"
 #include "cpgmesh_renderer.h"
 
 namespace Q3D {
-
-using namespace wykobi;
 
 CpgMeshRenderer::CpgMeshRenderer()
 : ModelRenderer() 
@@ -42,46 +38,48 @@ void
 CpgMeshRenderer::drawSurface( CpgMesh* cpgmesh )
 {
 	CpgTopo* topo = cpgmesh->topo();
-    Q_ASSERT( colormap() != 0 );
+    Q_ASSERT( colormap() != nullptr );
     ColorMap& colormap_ = *(colormap());
 
 	for ( int i=0; i< topo->nCells(); ++i )
 	{
-        Point3f& v1 = topo->getVertex( i, 0 );
-        Point3f& v2 = topo->getVertex( i, 1 );
-        Point3f& v3 = topo->getVertex( i, 2 );
-        Point3f& v4 = topo->getVertex( i, 3 );
-        Point3f& v5 = topo->getVertex( i, 4 );
+        Point3d& v1 = topo->getVertex( i, 0 );
+        Point3d& v2 = topo->getVertex( i, 1 );
+        Point3d& v3 = topo->getVertex( i, 2 );
+        Point3d& v4 = topo->getVertex( i, 3 );
+        Point3d& v5 = topo->getVertex( i, 4 );
 
-        plane<float,3> pl  = make_plane<float>(v1, v2, v3);
-        glNormal3f( pl.normal.x, pl.normal.y, pl.normal.z );
+        Point3d u = { v2[0] - v1[0], v2[1] - v1[1], v2[2] - v1[2] };
+        Point3d v = { v3[0] - v1[0], v3[1] - v1[1], v3[2] - v1[2] };
+        Point3d uv = cross<double>(u, v);
+        glNormal3d( uv[0], uv[1], uv[2] );
 
 		glBegin(GL_TRIANGLE_FAN);
 
         GlColor3uv color;
         colormap_.getGlColor( v5[2], color );
         glColor3ubv( color );
-        glVertex3f( v5[0], v5[1], v5[2] );
+        glVertex3d( v5[0], v5[1], v5[2] );
 
         colormap_.getGlColor( v1[2], color );
         glColor3ubv( color );
-        glVertex3f( v1[0], v1[1], v1[2] );
+        glVertex3d( v1[0], v1[1], v1[2] );
 
         colormap_.getGlColor( v2[2], color );
         glColor3ubv( color );
-        glVertex3f( v2[0], v2[1], v2[2] );
+        glVertex3d( v2[0], v2[1], v2[2] );
 
         colormap_.getGlColor( v3[2], color );
         glColor3ubv( color );
-        glVertex3f( v3[0], v3[1], v3[2] );
+        glVertex3d( v3[0], v3[1], v3[2] );
 
         colormap_.getGlColor( v4[2], color );
         glColor3ubv( color );
-        glVertex3f( v4[0], v4[1], v4[2] );
+        glVertex3d( v4[0], v4[1], v4[2] );
 
         colormap_.getGlColor( v1[2], color );
         glColor3ubv( color  );
-        glVertex3f( v1[0], v1[1], v1[2] );
+        glVertex3d( v1[0], v1[1], v1[2] );
 
 
 		glEnd();
@@ -97,20 +95,20 @@ CpgMeshRenderer::drawLines( CpgMesh* cpgmesh )
 
     DriversRendererAttribute* attr = static_cast<DriversRendererAttribute*>(attribute());
     const QColor& grid_color = attr->gridColor();
-    glColor3f( grid_color.redF(), grid_color.greenF(), grid_color.blueF() );
+    glColor3d( grid_color.redF(), grid_color.greenF(), grid_color.blueF() );
 
     for ( int i=0; i< topo->nCells(); ++i )
     {
-        Point3f& v1 = topo->getVertex( i, 0 );
-        Point3f& v2 = topo->getVertex( i, 1 );
-        Point3f& v3 = topo->getVertex( i, 2 );
-        Point3f& v4 = topo->getVertex( i, 3 );
+        Point3d& v1 = topo->getVertex( i, 0 );
+        Point3d& v2 = topo->getVertex( i, 1 );
+        Point3d& v3 = topo->getVertex( i, 2 );
+        Point3d& v4 = topo->getVertex( i, 3 );
 
         glBegin(GL_LINE_LOOP);
-        glVertex3f( v1[0], v1[1], v1[2] );
-        glVertex3f( v2[0], v2[1], v2[2] );
-        glVertex3f( v3[0], v3[1], v3[2] );
-        glVertex3f( v4[0], v4[1], v4[2] );
+        glVertex3d( v1[0], v1[1], v1[2] );
+        glVertex3d( v2[0], v2[1], v2[2] );
+        glVertex3d( v3[0], v3[1], v3[2] );
+        glVertex3d( v4[0], v4[1], v4[2] );
         glEnd();
 
     }

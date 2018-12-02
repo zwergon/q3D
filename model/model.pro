@@ -25,10 +25,11 @@ HEADERS += factory.hpp \
     renderer.h \
     gl_data.h \
     colormap.h \
-    types.h \
     renderer_attribute.h \
     models_data.h \
-    renderer_attribute_dialog.h
+    renderer_attribute_dialog.h \
+    matrix.h \
+    point3d.h
 
 SOURCES += model.cpp \
            model_driver.cpp \

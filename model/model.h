@@ -19,7 +19,7 @@
 
 #include <q3D/model/model_scope.h>
 
-#include <q3D/model/types.h>
+#include <q3D/model/point3d.h>
 
 class QMenu;
 
@@ -48,8 +48,8 @@ public:
     void setDriver( ModelDriver* driver );
     ModelDriver* driver() const { return driver_; }
 
-    const Point3f& mini() const;
-    const Point3f& maxi() const;
+    const Point3d& mini() const;
+    const Point3d& maxi() const;
 	
     virtual void update();
     virtual void popupMenu( QMenu* );
@@ -59,15 +59,15 @@ signals:
 
 protected:
     ModelDriver*  driver_;
-    Point3f    min_;
-    Point3f    max_;
+    Point3d    min_;
+    Point3d    max_;
 };
 
-inline const Point3f& Model::mini() const {
+inline const Point3d& Model::mini() const {
 	return min_; 
 }
 
-inline const Point3f& Model::maxi() const {
+inline const Point3d& Model::maxi() const {
 	return max_; 
 }
 

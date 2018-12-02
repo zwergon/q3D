@@ -14,8 +14,7 @@
 #include <q3D/mesh/property_cube.h>
 
 #include <q3D/mesh/mesh.h>
-#include <wykobi/wykobi_math.hpp>
-
+#include <limits>
 
 namespace Q3D {
 
@@ -50,7 +49,7 @@ namespace Q3D {
     	    return data[offset];
     	}
 
-        return wykobi::infinity<double>();
+        return std::numeric_limits<double>::infinity();
     }
 
 

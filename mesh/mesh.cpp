@@ -173,7 +173,7 @@ cell_id Mesh::add_cell( ICell* cell, cell_id id  ) {
 }
 
 const ICell& Mesh::get_cell( cell_id ce_id ) const {
-    DLIB_ASSERT( cells_.contains( ce_id ), "mesh doesn't contain this cell index" );
+    Q_ASSERT(cells_.contains( ce_id ));
     return *(cells_[ce_id]);
 }
 
@@ -195,29 +195,29 @@ void Mesh::update_bounding_box(){
     Point3d& min_ = box_[0];
     Point3d& max_ = box_[1];
 
-    min_ = wykobi::positive_infinite_point3d<double>();
-    max_ = wykobi::negative_infinite_point3d<double>();
+    min_ = max_positif_point3<double>();
+    max_ = min_negatif_point3<double>();
 
 
     QHashIterator<corner_id, Point3d*> it_points( nodes_ );
     while( it_points.hasNext() ){
         it_points.next();
-        Point3d* pt = it_points.value();
+        const Point3d& pt = *it_points.value();
 
-        if ( pt->x < min_[0] )
-            min_[0] = pt->x;
-        else if ( pt->x > max_[0] )
-            max_[0] = pt->x;
+        if ( pt[0] < min_[0] )
+            min_[0] = pt[0];
+        else if ( pt[0] > max_[0] )
+            max_[0] = pt[0];
 
-        if ( pt->y < min_[1] )
-            min_[1] = pt->y;
-        else if ( pt->y > max_[1] )
-            max_[1] = pt->y;
+        if ( pt[1] < min_[1] )
+            min_[1] = pt[1];
+        else if ( pt[1] > max_[1] )
+            max_[1] = pt[1];
 
-        if ( pt->z < min_[2] )
-            min_[2] = pt->z;
-        else if ( pt->z > max_[2] )
-            max_[2] = pt->z;
+        if ( pt[2] < min_[2] )
+            min_[2] = pt[2];
+        else if ( pt[2] > max_[2] )
+            max_[2] = pt[2];
 
     }
 }
@@ -235,7 +235,7 @@ std::ostream& operator<< (std::ostream &out, Mesh& mesh)
     while( it_co.hasNext() ){
         corner_id co_id = it_co.next();
         const Point3d& pt = mesh.get_point( co_id );
-        out << co_id << ": " <<  pt.x << "," << pt.y << "," << pt.z << std::endl;
+        out << co_id << ": " <<  pt[0] << "," << pt[1] << "," << pt[2] << std::endl;
 
     }
 

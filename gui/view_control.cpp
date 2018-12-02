@@ -26,7 +26,7 @@ ViewControl::ViewControl(){
     camInit();
 }
 
-void   ViewControl::angleTranslate( float angle_x, float angle_y ){
+void   ViewControl::angleTranslate( double angle_x, double angle_y ){
     int angle_y_max = 360;
     int angle_x_max = 360;
 
@@ -86,11 +86,11 @@ void ViewControl::camInit() {
 
 }
 
-void ViewControl::setControls ( const Point3f& min, const Point3f& max ){
+void ViewControl::setControls ( const Point3d& min, const Point3d& max ){
 
-    Point3f diff;
+    Point3d diff;
 
-    for ( int i=0; i<3; ++i)
+    for ( quint16 i=0; i<3; ++i)
         diff[i] = max[i] - min[i];
 
     /* compute a dist whose diameter

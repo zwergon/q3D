@@ -8,6 +8,9 @@ Slicer2D::Slicer2D(const Cube& cube, int cursor) :
 {
 }
 
+Slicer2D::~Slicer2D(){
+}
+
 int XSlicer2D::getNx() const {
     return cube_.getNy();
 }

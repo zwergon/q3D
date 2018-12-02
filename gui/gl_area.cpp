@@ -17,8 +17,6 @@
 #include <QMenu>
 #include <QMouseEvent>
 
-#include <wykobi/wykobi.hpp>
-
 #include <QGLWidget>
 #include <q3D/model/model.h>
 #include <q3D/model/renderer.h>
@@ -36,8 +34,8 @@ CGlArea::init()
 
     gl_machine_ = GLData::instance();
 
-    gl_axis_ = -1;   /*dummy glList number*/
-    gl_lights_ = -1;
+    gl_axis_ = 0;   /*dummy glList number*/
+    gl_lights_ = 0;
 
     setMouseTracking( true );
 
@@ -91,9 +89,9 @@ void CGlArea::resizeGL( int width, int height )
     glViewport(0, 0, width, height);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    float fwidth = 0.5f;
-    float fheight = 0.5f * ((float)(height)/width);
-    glFrustum(-fwidth,fwidth,-fheight,fheight,1.f,500.0f);
+    double fwidth = 0.5;
+    double fheight = 0.5 * ((double)(height)/width);
+    glFrustum(-fwidth,fwidth,-fheight,fheight,1.,500.);
 }
 
 /*!
@@ -139,22 +137,22 @@ void CGlArea::paintGL()
                view_control_.centreX(), view_control_.centreY(), view_control_.centreZ(),
                0.0, 1.0 ,0.0 );
 
-    glTranslatef( view_control_.centreX(), view_control_.centreY(), view_control_.centreZ() );
+    glTranslated( view_control_.centreX(), view_control_.centreY(), view_control_.centreZ() );
 
-    glScalef( view_control_.zoomFactor(), view_control_.zoomFactor(), view_control_.zoomFactor());
+    glScaled( view_control_.zoomFactor(), view_control_.zoomFactor(), view_control_.zoomFactor());
 
-    glTranslatef( view_control_.dx(), view_control_.dy
+    glTranslated( view_control_.dx(), view_control_.dy
                   (), 0 );
-    glRotatef( view_control_.angleX(), 1.0, 0.0, 0.0);
-    glRotatef( view_control_.angleY(), 0.0, 0.0, 1.0 );
+    glRotated( view_control_.angleX(), 1.0, 0.0, 0.0);
+    glRotated( view_control_.angleY(), 0.0, 0.0, 1.0 );
 
-    glScalef( 1., 1., view_control_.scaleZ() );
+    glScaled( 1., 1., view_control_.scaleZ() );
 
     if (gl_machine_->withLight()){
         glLightfv(GL_LIGHT0, GL_POSITION, gl_machine_->positionLight() );
     }
 
-    glTranslatef( -view_control_.centreX(), -view_control_.centreY(), -view_control_.centreZ() );
+    glTranslated( -view_control_.centreX(), -view_control_.centreY(), -view_control_.centreZ() );
 
     if ( gl_machine_->withAxis() && glIsList(gl_axis_))
         glCallList(gl_axis_);
@@ -174,16 +172,16 @@ void
 CGlArea::computeBoundingBox()
 {
 
-    min_ = wykobi::positive_infinite_point3d<float>();
-    max_ = wykobi::negative_infinite_point3d<float>();
+    min_ = max_positif_point3<double>();
+    max_ = min_negatif_point3<double>();
     QSetIterator<ModelRenderer*> it_r( model_renderers_ );
     while( it_r.hasNext() ){
         Model* model = it_r.next()->model();
 
-        const Point3f& min = model->mini();
-        const Point3f& max = model->maxi();
+        const Point3d& min = model->mini();
+        const Point3d& max = model->maxi();
 
-        for (int j=0; j<3; ++j){
+        for (quint16 j=0; j<3; ++j){
             if (min[j] < min_[j]) min_[j] = min[j];
             if (max[j] > max_[j]) max_[j] = max[j];
         }
@@ -191,8 +189,8 @@ CGlArea::computeBoundingBox()
     }
 
     //ensure bounding box is not zero size in one direction.
-    for ( int i=0; i<3; i++){
-        if ( wykobi::is_equal(min_[i], max_[i]) ){
+    for ( quint16 i=0; i<3; i++){
+        if ( AreSame(min_[i], max_[i]) ){
             max_[i] += 1;
         }
     }
@@ -224,9 +222,9 @@ CGlArea::setGeometry()
     GLfloat light[4];
 
     /*specify position of all lights*/
-    light[0] = max_[0] ;
-    light[1] = min_[1] ;
-    light[2] = max_[2] ;
+    light[0] = (GLfloat)max_[0] ;
+    light[1] = (GLfloat)min_[1] ;
+    light[2] = (GLfloat)max_[2] ;
     light[3] = 1.0 ;
 
     gl_machine_->setPositionLight( light );
@@ -305,35 +303,35 @@ CGlArea::buildAxis()
     glColor3f(1., 0., 0.);
 
     glBegin(GL_LINE_STRIP);
-    glVertex3f(min_[0], min_[1], min_[2]);
-    glVertex3f(min_[0], min_[1], max_[2]);
-    glVertex3f(min_[0], max_[1], max_[2]);
-    glVertex3f(min_[0], max_[1], min_[2]);
-    glVertex3f(min_[0], min_[1], min_[2]);
+    glVertex3d(min_[0], min_[1], min_[2]);
+    glVertex3d(min_[0], min_[1], max_[2]);
+    glVertex3d(min_[0], max_[1], max_[2]);
+    glVertex3d(min_[0], max_[1], min_[2]);
+    glVertex3d(min_[0], min_[1], min_[2]);
     glEnd();
 
     glBegin(GL_LINE_STRIP);
-    glVertex3f(max_[0], min_[1], min_[2]);
-    glVertex3f(max_[0], min_[1], max_[2]);
-    glVertex3f(max_[0], max_[1], max_[2]);
-    glVertex3f(max_[0], max_[1], min_[2]);
-    glVertex3f(max_[0], min_[1], min_[2]);
+    glVertex3d(max_[0], min_[1], min_[2]);
+    glVertex3d(max_[0], min_[1], max_[2]);
+    glVertex3d(max_[0], max_[1], max_[2]);
+    glVertex3d(max_[0], max_[1], min_[2]);
+    glVertex3d(max_[0], min_[1], min_[2]);
     glEnd();
 
     glBegin(GL_LINE_STRIP);
-    glVertex3f(min_[0], min_[1], max_[2]);
-    glVertex3f(max_[0], min_[1], max_[2]);
-    glVertex3f(max_[0], max_[1], max_[2]);
-    glVertex3f(min_[0], max_[1], max_[2]);
-    glVertex3f(min_[0], min_[1], max_[2]);
+    glVertex3d(min_[0], min_[1], max_[2]);
+    glVertex3d(max_[0], min_[1], max_[2]);
+    glVertex3d(max_[0], max_[1], max_[2]);
+    glVertex3d(min_[0], max_[1], max_[2]);
+    glVertex3d(min_[0], min_[1], max_[2]);
     glEnd();
 
     glBegin(GL_LINE_STRIP);
-    glVertex3f(min_[0], min_[1], min_[2]);
-    glVertex3f(max_[0], min_[1], min_[2]);
-    glVertex3f(max_[0], max_[1], min_[2]);
-    glVertex3f(min_[0], max_[1], min_[2]);
-    glVertex3f(min_[0], min_[1], min_[2]);
+    glVertex3d(min_[0], min_[1], min_[2]);
+    glVertex3d(max_[0], min_[1], min_[2]);
+    glVertex3d(max_[0], max_[1], min_[2]);
+    glVertex3d(min_[0], max_[1], min_[2]);
+    glVertex3d(min_[0], min_[1], min_[2]);
     glEnd();
 
     if (gl_machine_->withLight())
@@ -346,7 +344,7 @@ CGlArea::buildAxis()
 void
 CGlArea::addCoreRenderer(ModelRenderer *model_renderer)
 {
-    if ( 0 == model_renderer ){
+    if ( nullptr == model_renderer ){
         return;
     }
 

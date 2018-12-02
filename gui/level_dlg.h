@@ -32,7 +32,7 @@ public:
     CLevelDlg( QWidget* parent );
     ~CLevelDlg();
 
-    void setMinMax( Point3f* min, Point3f* max );
+    void setMinMax( const Point3d& min, const Point3d& max );
 
 signals:
     void levelChanged(float level);
@@ -41,9 +41,9 @@ protected slots:
 virtual void applySlot();
 
 protected:
-    float mMin;
-    float mMax;
-    float mLevel;
+    double mMin;
+    double mMax;
+    double mLevel;
 
     Ui_CLevelDlgUI ui_;
 

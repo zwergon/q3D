@@ -37,7 +37,7 @@ public:
 	CGlArea( QWidget* parent );
     virtual ~CGlArea();
 
-    void getBoundingBox( Point3f& min, Point3f& max ) const;
+    void getBoundingBox( Point3d& min, Point3d& max ) const;
     ViewControl& getViewControl();
 
     void addCoreRenderer   ( ModelRenderer* );
@@ -73,18 +73,18 @@ private slots:
 private:
     QSet<ModelRenderer*> model_renderers_;
     AbstractTool* current_tool_;
-    Point3f min_;
-    Point3f max_; /*bounding box*/
+    Point3d min_;
+    Point3d max_; /*bounding box*/
 	
 	/*View parameters*/
     int gl_lights_;
-    int gl_axis_ ;
+    GLuint  gl_axis_ ;
     GLData* gl_machine_;
     ViewControl view_control_;
 
 };
 
-inline void CGlArea::getBoundingBox(Point3f &min, Point3f &max) const {
+inline void CGlArea::getBoundingBox(Point3d &min, Point3d &max) const {
     min = min_;
     max = max_;
 }
