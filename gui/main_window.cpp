@@ -47,11 +47,15 @@ public:
 
 /*********************************************************/
 
+
+
 class ModelTreeViewItem : public CTreeViewItem {
 public:
     ModelTreeViewItem( Model* model, QTreeWidget* parent );
 
     Model* model() const { return model_; }
+
+    CTreeViewItem* defaultRenderer();
 
 private:
     Model* model_;
@@ -62,13 +66,14 @@ private:
 class ModelRendererTreeViewItem : public CTreeViewItem {
 public:
     ModelRendererTreeViewItem( ModelTreeViewItem*, const QString& renderer_name );
+
     ~ModelRendererTreeViewItem() {
         delete renderer_;
     }
 
 
     ModelRenderer* renderer(){
-        if ( 0 == renderer_ ){
+        if ( nullptr == renderer_ ){
             ModelDriver* driver = model()->driver();
             renderer_ = driver->createRenderer( model(), renderer_name_ );
         }
@@ -90,12 +95,14 @@ ModelRendererTreeViewItem::ModelRendererTreeViewItem( ModelTreeViewItem* itemPar
                                                       const QString& renderer_name  )
     :	CTreeViewItem(itemParent),
       renderer_name_(renderer_name),
-      renderer_(0)
+      renderer_(nullptr)
 {
     setText( 0, renderer_name );
     setFlags( Qt::ItemIsUserCheckable|Qt::ItemIsEnabled );
     setCheckState( 0, Qt::Unchecked );
 }
+
+
 
 
 /*********************************************************/
@@ -118,6 +125,26 @@ ModelTreeViewItem::ModelTreeViewItem( Model* model, QTreeWidget* parent )
 	}
 
 }
+
+CTreeViewItem* ModelTreeViewItem::defaultRenderer() {
+
+    QString defaultRendererKey = model_->driver()->defaultRendererKey();
+    for( int i =0; i<childCount(); i++ ){
+        ModelRendererTreeViewItem* renderer_item =
+                dynamic_cast<ModelRendererTreeViewItem*>(child(i));
+        if ( nullptr != renderer_item ){
+            ModelRenderer* renderer = renderer_item->renderer();
+
+            if ( renderer_item->text(0) == defaultRendererKey ){
+                return renderer_item;
+            }
+        }
+    }
+
+    return nullptr;
+}
+
+
 
 
 /*********************************************************/
@@ -196,7 +223,13 @@ void CGlWindow::modelAddedSlot( Model* pmodel ){
         connect( pmodel, SIGNAL( modelUpdated(Model*)),
                  gl_area_, SLOT( update( Model* ) ) ) ;
 
-        new ModelTreeViewItem( pmodel, ui_.mpCoreTreeView );
+       ModelTreeViewItem* model_item = new ModelTreeViewItem( pmodel, ui_.mpCoreTreeView );
+       CTreeViewItem* renderer_item = model_item->defaultRenderer();
+       if ( nullptr != renderer_item ){
+            renderer_item->setCheckState(0, Qt::Checked);
+       }
+
+
     }
 }
 

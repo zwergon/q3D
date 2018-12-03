@@ -27,8 +27,10 @@ class Model;
 
 MODELSHARED_EXPORT typedef ObjectFactory<ModelRenderer, QString> ModelRendererFactory;
 
-class MODELSHARED_EXPORT ModelDriver
+class MODELSHARED_EXPORT ModelDriver : public QObject
 {
+    Q_OBJECT
+
 public:
     ModelDriver();
     virtual ~ModelDriver();
@@ -41,8 +43,9 @@ public:
     virtual Model*       open( const QString& ) = 0;
     virtual void         save( const Model& model, const QString& filename  ) = 0;
 
-	void                 rendererKeys( QList<QString>& keys );
+    void                 rendererKeys( QList<QString>& keys ) const;
 	int                  getRendererCount() const;
+    QString              defaultRendererKey() const;
     ModelRenderer*       createDefaultRenderer( Model* );
     ModelRenderer*       createRenderer       ( Model*, const QString& );
 

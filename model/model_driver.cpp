@@ -13,6 +13,7 @@
 
 #include "model_driver.h"
 
+
 namespace Q3D {
 
 
@@ -24,12 +25,23 @@ ModelDriver::~ModelDriver(){
 }
 
 void 
-ModelDriver::rendererKeys( QList<QString>& keys ){
+ModelDriver::rendererKeys( QList<QString>& keys ) const {
 	renderer_factory_.keys( keys );
 }
 
+QString ModelDriver::defaultRendererKey() const {
+    QList<QString> keys;
+    renderer_factory_.keys(keys);
+    if ( !keys.isEmpty()){
+        return keys.at(0);
+    }
+
+    qDebug() << "no renderer associated to " << this->metaObject()->className();
+    return QString();
+}
+
 ModelRenderer* ModelDriver::createDefaultRenderer( Model* model ){
-	ModelRenderer* renderer = renderer_factory_.createDefault();
+    ModelRenderer* renderer = renderer_factory_.create(defaultRendererKey());
 	renderer->setModel( model );
 	renderer->init();
 

@@ -59,7 +59,7 @@ public:
 		return object_creator_.size();
 	}
 
-	void keys( QList<UniqueIdType>& keys ){
+    void keys( QList<UniqueIdType>& keys ) const{
 		keys =  object_creator_.keys();
 	}
 
