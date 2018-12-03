@@ -133,8 +133,6 @@ CTreeViewItem* ModelTreeViewItem::defaultRenderer() {
         ModelRendererTreeViewItem* renderer_item =
                 dynamic_cast<ModelRendererTreeViewItem*>(child(i));
         if ( nullptr != renderer_item ){
-            ModelRenderer* renderer = renderer_item->renderer();
-
             if ( renderer_item->text(0) == defaultRendererKey ){
                 return renderer_item;
             }
@@ -219,7 +217,7 @@ CGlWindow::on_actionDriversEdit_triggered(){
 
 
 void CGlWindow::modelAddedSlot( Model* pmodel ){
-    if ( 0 != pmodel ){
+    if ( nullptr != pmodel ){
         connect( pmodel, SIGNAL( modelUpdated(Model*)),
                  gl_area_, SLOT( update( Model* ) ) ) ;
 

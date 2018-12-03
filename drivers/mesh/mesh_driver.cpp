@@ -48,7 +48,7 @@ MeshDriver::open( const QString& fileName )
     if ( !importer.create_mesh( &(model->mesh()) ) ){
         qDebug() << description() << " is not the good driver\n";
         delete model;
-        return 0;
+        return nullptr;
     }
 
     qDebug() << description() << " is the good driver\n";

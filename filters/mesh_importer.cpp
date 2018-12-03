@@ -55,6 +55,10 @@ namespace Q3D {
 
 		file.close();
 
+        if ( vertices_.isEmpty() ){
+            qWarning() << QString("Unable to read any vertex in file %1 Return\n").arg( file.fileName() ) ;
+            return false;
+        }
 		return true;
 
 	}
