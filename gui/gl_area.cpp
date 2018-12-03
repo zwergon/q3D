@@ -133,7 +133,7 @@ void CGlArea::paintGL()
 
     glMatrixMode( GL_MODELVIEW );
     glLoadIdentity();
-    gluLookAt( view_control_.camX(), view_control_.camY(), view_control_.camZ(),
+    GLu::lookAt( view_control_.camX(), view_control_.camY(), view_control_.camZ(),
                view_control_.centreX(), view_control_.centreY(), view_control_.centreZ(),
                0.0, 1.0 ,0.0 );
 

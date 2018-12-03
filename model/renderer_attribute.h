@@ -25,7 +25,7 @@ signals:
 
 
 protected:
-    explicit RendererAttribute( ModelRenderer *parent = 0);
+    explicit RendererAttribute(ModelRenderer *parent);
 
 };
 

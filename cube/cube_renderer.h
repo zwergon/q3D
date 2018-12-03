@@ -37,10 +37,7 @@ protected:
 private:
     void createTexture( const Cube& cube, Slice slice, GLuint tId );
 
-private:
-    int xCursor;
-    int yCursor;
-    int zCursor;
+
 
 };
 

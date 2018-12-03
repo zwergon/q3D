@@ -33,7 +33,9 @@ SOURCES += \
     fda_cube_driver.cpp \
     cube_renderer.cpp \
     cube_plugin.cpp \
-    slicer.cpp
+    slicer.cpp \
+    cube_renderer_attribute.cpp \
+    cube_renderer_attribute_dlg.cpp
 
 HEADERS += \
         cube.h \
@@ -42,7 +44,9 @@ HEADERS += \
     fda_cube_driver.h \
     cube_renderer.h \
     cube_plugin.h \
-    slicer.h
+    slicer.h \
+    cube_renderer_attribute.h \
+    cube_renderer_attribute_dlg.h
 
 unix {
     target.path = /usr/lib
@@ -51,3 +55,6 @@ unix {
 
 DISTFILES += \
     cubeplugin.json
+
+FORMS += \
+    cube_renderer_attribute_dlg.ui

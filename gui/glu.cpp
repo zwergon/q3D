@@ -1,10 +1,13 @@
 #include "glu.h"
 
+#include <q3D/model/point3d.h>
 
+
+namespace Q3D {
 /*
 ** Make m an identity matrix
 */
-static void __gluMakeIdentityf(GLfloat m[16])
+void GLu::__gluMakeIdentityf(GLdouble m[16])
 {
     m[0+4*0] = 1; m[0+4*1] = 0; m[0+4*2] = 0; m[0+4*3] = 0;
     m[1+4*0] = 0; m[1+4*1] = 1; m[1+4*2] = 0; m[1+4*3] = 0;
@@ -12,36 +15,16 @@ static void __gluMakeIdentityf(GLfloat m[16])
     m[3+4*0] = 0; m[3+4*1] = 0; m[3+4*2] = 0; m[3+4*3] = 1;
 }
 
-static void normalize(float v[3])
-{
-    float r;
-
-    r = sqrt( v[0]*v[0] + v[1]*v[1] + v[2]*v[2] );
-    if (r == 0.0) return;
-
-    v[0] /= r;
-    v[1] /= r;
-    v[2] /= r;
-}
-
-static void cross(float v1[3], float v2[3], float result[3])
-{
-    result[0] = v1[1]*v2[2] - v1[2]*v2[1];
-    result[1] = v1[2]*v2[0] - v1[0]*v2[2];
-    result[2] = v1[0]*v2[1] - v1[1]*v2[0];
-}
-
 /**
  * @brief gluLookAt
  * The implementation of gluLookAt from http://www.mesa3d.org to avoid link with GLU lib.
  */
-void
-gluLookAt( GLdouble eyex, GLdouble eyey, GLdouble eyez,
+void GLu::lookAt( GLdouble eyex, GLdouble eyey, GLdouble eyez,
            GLdouble centerx, GLdouble centery, GLdouble centerz,
            GLdouble upx, GLdouble upy, GLdouble upz )
 {
-    float forward[3], side[3], up[3];
-    GLfloat m[4][4];
+    Q3D::Point3d forward, up;
+    GLdouble m[4][4];
 
     forward[0] = centerx - eyex;
     forward[1] = centery - eyey;
@@ -51,14 +34,14 @@ gluLookAt( GLdouble eyex, GLdouble eyey, GLdouble eyez,
     up[1] = upy;
     up[2] = upz;
 
-    normalize(forward);
+    Q3D::normalize<double>(forward);
 
     /* Side = forward x up */
-    cross(forward, up, side);
-    normalize(side);
+    Q3D::Point3d side = Q3D::cross<double>(forward, up);
+    Q3D::normalize<double>(side);
 
     /* Recompute up as: up = side x forward */
-    cross(side, forward, up);
+    up = Q3D::cross<double>(side, forward);
 
     __gluMakeIdentityf(&m[0][0]);
     m[0][0] = side[0];
@@ -73,6 +56,8 @@ gluLookAt( GLdouble eyex, GLdouble eyey, GLdouble eyez,
     m[1][2] = -forward[1];
     m[2][2] = -forward[2];
 
-    glMultMatrixf(&m[0][0]);
+    glMultMatrixd(&m[0][0]);
     glTranslated(-eyex, -eyey, -eyez);
+}
+
 }

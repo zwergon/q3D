@@ -3,6 +3,7 @@
 #include <q3D/cube/cube_model.h>
 
 #include <q3D/cube/slicer.h>
+#include <q3D/cube/cube_renderer_attribute.h>
 
 
 namespace Q3D {
@@ -14,7 +15,7 @@ CubeRenderer::~CubeRenderer(){
 }
 
 RendererAttribute* CubeRenderer::createAttribute(){
-    return nullptr; //TODO
+    return new CubeRendererAttribute(this);
 }
 
 void CubeRenderer::init(){
@@ -23,12 +24,17 @@ void CubeRenderer::init(){
         return;
     }
 
-     Cube& cube = cube_model->cube();
-     xCursor = cube.getNx()/4;
-     yCursor = cube.getNy()/3;
-     zCursor = cube.getNz()/2;
+    Cube& cube = cube_model->cube();
 
-     colormap()->setMinMax( cube_model->mini()[2], cube_model->maxi()[2] );
+    CubeRendererAttribute* cube_attribute =
+            static_cast<CubeRendererAttribute*>(attribute());
+    cube_attribute->blockSignals(true); //avoid drawing before total init
+    cube_attribute->setCursorX(cube.getNx()/4);
+    cube_attribute->setCursorY(cube.getNy()/3);
+    cube_attribute->setCursorZ(cube.getNz()/2);
+    cube_attribute->blockSignals(false);
+
+    colormap()->setMinMax( cube_model->mini()[2], cube_model->maxi()[2] );
 
 }
 
@@ -52,6 +58,13 @@ void CubeRenderer::draw(){
     if ( nullptr == cube_model ){
         return;
     }
+
+    CubeRendererAttribute* cube_attribute =
+            static_cast<CubeRendererAttribute*>(attribute());
+    if ( nullptr == cube_attribute ){
+        return;
+    }
+
     Cube& cube = cube_model->cube();
     int nx = cube.getNx();
     int ny = cube.getNy();
@@ -71,26 +84,26 @@ void CubeRenderer::draw(){
 
     glBindTexture(GL_TEXTURE_2D, tex[Slice::XY]);
     glBegin(GL_QUADS);
-    glTexCoord2i(0, 0); glVertex3i(0, 0, zCursor);
-    glTexCoord2i(0, 1); glVertex3i(0, ny, zCursor);
-    glTexCoord2i(1, 1); glVertex3i(nx, ny, zCursor);
-    glTexCoord2i(1, 0); glVertex3i(nx, 0, zCursor);
+    glTexCoord2i(0, 0); glVertex3i(0, 0, cube_attribute->getCursorZ());
+    glTexCoord2i(0, 1); glVertex3i(0, ny, cube_attribute->getCursorZ());
+    glTexCoord2i(1, 1); glVertex3i(nx, ny, cube_attribute->getCursorZ());
+    glTexCoord2i(1, 0); glVertex3i(nx, 0, cube_attribute->getCursorZ());
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D, tex[Slice::XZ]);
     glBegin(GL_QUADS);
-    glTexCoord2i(0, 0); glVertex3i(0, yCursor, 0);
-    glTexCoord2i(0, 1); glVertex3i(0, yCursor, nz);
-    glTexCoord2i(1, 1); glVertex3i(nx, yCursor, nz);
-    glTexCoord2i(1, 0); glVertex3i(nx, yCursor, 0);
+    glTexCoord2i(0, 0); glVertex3i(0, cube_attribute->getCursorY(), 0);
+    glTexCoord2i(0, 1); glVertex3i(0, cube_attribute->getCursorY(), nz);
+    glTexCoord2i(1, 1); glVertex3i(nx, cube_attribute->getCursorY(), nz);
+    glTexCoord2i(1, 0); glVertex3i(nx, cube_attribute->getCursorY(), 0);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D, tex[Slice::YZ]);
     glBegin(GL_QUADS);
-    glTexCoord2i(0, 0); glVertex3i(xCursor, 0, 0);
-    glTexCoord2i(0, 1); glVertex3i(xCursor, 0, nz);
-    glTexCoord2i(1, 1); glVertex3i(xCursor, ny, nz);
-    glTexCoord2i(1, 0); glVertex3i(xCursor, ny, 0);
+    glTexCoord2i(0, 0); glVertex3i(cube_attribute->getCursorX(), 0, 0);
+    glTexCoord2i(0, 1); glVertex3i(cube_attribute->getCursorX(), 0, nz);
+    glTexCoord2i(1, 1); glVertex3i(cube_attribute->getCursorX(), ny, nz);
+    glTexCoord2i(1, 0); glVertex3i(cube_attribute->getCursorX(), ny, 0);
     glEnd();
 
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -103,16 +116,19 @@ void CubeRenderer::createTexture(const Cube& cube, Slice slice, GLuint tId){
 
     Slicer2D* slicer = nullptr;
 
+    CubeRendererAttribute* cube_attribute =
+            static_cast<CubeRendererAttribute*>(attribute());
+
     switch(slice){
     default:
     case Slice::XY:
-        slicer = new ZSlicer2D(cube, zCursor);
+        slicer = new ZSlicer2D(cube, cube_attribute->getCursorZ());
         break;
     case Slice::YZ:
-        slicer = new XSlicer2D(cube, xCursor);
+        slicer = new XSlicer2D(cube, cube_attribute->getCursorX());
         break;
     case Slice::XZ:
-        slicer = new YSlicer2D(cube, yCursor);
+        slicer = new YSlicer2D(cube, cube_attribute->getCursorY());
     }
 
     ColorMap* cmap = colormap();
