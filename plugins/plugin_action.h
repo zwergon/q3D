@@ -7,7 +7,7 @@
 
 namespace Q3D {
 
-class ModelsData;
+class ModelManager;
 
 class PLUGINSSHARED_EXPORT PluginAction : public QObject {
         Q_OBJECT
@@ -15,7 +15,7 @@ public:
     virtual QString name() const = 0;
 
 public slots:
-    virtual void execute( ModelsData* );
+    virtual void execute( ModelManager* );
 };
 
 }

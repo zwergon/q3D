@@ -14,23 +14,30 @@
 #ifndef Q3D_MODEL_MODEL_OPEN_INFO_H_
 #define Q3D_MODEL_MODEL_OPEN_INFO_H_ 1
 
+#include <q3D/model/model_scope.h>
+
 #include <QString>
 
 namespace Q3D {
 
-using namespace std;
-
-class ModelOpenInfo
+class MODELSHARED_EXPORT ModelOpenInfo
 {
 public:
-	ModelOpenInfo( const QString& pfilename) : filename_(pfilename) {}
-	const QString& fileName() const;
-
-protected: 
-	QString filename_;
+    virtual ~ModelOpenInfo(){}
 };
 
-inline const QString& ModelOpenInfo::fileName() const {
+
+class MODELSHARED_EXPORT FileModelOpenInfo : public ModelOpenInfo {
+public:
+    FileModelOpenInfo( const QString& pfilename) : filename_(pfilename) {}
+    const QString& fileName() const;
+
+protected:
+    QString filename_;
+
+};
+
+inline const QString& FileModelOpenInfo::fileName() const {
 	return filename_;
 }
 

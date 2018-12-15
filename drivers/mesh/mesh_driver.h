@@ -14,7 +14,7 @@ class DRIVERSSHARED_EXPORT MeshDriver : public ModelDriver
 public:
     MeshDriver();
 
-    virtual Model* open( const QString& );
+    virtual Model* open( const ModelOpenInfo& );
     virtual void save( const Model& model, const QString& filename );
 };
 

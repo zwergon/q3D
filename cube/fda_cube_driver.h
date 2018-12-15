@@ -13,7 +13,7 @@ class CUBESHARED_EXPORT FdaCubeDriver : public ModelDriver
 public:
     FdaCubeDriver();
 
-    virtual Model* open( const QString& );
+    virtual Model* open( const ModelOpenInfo& );
     virtual void save( const Model& model, const QString& filename );
 };
 

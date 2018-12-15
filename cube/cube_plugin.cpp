@@ -4,6 +4,8 @@
 
 namespace Q3D {
 
+/**********************************************/
+
 CubePlugin::CubePlugin()
 {
     drivers_.append( new FdaCubeDriver );
@@ -30,6 +32,29 @@ ModelDriver* CubePlugin::driver( const QString& key ){
     }
 
     return 0;
+}
+
+/**********************************************/
+
+CubePluginAction::CubePluginAction(QObject *parent) : QObject(parent)
+{
+}
+
+QStringList CubePluginAction::tools() const {
+    return {"Launch"};
+}
+
+PluginAction* CubePluginAction::action( const QString& key ){
+    return nullptr;
+}
+
+/**********************************************/
+
+CubePluginCollection::CubePluginCollection(QObject *parent) : QObject(parent){
+}
+
+QList<QObject*> CubePluginCollection::plugins(){
+    return QList<QObject*>{ new CubePlugin, new CubePluginAction};
 }
 
 }

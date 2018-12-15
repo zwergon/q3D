@@ -3,6 +3,10 @@
 
 #include "cube_global.h"
 
+#include <QUuid>
+#include <QSharedMemory>
+#include <QDebug>
+
 #include <vector>
 
 namespace Q3D {
@@ -15,6 +19,7 @@ public:
     Cube();
     virtual ~Cube();
 
+    int size() const;
     void setSize( int nx_, int ny_, int nz_ );
     int getNx() const;
     int getNy() const;
@@ -23,6 +28,8 @@ public:
     void setData( quint8* );
     const quint8* data() const;
 
+    void attach( QSharedMemory& sharedMemory );
+
     quint8 getValue( int i, int j, int k) const;
     int index(int i, int j, int k) const;
 
@@ -30,7 +37,7 @@ private:
     int nx_;
     int ny_;
     int nz_;
-    std::vector<quint8> data_;
+    QSharedMemory data_;
 };
 
 inline int Cube::getNx() const {
@@ -45,6 +52,10 @@ inline int Cube::getNz() const {
     return nz_;
 }
 
+inline int Cube::size() const {
+    return nx_*ny_*nz_;
+}
+
 inline void Cube::setSize(int nx, int ny, int nz){
     this->nx_ = nx;
     this->ny_ = ny;
@@ -52,11 +63,20 @@ inline void Cube::setSize(int nx, int ny, int nz){
 }
 
 inline const quint8* Cube::data() const{
-    return data_.data();
+    return (quint8*)data_.data();
 }
 
 inline void Cube::setData(quint8* data){
-    data_ = std::vector<quint8>(data, data+nx_*ny_*nz_);
+    data_.create(size());
+    data_.lock();
+    memcpy(data_.data(), data, data_.size());
+    data_.unlock();
+}
+
+inline void Cube::attach(QSharedMemory &sharedMemory){
+    data_.setKey(sharedMemory.key());
+    data_.attach();
+    qDebug() << "create cube " << sharedMemory.key();
 }
 
 inline int Cube::index(int i, int j, int k) const {
@@ -64,7 +84,8 @@ inline int Cube::index(int i, int j, int k) const {
 }
 
 inline quint8 Cube::getValue(int i, int j, int k) const {
-    return data_[index(i,j,k)];
+    quint8 val = data()[index(i,j,k)];
+    return  val;
 }
 
 

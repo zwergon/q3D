@@ -27,7 +27,7 @@ class DRIVERSSHARED_EXPORT CpgMeshDriver : public ModelDriver
  public:
   CpgMeshDriver();
 
-  virtual Model* open( const QString& );
+  virtual Model* open( const ModelOpenInfo& );
   virtual void save( const Model& model, const QString& filename );
   
 };

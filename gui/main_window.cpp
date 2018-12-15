@@ -19,7 +19,7 @@
 #include <q3D/model/model.h>
 #include <q3D/model/model_driver.h>
 #include <q3D/model/renderer.h>
-#include <q3D/model/models_data.h>
+#include <q3D/model/model_mgr.h>
 
 #include <q3D/plugins/plugin_dialog.h>
 #include <q3D/plugins/plugins.h>
@@ -147,7 +147,7 @@ CTreeViewItem* ModelTreeViewItem::defaultRenderer() {
 
 /*********************************************************/
 
-CGlWindow::CGlWindow( ModelsData* data, QWidget *parent )
+CGlWindow::CGlWindow( ModelManager* data, QWidget *parent )
 : QMainWindow( parent ),
   data_( data )
 {

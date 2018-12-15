@@ -5,7 +5,7 @@
 
 namespace Q3D {
 
-void PluginAction::execute( ModelsData* ) {
+void PluginAction::execute( ModelManager* ) {
     qDebug() << "No implementation in " << name();
 }
 

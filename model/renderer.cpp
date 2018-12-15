@@ -22,7 +22,7 @@ namespace Q3D {
 
 ModelRenderer::ModelRenderer()
     : QObject(0),
-      gl_list_(-1)
+      gl_list_(0)
 {
     ColorMap* colormap = new ColorMap(this);
     connect( colormap, SIGNAL(colormapChanged(ColorMap*)),

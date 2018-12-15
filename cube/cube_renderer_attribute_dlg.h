@@ -31,9 +31,9 @@ public:
     virtual QDialog* getDialog();
 
 private slots:
-    void on_dial_x_value_changed(int value);
-    void on_dial_y_value_changed(int value);
-    void on_dial_z_value_changed(int value);
+    void on_dial_x__valueChanged(int);
+    void on_dial_y__valueChanged(int);
+    void on_dial_z__valueChanged(int);
 
 private:
     Ui::CubeRendererAttributeDlg *ui;

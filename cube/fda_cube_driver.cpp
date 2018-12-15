@@ -16,7 +16,17 @@ FdaCubeDriver::FdaCubeDriver()
 }
 
 
-Model* FdaCubeDriver::open( const QString& fileName){
+Model* FdaCubeDriver::open(const ModelOpenInfo& openInfo )
+{
+    QString fileName;
+    try {
+        const FileModelOpenInfo& fmoi = dynamic_cast<const FileModelOpenInfo&>(openInfo);
+        fileName = fmoi.fileName();
+    }
+    catch(bad_cast){
+        return nullptr;
+    }
+
 
     QFileInfo fi(fileName);
     if ( !fi.exists() || (fi.suffix() != "fda")){
@@ -44,12 +54,15 @@ Model* FdaCubeDriver::open( const QString& fileName){
 
     long size = nx*ny*nz;
 
-    quint8* buffer = new quint8[size];
+    QSharedMemory sharedMemory(QUuid::createUuid().toString());
+    sharedMemory.create(size);
+
+    quint8* buffer = (quint8*)sharedMemory.data();
     for( int i=0; i<size; i++ ){
         stream >> buffer[i];
     }
 
-    cube_model->cube().setData(buffer);
+    cube_model->cube().attach(sharedMemory);
 
     cube_model->update();
 

@@ -28,8 +28,16 @@ CpgMeshDriver::CpgMeshDriver(){
 }
 
 Model *
-CpgMeshDriver::open( const QString& fileName )
+CpgMeshDriver::open( const ModelOpenInfo& openInfo )
 {
+    QString fileName;
+    try {
+        const FileModelOpenInfo& fmoi = dynamic_cast<const FileModelOpenInfo&>(openInfo);
+        fileName = fmoi.fileName();
+    }
+    catch(bad_cast){
+        return nullptr;
+    }
 
 	float x, y, z;
 	int i, j;

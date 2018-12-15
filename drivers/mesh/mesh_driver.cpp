@@ -34,8 +34,16 @@ MeshDriver::MeshDriver(){
 }
 
 Model *
-MeshDriver::open( const QString& fileName )
+MeshDriver::open( const ModelOpenInfo& openInfo )
 {
+    QString fileName;
+    try {
+        const FileModelOpenInfo& fmoi = dynamic_cast<const FileModelOpenInfo&>(openInfo);
+        fileName = fmoi.fileName();
+    }
+    catch(bad_cast){
+        return nullptr;
+    }
 
     //create Core data
     MeshModel* model  = new MeshModel;

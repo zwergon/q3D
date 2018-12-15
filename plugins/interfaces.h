@@ -28,6 +28,13 @@ public:
     virtual ModelDriver* driver( const QString& key ) = 0;
 };
 
+class PLUGINSSHARED_EXPORT PluginCollectionInterface {
+public:
+    virtual ~PluginCollectionInterface(){}
+
+    virtual QList<QObject*> plugins() = 0;
+};
+
 }
 
 Q_DECLARE_INTERFACE(Q3D::PluginActionInterface,
@@ -35,6 +42,9 @@ Q_DECLARE_INTERFACE(Q3D::PluginActionInterface,
 
 Q_DECLARE_INTERFACE(Q3D::DriverInterface,
                      "fr.org.q3D.DriverInterface/1.0")
+
+Q_DECLARE_INTERFACE(Q3D::PluginCollectionInterface,
+                     "fr.org.q3D.PluginCollectionInterface/1.0")
 
 
 #endif // INTERFACES_H

@@ -17,6 +17,7 @@
 #include "model_driver.h"
 #include "model_driver_mgr.h"
 
+
 namespace Q3D {
 
 ModelDriverManager* ModelDriverManager::instance_ = 0;
@@ -24,9 +25,8 @@ ModelDriverManager* ModelDriverManager::instance_ = 0;
 ModelDriverManager*
 ModelDriverManager::instance()
 {
-	if ( 0 == instance_ ){
-		instance_ = new ModelDriverManager();
-
+    if ( nullptr == instance_ ){
+        instance_ = new ModelDriverManager();
 	}
 	return instance_;
 }

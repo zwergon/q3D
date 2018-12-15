@@ -29,7 +29,7 @@ class CGlArea;
 class Model;
 class ModelRenderer;
 class PluginActionInterface;
-class ModelsData;
+class ModelManager;
 
 
 class GUISHARED_EXPORT CGlWindow : public QMainWindow
@@ -37,7 +37,7 @@ class GUISHARED_EXPORT CGlWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    CGlWindow( ModelsData* data, QWidget* parent = 0 );
+    CGlWindow( ModelManager* data, QWidget* parent = 0 );
 
 	CGlArea* glArea() const;
 	QTreeWidget* treeWidget() const;
@@ -62,7 +62,7 @@ private:
 
 private:
     CGlArea*       gl_area_;
-    ModelsData*    data_;
+    ModelManager*    data_;
 	Ui::MainWindow ui_;
 
 };

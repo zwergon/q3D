@@ -20,6 +20,7 @@
 #include <q3D/model/model_scope.h>
 #include <q3D/model/factory.hpp>
 #include <q3D/model/renderer.h>
+#include <q3D/model/model_open_info.h>
 
 namespace Q3D {
 
@@ -40,7 +41,7 @@ public:
 
     ModelRendererFactory& rendererFactory();
 
-    virtual Model*       open( const QString& ) = 0;
+    virtual Model*       open( const ModelOpenInfo& ) = 0;
     virtual void         save( const Model& model, const QString& filename  ) = 0;
 
     void                 rendererKeys( QList<QString>& keys ) const;

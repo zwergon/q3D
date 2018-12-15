@@ -17,9 +17,6 @@
 
 namespace Q3D {
 
-
-
-
 PluginsDialog::PluginsDialog( QWidget *parent ) :
     QDialog(parent)
 {
@@ -63,15 +60,21 @@ void PluginsDialog::populateTreeWidget( QObject *plugin, const QString &text )
     boldFont.setBold(true);
     pluginItem->setFont(0, boldFont);
 
-    if (plugin) {
-        PluginActionInterface *iTool = qobject_cast<PluginActionInterface *>(plugin);
-        if (iTool){
-            addItems(pluginItem, "Actions", iTool->tools());
+    PluginCollectionInterface* plugin_collection =
+            qobject_cast<PluginCollectionInterface*>(plugin);
+
+    if (plugin_collection != nullptr) {
+        foreach (auto p, plugin_collection->plugins()) {
+            PluginActionInterface *iTool = qobject_cast<PluginActionInterface *>(p);
+            if (iTool != nullptr){
+                addItems(pluginItem, "Actions", iTool->tools());
+            }
+            DriverInterface* iDriver = qobject_cast<DriverInterface*>(p);
+            if (iDriver != nullptr){
+                addItems(pluginItem, "Drivers", iDriver->drivers() );
+            }
         }
-        DriverInterface* iDriver = qobject_cast<DriverInterface*>( plugin );
-        if ( iDriver ){
-            addItems(pluginItem, "Drivers", iDriver->drivers() );
-        }
+
     }
 }
 

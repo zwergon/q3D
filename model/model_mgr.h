@@ -1,5 +1,5 @@
-#ifndef MODELS_DATA_H
-#define MODELS_DATA_H
+#ifndef Q3D_MODEL_MANAGER_H
+#define Q3D_MODEL_MANAGER_H
 
 #include <q3D/model/model_scope.h>
 
@@ -10,7 +10,7 @@
 
 namespace Q3D {
 
-class MODELSHARED_EXPORT ModelsData : public QObject
+class MODELSHARED_EXPORT ModelManager : public QObject
 {
      Q_OBJECT
 public:
@@ -27,10 +27,10 @@ private:
     QList<Model*> models_;
 };
 
-inline const QList<Model*>& ModelsData::models() const {
+inline const QList<Model*>& ModelManager::models() const {
     return models_;
 }
 
 }
 
-#endif // MODELS_DATA_H
+#endif // Q3D_MODEL_MANAGER_H

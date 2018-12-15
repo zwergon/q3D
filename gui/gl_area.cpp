@@ -214,7 +214,6 @@ CGlArea::setActiveTool(AbstractTool *tool){
 void 
 CGlArea::setGeometry()
 {
-    qDebug() << "setGeometry";
     computeBoundingBox();
 
     view_control_.setControls(min_, max_);

@@ -8,7 +8,7 @@
 namespace Q3D {
 
 template<class T>
-class MODELSHARED_EXPORT Matrix
+class Matrix
 {
 public:
     Matrix(size_t rows, size_t cols)

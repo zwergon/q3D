@@ -5,6 +5,8 @@
 
 namespace Q3D {
 
+/**********************************************/
+
 DriversPlugin::DriversPlugin()
 {
     drivers_.append( new CpgMeshDriver );
@@ -32,6 +34,16 @@ ModelDriver* DriversPlugin::driver( const QString& key ){
     }
 
     return 0;
+}
+
+/**********************************************/
+
+DriversPluginCollection::DriversPluginCollection(QObject *parent) : QObject(parent){
+
+}
+
+QList<QObject*> DriversPluginCollection::plugins(){
+    return QList<QObject*>{ new DriversPlugin };
 }
 
 }

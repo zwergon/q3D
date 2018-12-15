@@ -13,6 +13,8 @@
 
 #include "model_driver.h"
 
+#include <QtDebug>
+
 
 namespace Q3D {
 

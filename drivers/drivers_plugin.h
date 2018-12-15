@@ -10,9 +10,7 @@ namespace Q3D {
 class DRIVERSSHARED_EXPORT DriversPlugin : public QObject, public DriverInterface
 {
     Q_OBJECT
-    Q_PLUGIN_METADATA(IID "fr.org.q3D.DriverInterface" FILE "driversplugin.json")
     Q_INTERFACES(Q3D::DriverInterface)
-
 
 public:
     DriversPlugin();
@@ -22,6 +20,17 @@ public:
 
 private:
     QList<ModelDriver*> drivers_;
+};
+
+class DriversPluginCollection : public QObject, public PluginCollectionInterface {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "fr.org.q3D.DriverInterface" FILE "driversplugin.json")
+    Q_INTERFACES(Q3D::PluginCollectionInterface)
+
+public:
+    explicit DriversPluginCollection( QObject* parent = nullptr );
+
+    QList<QObject*> plugins();
 };
 
 }

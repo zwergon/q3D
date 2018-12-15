@@ -2,9 +2,9 @@ include( ../q3d.pri )
 
 QT       += opengl
 
-QT       -= gui
-
 TARGET = cube
+CONFIG += shared
+
 TEMPLATE = lib
 
 DEFINES += CUBE_LIBRARY
@@ -28,25 +28,29 @@ win32 {
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        cube.cpp \
+    cube.cpp \
     cube_model.cpp \
     fda_cube_driver.cpp \
     cube_renderer.cpp \
     cube_plugin.cpp \
     slicer.cpp \
     cube_renderer_attribute.cpp \
-    cube_renderer_attribute_dlg.cpp
+    cube_renderer_attribute_dlg.cpp \
+    cube_plugin_action.cpp \
+    cube_api.cpp
 
 HEADERS += \
-        cube.h \
-        cube_global.h \ 
-        cube_model.h \
+    cube.h \
+    cube_global.h \
+    cube_model.h \
     fda_cube_driver.h \
     cube_renderer.h \
     cube_plugin.h \
     slicer.h \
     cube_renderer_attribute.h \
-    cube_renderer_attribute_dlg.h
+    cube_renderer_attribute_dlg.h \
+    cube_plugin_action.h \
+    cube_api.h
 
 unix {
     target.path = /usr/lib
