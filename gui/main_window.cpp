@@ -37,13 +37,21 @@ namespace Q3D {
 
 /*********************************************************/
 
-
-
 class CTreeViewItem : public QTreeWidgetItem {
 public:
-    CTreeViewItem(QTreeWidget* parent) : QTreeWidgetItem(parent){}
-    CTreeViewItem(QTreeWidgetItem* parentItem) : QTreeWidgetItem(parentItem){}
+    CTreeViewItem(QTreeWidget* parent);
+    CTreeViewItem(QTreeWidgetItem* parentItem);
+    virtual ~CTreeViewItem();
+
+    virtual Model* model() const = 0;
 };
+
+
+CTreeViewItem::CTreeViewItem(QTreeWidget* parent) : QTreeWidgetItem(parent){}
+
+CTreeViewItem::CTreeViewItem(QTreeWidgetItem* parentItem) : QTreeWidgetItem(parentItem){}
+
+CTreeViewItem::~CTreeViewItem(){}
 
 /*********************************************************/
 
@@ -53,7 +61,7 @@ class ModelTreeViewItem : public CTreeViewItem {
 public:
     ModelTreeViewItem( Model* model, QTreeWidget* parent );
 
-    Model* model() const { return model_; }
+    virtual Model* model() const override;
 
     CTreeViewItem* defaultRenderer();
 
@@ -61,28 +69,18 @@ private:
     Model* model_;
 };
 
+
 /*********************************************************/
 
 class ModelRendererTreeViewItem : public CTreeViewItem {
 public:
     ModelRendererTreeViewItem( ModelTreeViewItem*, const QString& renderer_name );
 
-    ~ModelRendererTreeViewItem() {
-        delete renderer_;
-    }
+    virtual ~ModelRendererTreeViewItem() override;
 
+    ModelRenderer* renderer();
 
-    ModelRenderer* renderer(){
-        if ( nullptr == renderer_ ){
-            ModelDriver* driver = model()->driver();
-            renderer_ = driver->createRenderer( model(), renderer_name_ );
-        }
-        return renderer_;
-    }
-
-    Model* model() const {
-        return static_cast<ModelTreeViewItem*>(parent())->model();
-    }
+    virtual Model* model() const override;
 
 private:
     QString renderer_name_;
@@ -100,6 +98,23 @@ ModelRendererTreeViewItem::ModelRendererTreeViewItem( ModelTreeViewItem* itemPar
     setText( 0, renderer_name );
     setFlags( Qt::ItemIsUserCheckable|Qt::ItemIsEnabled );
     setCheckState( 0, Qt::Unchecked );
+}
+
+ModelRendererTreeViewItem::~ModelRendererTreeViewItem() {
+    delete renderer_;
+}
+
+
+ModelRenderer* ModelRendererTreeViewItem::renderer(){
+    if ( nullptr == renderer_ ){
+        ModelDriver* driver = model()->driver();
+        renderer_ = driver->createRenderer( model(), renderer_name_ );
+    }
+    return renderer_;
+}
+
+Model* ModelRendererTreeViewItem::model() const  {
+    return static_cast<ModelTreeViewItem*>(parent())->model();
 }
 
 
@@ -123,7 +138,10 @@ ModelTreeViewItem::ModelTreeViewItem( Model* model, QTreeWidget* parent )
 		 itr++ ){
 			 new ModelRendererTreeViewItem( this, *itr );
 	}
+}
 
+Model* ModelTreeViewItem::model() const {
+    return model_;
 }
 
 CTreeViewItem* ModelTreeViewItem::defaultRenderer() {
@@ -159,7 +177,7 @@ CGlWindow::CGlWindow( ModelManager* data, QWidget *parent )
     connect( data_, SIGNAL(modelAdded(Model*)), this, SLOT( modelAddedSlot(Model*) ) );
     connect( data_, SIGNAL(modelRemoved(Model*)), this, SLOT( modelRemovedSlot(Model*) ) );
 
-    //populateMenus();
+    populateMenus();
 
     AbstractTool* tool = new CameraTool();
     tool->setGlArea(gl_area_);
@@ -174,10 +192,14 @@ void CGlWindow::populateMenus(){
     foreach (QString fileName, fileNames) {
         QPluginLoader loader(fileName);
         QObject *plugin = loader.instance();
-        if (plugin){
-            PluginActionInterface *iTool = qobject_cast<PluginActionInterface *>(plugin);
-            if (iTool){
-                addToolsMenu( iTool );
+        PluginCollectionInterface* plugin_collection =
+                qobject_cast<PluginCollectionInterface*>(plugin);
+        if (plugin_collection != nullptr) {
+            foreach (auto p, plugin_collection->plugins()) {
+                PluginActionInterface *iTool = qobject_cast<PluginActionInterface *>(p);
+                if (iTool){
+                    addToolsMenu( iTool );
+                }
             }
         }
     }
@@ -192,20 +214,27 @@ void CGlWindow::addToolsMenu( PluginActionInterface* iTool ){
     }
 }
 
+
 void CGlWindow::pluginActionTriggered(){
     QAction *action = qobject_cast<QAction *>(sender());
     PluginAction *p_action =
                 qobject_cast<PluginAction *>(action->parent());
-    p_action->execute( data_ );
+    if (nullptr != p_action){
+        p_action->execute( data_ );
+    }
+    else {
+     qDebug() << "no PluginAction defined with menu entry";
+    }
 }
 
 void
 CGlWindow::on_actionOpen_triggered()
 {
-	QString newfilename = QFileDialog::getOpenFileName(this,
+    QString filename = QFileDialog::getOpenFileName(this,
 		tr("Open Topo"), QDir::currentPath(), tr("all topo files (*.*)") );
-	if ( !newfilename.isEmpty() ) {
-        data_->loadModel( newfilename );
+    if ( !filename.isEmpty() ) {
+        FileModelOpenInfo fmoi(filename);
+        data_->loadModel( fmoi );
 	}
 }
 
@@ -237,7 +266,7 @@ CGlWindow::modelRemovedSlot( Model* model ){
 
     for( int i = 0; i<ui_.mpCoreTreeView->topLevelItemCount(); i++ ){
         ModelTreeViewItem* model_item = dynamic_cast<ModelTreeViewItem*>( ui_.mpCoreTreeView->topLevelItem( i ) );
-        if ( 0 == model_item ){
+        if ( nullptr == model_item ){
             continue;
         }
         if ( model_item->model() == model ){
@@ -258,7 +287,7 @@ void
 CGlWindow::on_mpCoreTreeView_itemChanged ( QTreeWidgetItem* item, int )
 {
     ModelRendererTreeViewItem* renderer_item = dynamic_cast<ModelRendererTreeViewItem*>( item );
-    if ( 0 != renderer_item ){
+    if ( nullptr != renderer_item ){
         ModelRenderer* renderer = renderer_item->renderer();
 
         if (  renderer_item->checkState(0) == Qt::Checked  ){
@@ -273,7 +302,7 @@ CGlWindow::on_mpCoreTreeView_itemChanged ( QTreeWidgetItem* item, int )
 
 void
 CGlWindow::menuSelection( QAction* action ){
-    if ( 0 == action ){
+    if ( nullptr == action ){
         return;
     }
 
@@ -296,7 +325,7 @@ CGlWindow::handleContextMenuRequest( QPoint point ){
 
     //contextual menu for renderer
     ModelRendererTreeViewItem* renderer_item = dynamic_cast<ModelRendererTreeViewItem*>( ui_.mpCoreTreeView->itemAt( point ) );
-    if ( 0 != renderer_item ){
+    if ( nullptr != renderer_item ){
         QMenu menu(this);
         RendererMenu::create( &menu, this, renderer_item->renderer() );
         menu.exec( treeWidget()->mapToGlobal(point) );
@@ -305,7 +334,7 @@ CGlWindow::handleContextMenuRequest( QPoint point ){
 
     //contextual menu for model
     ModelTreeViewItem* model_item = dynamic_cast<ModelTreeViewItem*>( ui_.mpCoreTreeView->itemAt( point ) );
-    if ( 0 != model_item ){
+    if ( nullptr != model_item ){
         QMenu menu(this);
 
         QAction* action = new QAction("Delete", this);

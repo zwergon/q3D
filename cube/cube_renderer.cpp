@@ -80,7 +80,7 @@ void CubeRenderer::draw(){
     createTexture(cube, Slice::XY, tex[Slice::XY]);
 
     glColor3f(1., 1., 1.);
-    glPolygonMode(GL_FRONT, GL_FILL);
+    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
     glBindTexture(GL_TEXTURE_2D, tex[Slice::XY]);
     glBegin(GL_QUADS);

@@ -4,6 +4,7 @@
 #include <q3D/model/model_scope.h>
 
 #include <q3D/model/model.h>
+#include <q3D/model/model_open_info.h>
 
 #include <QObject>
 #include <QList>
@@ -16,7 +17,7 @@ class MODELSHARED_EXPORT ModelManager : public QObject
 public:
     const QList<Model*>& models() const;
 
-    Model* loadModel( const QString& filename );
+    Model* loadModel( const ModelOpenInfo&  );
     void removeModel( Model* model );
 
 signals:

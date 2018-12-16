@@ -31,7 +31,7 @@ ModelDriver* CubePlugin::driver( const QString& key ){
         }
     }
 
-    return 0;
+    return nullptr;
 }
 
 /**********************************************/

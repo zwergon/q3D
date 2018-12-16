@@ -47,7 +47,7 @@ int main(int argc, char **argv)
             foreach( auto p, plugin_collection->plugins()){
                 DriverInterface* driver =
                         qobject_cast<DriverInterface*>(p);
-                if ( 0 != driver){
+                if ( nullptr != driver){
                     QListIterator<QString> itd( driver->drivers() );
                     while( itd.hasNext() ){
                         const QString& driver_name = itd.next();

@@ -6,21 +6,20 @@
 
 namespace Q3D {
 
-Model* ModelManager::loadModel( const QString& filename ){
-    Model *pmodel = 0;
-    ModelDriver *pdriver = 0;
+Model* ModelManager::loadModel( const ModelOpenInfo& moi ){
+    Model* pmodel = nullptr;
+    ModelDriver* pdriver = nullptr;
 
-    ModelDriverManager *pdriver_manager = ModelDriverManager::instance();
+    ModelDriverManager* pdriver_manager = ModelDriverManager::instance();
 
     /* Try each registered driver to see if this file can be opened	*/
     for (int i=0; i< pdriver_manager->getDriverCount(); i++)
     {
-        FileModelOpenInfo fmoi(filename);
         pdriver = pdriver_manager->getDriver(i);
-        pmodel   = pdriver->open( fmoi );
+        pmodel   = pdriver->open( moi );
 
         /* break when first valid driver is found */
-        if ( 0 != pmodel ){
+        if ( nullptr != pmodel ){
             models_.append( pmodel );
 
             emit modelAdded( pmodel );
