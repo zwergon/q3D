@@ -36,8 +36,8 @@ SOURCES += \
     slicer.cpp \
     cube_renderer_attribute.cpp \
     cube_renderer_attribute_dlg.cpp \
-    cube_plugin_action.cpp \
-    cube_api.cpp
+    cube_api.cpp \
+    cube_load_mongo_dlg.cpp
 
 HEADERS += \
     cube.h \
@@ -49,8 +49,8 @@ HEADERS += \
     slicer.h \
     cube_renderer_attribute.h \
     cube_renderer_attribute_dlg.h \
-    cube_plugin_action.h \
-    cube_api.h
+    cube_api.h \
+    cube_load_mongo_dlg.h
 
 unix {
     target.path = /usr/lib

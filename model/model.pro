@@ -5,6 +5,7 @@ TEMPLATE = lib
 
 CONFIG += shared 
 
+QT -= gui
 QT += opengl
 
 win32 {

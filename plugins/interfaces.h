@@ -4,6 +4,7 @@
 #include <q3D/plugins/plugins_global.h>
 
 #include <QtPlugin>
+#include <QMenu>
 
 
 namespace Q3D {
@@ -15,8 +16,7 @@ class PLUGINSSHARED_EXPORT PluginActionInterface {
 public:
     virtual ~PluginActionInterface() {}
 
-    virtual QStringList tools() const = 0;
-    virtual PluginAction* action( const QString& key ) = 0;
+    virtual QMenu* tools() const = 0;
 };
 
 

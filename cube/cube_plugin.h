@@ -28,10 +28,10 @@ class CubePluginAction : public QObject, public PluginActionInterface
 
 public:
     explicit CubePluginAction(QObject *parent = nullptr);
+    virtual QMenu* tools() const;
 
-    virtual QStringList tools() const;
-    virtual PluginAction* action( const QString& key );
-
+private slots:
+    virtual void onCubeLoadMongo();
 };
 
 class CubePluginCollection : public QObject, public PluginCollectionInterface {

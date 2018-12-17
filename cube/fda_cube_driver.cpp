@@ -57,10 +57,12 @@ Model* FdaCubeDriver::open(const ModelOpenInfo& openInfo )
     QSharedMemory sharedMemory(QUuid::createUuid().toString());
     sharedMemory.create(size);
 
+    sharedMemory.lock();
     quint8* buffer = (quint8*)sharedMemory.data();
     for( int i=0; i<size; i++ ){
         stream >> buffer[i];
     }
+    sharedMemory.unlock();
 
     cube_model->cube().attach(sharedMemory);
 

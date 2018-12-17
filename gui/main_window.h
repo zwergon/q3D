@@ -46,7 +46,6 @@ private slots:
     void modelAddedSlot(Model* model );
     void modelRemovedSlot(Model* model );
 
-    void pluginActionTriggered();
     void on_actionOpen_triggered();
     void on_actionDriversEdit_triggered();
     void on_mpCoreTreeView_itemChanged ( QTreeWidgetItem*, int );
@@ -56,9 +55,7 @@ private slots:
     void menuSelection( QAction* );
 
 private:
-
     void populateMenus();
-    void addToolsMenu( PluginActionInterface* );
 
 private:
     CGlArea*       gl_area_;

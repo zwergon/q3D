@@ -2,7 +2,6 @@ include( ../q3d.pri )
 
 TEMPLATE = app
 
-
 QT += opengl
 
 RESOURCES += ../icons/icons.qrc

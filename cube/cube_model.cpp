@@ -19,4 +19,17 @@ void CubeModel::update(){
 
 }
 
+
+void CubeModel::popupMenu(QMenu* parent){
+    QMenu* menu = new QMenu("Cube", parent);
+    if ( nullptr != menu ){
+        menu->addAction( "Launch", this, &CubeModel::onCubeLaunchAction);
+    }
+    parent->addMenu(menu);
+}
+
+void CubeModel::onCubeLaunchAction(){
+    qDebug() << "onCubeLauchAction";
+}
+
 }

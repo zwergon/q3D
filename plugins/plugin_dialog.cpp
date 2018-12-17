@@ -67,7 +67,9 @@ void PluginsDialog::populateTreeWidget( QObject *plugin, const QString &text )
         foreach (auto p, plugin_collection->plugins()) {
             PluginActionInterface *iTool = qobject_cast<PluginActionInterface *>(p);
             if (iTool != nullptr){
-                addItems(pluginItem, "Actions", iTool->tools());
+                QMenu* toolMenu = iTool->tools();
+                QStringList entry = {toolMenu->title()};
+                addItems(pluginItem, "Actions", entry);
             }
             DriverInterface* iDriver = qobject_cast<DriverInterface*>(p);
             if (iDriver != nullptr){

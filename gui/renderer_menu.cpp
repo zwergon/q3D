@@ -54,11 +54,13 @@ void RendererMenu::init(CGlWindow* window, ModelRenderer* renderer){
     window_ = window;
 
     QMenu* menu = qobject_cast<QMenu*>( parent() );
-    if ( 0 != menu ){
-        menu->addAction( "Attributes", this, SLOT(onEditAttributesAction()));
-        menu->addAction( "Edit Colormap", this, SLOT(onEditColorMapAction()));
-
+    if ( nullptr != menu ){
+        menu->addAction( "Attributes", this, &RendererMenu::onEditAttributesAction);
+        menu->addAction( "Edit Colormap", this, &RendererMenu::onEditColorMapAction);
     }
+
+    Model* model = renderer_->model();
+    model->popupMenu(menu);
 
 }
 
@@ -67,7 +69,7 @@ void RendererMenu::init(CGlWindow* window, ModelRenderer* renderer){
 void
 RendererMenu::onEditColorMapAction(){
     ColorMap* colormap = renderer_->colormap();
-    if ( 0 != colormap ){
+    if ( nullptr != colormap ){
         ColorMapDlg* dlg = new ColorMapDlg( window_ );
         dlg->setOriginalColorMap( colormap );
         dlg->show();

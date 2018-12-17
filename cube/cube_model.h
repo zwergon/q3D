@@ -3,8 +3,11 @@
 
 #include <q3D/cube/cube_global.h>
 
+#include <QMenu>
+
 #include <q3D/model/model.h>
 #include <q3D/cube/cube.h>
+
 
 namespace Q3D {
 
@@ -17,6 +20,11 @@ public:
     Cube& cube();
 
     virtual void update();
+
+    virtual void popupMenu(QMenu* );
+
+private slots:
+    virtual void onCubeLaunchAction();
 
 private:
     Cube  cube_;

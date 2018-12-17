@@ -3,14 +3,12 @@
 
 #include "cube_global.h"
 
-#include <QUuid>
 #include <QSharedMemory>
 #include <QDebug>
 
 #include <vector>
 
 namespace Q3D {
-
 
 class CUBESHARED_EXPORT Cube
 {
@@ -64,19 +62,6 @@ inline void Cube::setSize(int nx, int ny, int nz){
 
 inline const quint8* Cube::data() const{
     return (quint8*)data_.data();
-}
-
-inline void Cube::setData(quint8* data){
-    data_.create(size());
-    data_.lock();
-    memcpy(data_.data(), data, data_.size());
-    data_.unlock();
-}
-
-inline void Cube::attach(QSharedMemory &sharedMemory){
-    data_.setKey(sharedMemory.key());
-    data_.attach();
-    qDebug() << "create cube " << sharedMemory.key();
 }
 
 inline int Cube::index(int i, int j, int k) const {

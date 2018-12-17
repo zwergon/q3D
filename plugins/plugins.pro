@@ -13,14 +13,12 @@ DESTDIR= $${Q3D_DIR}/libs
 
 
 SOURCES += plugins.cpp \
-    plugin_dialog.cpp \
-    plugin_action.cpp
+    plugin_dialog.cpp
 
 HEADERS += plugins.h\
         plugins_global.h \
     interfaces.h \
-    plugin_dialog.h \
-    plugin_action.h
+    plugin_dialog.h
 
 FORMS += \
     plugin_dialog.ui

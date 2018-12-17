@@ -23,7 +23,6 @@
 
 #include <q3D/plugins/plugin_dialog.h>
 #include <q3D/plugins/plugins.h>
-#include <q3D/plugins/plugin_action.h>
 #include <q3D/plugins/interfaces.h>
 
 #include <q3D/gui/gl_area.h>
@@ -198,32 +197,10 @@ void CGlWindow::populateMenus(){
             foreach (auto p, plugin_collection->plugins()) {
                 PluginActionInterface *iTool = qobject_cast<PluginActionInterface *>(p);
                 if (iTool){
-                    addToolsMenu( iTool );
+                   ui_.menuTools->addMenu(iTool->tools());
                 }
             }
         }
-    }
-}
-
-void CGlWindow::addToolsMenu( PluginActionInterface* iTool ){
-    foreach( QString action_name, iTool->tools() ){
-        PluginAction* plugin_action = iTool->action( action_name );
-        QAction* q_action = new QAction(action_name, plugin_action);
-        connect( q_action, SIGNAL(triggered()), this, SLOT(pluginActionTriggered() ) );
-        ui_.menuTools->addAction(q_action);
-    }
-}
-
-
-void CGlWindow::pluginActionTriggered(){
-    QAction *action = qobject_cast<QAction *>(sender());
-    PluginAction *p_action =
-                qobject_cast<PluginAction *>(action->parent());
-    if (nullptr != p_action){
-        p_action->execute( data_ );
-    }
-    else {
-     qDebug() << "no PluginAction defined with menu entry";
     }
 }
 

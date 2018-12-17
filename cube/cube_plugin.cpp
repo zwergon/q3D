@@ -1,6 +1,9 @@
 #include "cube_plugin.h"
 
+#include <QDebug>
+
 #include <q3D/cube/fda_cube_driver.h>
+#include <q3D/cube/cube_load_mongo_dlg.h>
 
 namespace Q3D {
 
@@ -40,12 +43,16 @@ CubePluginAction::CubePluginAction(QObject *parent) : QObject(parent)
 {
 }
 
-QStringList CubePluginAction::tools() const {
-    return {"Launch"};
+QMenu* CubePluginAction::tools() const {
+    QMenu* cubeMenu = new QMenu("Cube");
+    cubeMenu->addAction("load Mongo", this, &CubePluginAction::onCubeLoadMongo );
+
+    return cubeMenu;
 }
 
-PluginAction* CubePluginAction::action( const QString& key ){
-    return nullptr;
+void CubePluginAction::onCubeLoadMongo(){
+    CubeLoadMongoDlg dlg;
+    dlg.exec();
 }
 
 /**********************************************/
