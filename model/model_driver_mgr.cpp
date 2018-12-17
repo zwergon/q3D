@@ -20,7 +20,7 @@
 
 namespace Q3D {
 
-ModelDriverManager* ModelDriverManager::instance_ = 0;
+ModelDriverManager* ModelDriverManager::instance_ = nullptr;
 
 ModelDriverManager*
 ModelDriverManager::instance()
@@ -38,7 +38,7 @@ ModelDriver*
 ModelDriverManager::getDriver( int idriver )
 {
 	if( idriver < 0 || idriver >= (int)drivers_.size() )
-		return 0;
+        return nullptr;
 	else
 		return drivers_[idriver];
 }
@@ -54,7 +54,7 @@ ModelDriverManager::getDriverByName( const QString& name ){
 				return driver;
 			}
 	}
-	return 0;
+    return nullptr;
 }
 
 void 

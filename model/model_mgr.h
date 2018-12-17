@@ -15,6 +15,9 @@ class MODELSHARED_EXPORT ModelManager : public QObject
 {
      Q_OBJECT
 public:
+    static ModelManager*  instance();
+
+public:
     const QList<Model*>& models() const;
 
     Model* loadModel( const ModelOpenInfo&  );
@@ -26,6 +29,7 @@ signals:
 
 private:
     QList<Model*> models_;
+    static ModelManager* instance_;
 };
 
 inline const QList<Model*>& ModelManager::models() const {

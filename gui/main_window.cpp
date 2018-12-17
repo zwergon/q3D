@@ -164,17 +164,17 @@ CTreeViewItem* ModelTreeViewItem::defaultRenderer() {
 
 /*********************************************************/
 
-CGlWindow::CGlWindow( ModelManager* data, QWidget *parent )
-: QMainWindow( parent ),
-  data_( data )
+CGlWindow::CGlWindow(QWidget *parent)
+: QMainWindow( parent )
 {
 
 	ui_.setupUi( this );
 
     gl_area_ = ui_.gl_area_;
 
-    connect( data_, SIGNAL(modelAdded(Model*)), this, SLOT( modelAddedSlot(Model*) ) );
-    connect( data_, SIGNAL(modelRemoved(Model*)), this, SLOT( modelRemovedSlot(Model*) ) );
+    ModelManager* model_mgr = ModelManager::instance();
+    connect( model_mgr, &ModelManager::modelAdded, this, &CGlWindow::modelAddedSlot );
+    connect( model_mgr, &ModelManager::modelRemoved, this, &CGlWindow::modelRemovedSlot );
 
     populateMenus();
 
@@ -210,8 +210,9 @@ CGlWindow::on_actionOpen_triggered()
     QString filename = QFileDialog::getOpenFileName(this,
 		tr("Open Topo"), QDir::currentPath(), tr("all topo files (*.*)") );
     if ( !filename.isEmpty() ) {
+        ModelManager* model_mgr = ModelManager::instance();
         FileModelOpenInfo fmoi(filename);
-        data_->loadModel( fmoi );
+        model_mgr->loadModel( fmoi );
 	}
 }
 
@@ -232,8 +233,6 @@ void CGlWindow::modelAddedSlot( Model* pmodel ){
        if ( nullptr != renderer_item ){
             renderer_item->setCheckState(0, Qt::Checked);
        }
-
-
     }
 }
 
@@ -257,7 +256,6 @@ CGlWindow::modelRemovedSlot( Model* model ){
             delete model_item;
         }
     }
-
 }
 
 void 
@@ -285,7 +283,8 @@ CGlWindow::menuSelection( QAction* action ){
 
     Model* model = action->data().value<Model*>();
     if ( action->text() == "Delete" ){
-        data_->removeModel( model );
+        ModelManager* model_mgr = ModelManager::instance();
+        model_mgr->removeModel( model );
     }
     else if ( action->text() == "Save" ){
         QString filename = QFileDialog::getSaveFileName(this, tr("Save Topo"), QDir::currentPath(), "*.gmsh" );

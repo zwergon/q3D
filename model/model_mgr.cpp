@@ -6,6 +6,18 @@
 
 namespace Q3D {
 
+
+ModelManager* ModelManager::instance_ = nullptr;
+
+ModelManager*
+ModelManager::instance()
+{
+    if ( nullptr == instance_ ){
+        instance_ = new ModelManager();
+    }
+    return instance_;
+}
+
 Model* ModelManager::loadModel( const ModelOpenInfo& moi ){
     Model* pmodel = nullptr;
     ModelDriver* pdriver = nullptr;
@@ -28,7 +40,7 @@ Model* ModelManager::loadModel( const ModelOpenInfo& moi ){
         }
     }
 
-    return 0;
+    return nullptr;
 }
 
 

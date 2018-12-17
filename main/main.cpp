@@ -60,9 +60,8 @@ int main(int argc, char **argv)
 
     }
 		
-    ModelManager data;
-    CGlWindow w(&data);
 
+    CGlWindow w;
 	w.resize( 550, 350 );
 	w.show();
 	return a.exec();

@@ -37,7 +37,7 @@ class GUISHARED_EXPORT CGlWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    CGlWindow( ModelManager* data, QWidget* parent = 0 );
+    explicit CGlWindow( QWidget* parent = nullptr );
 
 	CGlArea* glArea() const;
 	QTreeWidget* treeWidget() const;
@@ -59,7 +59,6 @@ private:
 
 private:
     CGlArea*       gl_area_;
-    ModelManager*    data_;
 	Ui::MainWindow ui_;
 
 };
