@@ -6,10 +6,10 @@
 
 namespace Q3D {
 
-Plugins* Plugins::instance_ = 0;
+Plugins* Plugins::instance_ = nullptr;
 
 Plugins* Plugins::instance() {
-    if ( instance_ == 0 ){
+    if ( instance_ == nullptr ){
         instance_ = new Plugins;
     }
 

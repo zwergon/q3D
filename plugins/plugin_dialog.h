@@ -5,8 +5,11 @@
 
 #include <QDialog>
 #include <QIcon>
+#include <QTreeWidgetItem>>
 
-#include "ui_plugin_dialog.h"
+namespace Ui {
+ class PluginDialogBase;
+}
 
 namespace Q3D {
 
@@ -29,7 +32,7 @@ private:
             const char *interfaceName,
             const QStringList &features );
 
-    Ui::PluginDialogBase ui_;
+    Ui::PluginDialogBase* ui_;
     QIcon interface_icon_;
     QIcon feature_icon_;
 };

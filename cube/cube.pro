@@ -9,23 +9,11 @@ TEMPLATE = lib
 
 DEFINES += CUBE_LIBRARY
 
-# The following define makes your compiler emit warnings if you use
-# any feature of Qt which has been marked as deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
-# deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
+LIBS += -lmodel -lplugins
 
-DESTDIR = $${Q3D_DIR}/libs
-
-LIBS += -L$${Q3D_DIR}/libs -lmodel -lplugins
 win32 {
     LIBS += -lopengl32 -lgdi32
 }
-
-# You can also make your code fail to compile if you use deprecated APIs.
-# In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
     cube.cpp \
@@ -36,8 +24,8 @@ SOURCES += \
     slicer.cpp \
     cube_renderer_attribute.cpp \
     cube_renderer_attribute_dlg.cpp \
-    cube_api.cpp \
-    cube_load_mongo_dlg.cpp
+    cube_api.cpp
+
 
 HEADERS += \
     cube.h \
@@ -49,8 +37,34 @@ HEADERS += \
     slicer.h \
     cube_renderer_attribute.h \
     cube_renderer_attribute_dlg.h \
-    cube_api.h \
-    cube_load_mongo_dlg.h
+    cube_api.h
+
+FORMS += \
+    cube_renderer_attribute_dlg.ui
+
+CONFIG(mongo){
+    DEFINES += WITH_MONGO
+
+    INCLUDEPATH += \
+        $${MONGO_DIR}/include/libbson-1.0 \
+        $${MONGO_DIR}/include/libmongoc-1.0
+
+    DEPENDPATH += \
+        $${MONGO_DIR}/include/libbson-1.0 \
+        $${MONGO_DIR}/include/libmongoc-1.0
+
+    unix:!macx|win32 {
+        LIBS += -L$${MONGO_DIR}/lib/ -lbson-1.0 -lmongoc-1.0
+    }
+
+    HEADERS += \
+        cube_load_mongo_dlg.h \
+        mongo_cube_driver.h
+    SOURCES += mongo_cube_driver.cpp \
+            cube_load_mongo_dlg.cpp
+    FORMS += cube_load_mongo_dlg.ui
+}
+
 
 unix {
     target.path = /usr/lib
@@ -60,5 +74,3 @@ unix {
 DISTFILES += \
     cubeplugin.json
 
-FORMS += \
-    cube_renderer_attribute_dlg.ui

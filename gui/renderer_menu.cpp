@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QDialog>
 
+#include <q3D/model/model.h>
 #include <q3D/model/colormap.h>
 #include <q3D/gui/main_window.h>
 #include <q3D/gui/colormap_dlg.h>

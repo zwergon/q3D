@@ -16,17 +16,15 @@
 #include <QLineEdit>
 
 #include "level_dlg.h"
+#include "ui_level_dlg.h"
 
 namespace Q3D {
 
 CLevelDlg::CLevelDlg(QWidget* parent) 
-  : QDialog(parent)
+  : QDialog(parent),
+    ui_(new Ui::CLevelDlgUI)
 {
-	ui_.setupUi( this );
-}
-
-CLevelDlg::~CLevelDlg()
-{
+    ui_->setupUi( this );
 }
 
 void
@@ -35,18 +33,18 @@ CLevelDlg::setMinMax( const Point3d& min, const Point3d& max )
   mMin = min[2];
   mMax = max[2];
   
-  ui_.mpZMinLabel->setText( QString("Zmin : %1").arg(mMin) );
-  ui_.mpZMaxLabel->setText( QString("Zmax : %1").arg(mMax) );
+  ui_->mpZMinLabel->setText( QString("Zmin : %1").arg(mMin) );
+  ui_->mpZMaxLabel->setText( QString("Zmax : %1").arg(mMax) );
   
   mLevel = (mMin + mMax) /2.;
   
-  ui_.mpIsoLevelLineEdit->setText( QString("%1").arg(mLevel) );
+  ui_->mpIsoLevelLineEdit->setText( QString("%1").arg(mLevel) );
 }
 
 void
 CLevelDlg::applySlot()
 {
-  emit levelChanged(  ui_.mpIsoLevelLineEdit->text().toFloat() );
+  emit levelChanged(  ui_->mpIsoLevelLineEdit->text().toFloat() );
 }
 
 }

@@ -6,14 +6,11 @@ DEFINES += DRIVERS_LIBRARY
 
 QT += opengl
 
+LIBS += -lmodel -lplugins -lgui -lmesh  -lfilters
 
 win32 {
     LIBS += -lopengl32
 }
-
-DESTDIR = $${Q3D_DIR}/libs
-
-LIBS += -L$${Q3D_DIR}/libs -lmodel -lmesh -lfilters -lgui -lplugins
 
 # Input
 HEADERS += \

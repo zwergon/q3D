@@ -10,6 +10,8 @@
  *
  * $Id: main_window.cpp 7 2008-08-01 13:07:36Z lecomtje $
  */
+#include "main_window.h"
+#include "ui_main_window.h"
 
 #include <QString>
 #include <QLayout>
@@ -26,7 +28,7 @@
 #include <q3D/plugins/interfaces.h>
 
 #include <q3D/gui/gl_area.h>
-#include <q3D/gui/main_window.h>
+
 #include <q3D/gui/renderer_menu.h>
 #include <q3D/gui/camera_tool.h>
 
@@ -165,12 +167,13 @@ CTreeViewItem* ModelTreeViewItem::defaultRenderer() {
 /*********************************************************/
 
 CGlWindow::CGlWindow(QWidget *parent)
-: QMainWindow( parent )
+: QMainWindow( parent ),
+  ui_(new Ui::MainWindow)
 {
 
-	ui_.setupUi( this );
+    ui_->setupUi( this );
 
-    gl_area_ = ui_.gl_area_;
+    gl_area_ = ui_->gl_area_;
 
     ModelManager* model_mgr = ModelManager::instance();
     connect( model_mgr, &ModelManager::modelAdded, this, &CGlWindow::modelAddedSlot );
@@ -184,9 +187,11 @@ CGlWindow::CGlWindow(QWidget *parent)
 
 }
 
-
+QTreeWidget* CGlWindow::treeWidget() const {
+    return ui_->mpCoreTreeView;
+}
 void CGlWindow::populateMenus(){
-    ui_.menuTools->clear();
+    ui_->menuTools->clear();
     QStringList fileNames = Plugins::instance()->get_plugins();
     foreach (QString fileName, fileNames) {
         QPluginLoader loader(fileName);
@@ -197,7 +202,7 @@ void CGlWindow::populateMenus(){
             foreach (auto p, plugin_collection->plugins()) {
                 PluginActionInterface *iTool = qobject_cast<PluginActionInterface *>(p);
                 if (iTool){
-                   ui_.menuTools->addMenu(iTool->tools());
+                   ui_->menuTools->addMenu(iTool->tools());
                 }
             }
         }
@@ -228,7 +233,7 @@ void CGlWindow::modelAddedSlot( Model* pmodel ){
         connect( pmodel, SIGNAL( modelUpdated(Model*)),
                  gl_area_, SLOT( update( Model* ) ) ) ;
 
-       ModelTreeViewItem* model_item = new ModelTreeViewItem( pmodel, ui_.mpCoreTreeView );
+       ModelTreeViewItem* model_item = new ModelTreeViewItem( pmodel, ui_->mpCoreTreeView );
        CTreeViewItem* renderer_item = model_item->defaultRenderer();
        if ( nullptr != renderer_item ){
             renderer_item->setCheckState(0, Qt::Checked);
@@ -240,8 +245,8 @@ void CGlWindow::modelAddedSlot( Model* pmodel ){
 void
 CGlWindow::modelRemovedSlot( Model* model ){
 
-    for( int i = 0; i<ui_.mpCoreTreeView->topLevelItemCount(); i++ ){
-        ModelTreeViewItem* model_item = dynamic_cast<ModelTreeViewItem*>( ui_.mpCoreTreeView->topLevelItem( i ) );
+    for( int i = 0; i<ui_->mpCoreTreeView->topLevelItemCount(); i++ ){
+        ModelTreeViewItem* model_item = dynamic_cast<ModelTreeViewItem*>( ui_->mpCoreTreeView->topLevelItem( i ) );
         if ( nullptr == model_item ){
             continue;
         }
@@ -300,7 +305,7 @@ void
 CGlWindow::handleContextMenuRequest( QPoint point ){
 
     //contextual menu for renderer
-    ModelRendererTreeViewItem* renderer_item = dynamic_cast<ModelRendererTreeViewItem*>( ui_.mpCoreTreeView->itemAt( point ) );
+    ModelRendererTreeViewItem* renderer_item = dynamic_cast<ModelRendererTreeViewItem*>( ui_->mpCoreTreeView->itemAt( point ) );
     if ( nullptr != renderer_item ){
         QMenu menu(this);
         RendererMenu::create( &menu, this, renderer_item->renderer() );
@@ -309,7 +314,7 @@ CGlWindow::handleContextMenuRequest( QPoint point ){
     }
 
     //contextual menu for model
-    ModelTreeViewItem* model_item = dynamic_cast<ModelTreeViewItem*>( ui_.mpCoreTreeView->itemAt( point ) );
+    ModelTreeViewItem* model_item = dynamic_cast<ModelTreeViewItem*>( ui_->mpCoreTreeView->itemAt( point ) );
     if ( nullptr != model_item ){
         QMenu menu(this);
 

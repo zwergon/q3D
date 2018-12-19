@@ -42,7 +42,9 @@ class CubePluginCollection : public QObject, public PluginCollectionInterface {
 public:
     explicit CubePluginCollection(QObject* parent = nullptr);
 
-    virtual QList<QObject*> plugins();
+    virtual QList<QObject*> plugins() override;
+    virtual void start() override;
+    virtual void end() override;
 };
 
 }

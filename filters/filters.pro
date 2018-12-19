@@ -8,9 +8,7 @@ TEMPLATE = lib
 
 DEFINES += FILTERS_LIBRARY
 
-DESTDIR= $${Q3D_DIR}/libs
-
-LIBS += -L$${Q3D_DIR}/libs -lmesh
+LIBS += -lmesh
 
 SOURCES += \
     gmsh_mesh_importer.cpp \

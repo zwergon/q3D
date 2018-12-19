@@ -1,4 +1,5 @@
 #include "plugin_dialog.h"
+#include "ui_plugin_dialog.h"
 
 #include <q3D/plugins/interfaces.h>
 #include <q3D/plugins/plugins.h>
@@ -18,12 +19,13 @@
 namespace Q3D {
 
 PluginsDialog::PluginsDialog( QWidget *parent ) :
-    QDialog(parent)
+    QDialog(parent),
+    ui_(new Ui::PluginDialogBase)
 {
-    ui_.setupUi(this);
-    ui_.tree_widget_->setAlternatingRowColors(false);
-    ui_.tree_widget_->setColumnCount(1);
-    ui_.tree_widget_->header()->hide();
+    ui_->setupUi(this);
+    ui_->tree_widget_->setAlternatingRowColors(false);
+    ui_->tree_widget_->setColumnCount(1);
+    ui_->tree_widget_->header()->hide();
 
     interface_icon_.addPixmap(style()->standardPixmap(QStyle::SP_DirOpenIcon),
                               QIcon::Normal, QIcon::On);
@@ -37,8 +39,8 @@ PluginsDialog::PluginsDialog( QWidget *parent ) :
 
 void PluginsDialog::findPlugins()
 {
-    ui_.tree_widget_->clear();
-    ui_.label_->setText(tr("Q3D found the following plugins\n"));
+    ui_->tree_widget_->clear();
+    ui_->label_->setText(tr("Q3D found the following plugins\n"));
 
     QStringList fileNames = Plugins::instance()->get_plugins();
 
@@ -52,9 +54,9 @@ void PluginsDialog::findPlugins()
 
 void PluginsDialog::populateTreeWidget( QObject *plugin, const QString &text )
 {
-    QTreeWidgetItem *pluginItem = new QTreeWidgetItem(ui_.tree_widget_);
+    QTreeWidgetItem *pluginItem = new QTreeWidgetItem(ui_->tree_widget_);
     pluginItem->setText(0, text);
-    ui_.tree_widget_->setItemExpanded(pluginItem, true);
+    ui_->tree_widget_->setItemExpanded(pluginItem, true);
 
     QFont boldFont = pluginItem->font(0);
     boldFont.setBold(true);
@@ -119,7 +121,7 @@ void PluginsDialog::on_add_button__clicked(){
 }
 
 void PluginsDialog::on_remove_button__clicked(){
-    QListIterator<QTreeWidgetItem*> itw( ui_.tree_widget_->selectedItems() );
+    QListIterator<QTreeWidgetItem*> itw( ui_->tree_widget_->selectedItems() );
     while( itw.hasNext() ){
         QFileInfo finfo( itw.next()->text(0) );
         if ( finfo.exists() ){

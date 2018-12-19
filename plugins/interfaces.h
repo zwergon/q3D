@@ -32,7 +32,9 @@ class PLUGINSSHARED_EXPORT PluginCollectionInterface {
 public:
     virtual ~PluginCollectionInterface(){}
 
+    virtual void start() {}
     virtual QList<QObject*> plugins() = 0;
+    virtual void end(){}
 };
 
 }

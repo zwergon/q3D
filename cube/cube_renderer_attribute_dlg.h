@@ -24,7 +24,7 @@ class CubeRendererAttributeDlg :
 public:
     explicit CubeRendererAttributeDlg(
             CubeRendererAttribute* renderer_attribute,
-            QWidget *parent = 0);
+            QWidget* parent = nullptr);
     ~CubeRendererAttributeDlg();
 
     CubeRendererAttribute* getCubeAttribute() const;

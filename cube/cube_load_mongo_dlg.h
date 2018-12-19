@@ -5,12 +5,19 @@
 
 #include <QDialog>
 
+namespace Ui {
+class CubeLoadMongoDlg;
+}
+
 namespace Q3D {
 
 class CubeLoadMongoDlg : public QDialog
 {
 public:
-    CubeLoadMongoDlg();
+    CubeLoadMongoDlg(QWidget* parent = nullptr);
+
+private:
+    Ui::CubeLoadMongoDlg* ui_;
 };
 
 }

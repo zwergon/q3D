@@ -21,7 +21,9 @@
 #include <QMainWindow>
 #include <QTreeWidgetItem>
 
-#include <q3D/ui/ui_main_window.h>
+namespace Ui {
+    class MainWindow;
+}
 
 namespace Q3D {
 
@@ -59,7 +61,7 @@ private:
 
 private:
     CGlArea*       gl_area_;
-	Ui::MainWindow ui_;
+    Ui::MainWindow* ui_;
 
 };
 
@@ -67,9 +69,7 @@ inline CGlArea* CGlWindow::glArea() const {
 	return gl_area_;
 }
 
-inline QTreeWidget* CGlWindow::treeWidget() const {
-	return ui_.mpCoreTreeView;
-}
+
 
 
 }

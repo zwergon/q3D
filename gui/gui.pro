@@ -1,7 +1,5 @@
 
-! include( ../q3d.pri ) {
-    error( "Couldn't find the q3d.pri file!" )
-}
+include( ../q3d.pri )
 
 TEMPLATE = lib
 
@@ -9,13 +7,11 @@ DEFINES += GUI_LIBRARY
 
 QT += opengl
 
+LIBS += -lmodel -lplugins
+
 win32 {
     LIBS += -lopengl32
 }
-
-DESTDIR= $${Q3D_DIR}/libs
-
-LIBS += -L$${Q3D_DIR}/libs -lmodel -lplugins
 
 # Input
 FORMS += main_window.ui \
@@ -23,8 +19,8 @@ FORMS += main_window.ui \
     colormap_dlg.ui
 
 HEADERS +=\
-           gl_area.h \
-           main_window.h \
+    gl_area.h \
+    main_window.h \
     view_control.h \
     level_dlg.h \
     color_ramp.h \
@@ -37,8 +33,8 @@ HEADERS +=\
     camera_tool.h
 
 SOURCES += \
-           gl_area.cpp \
-           main_window.cpp \
+    gl_area.cpp \
+    main_window.cpp \
     view_control.cpp \
     level_dlg.cpp \
     color_ramp.cpp \

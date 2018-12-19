@@ -5,9 +5,9 @@
  *      Author: lecomtje
  */
 
-#include <filters/gmsh_mesh_importer.h>
+#include <q3D/filters/gmsh_mesh_importer.h>
 
-#include <mesh/cells.h>
+#include <q3D/mesh/cells.h>
 #include <QtCore/QStringList>
 #include <QtCore/QDebug>
 

@@ -20,7 +20,9 @@
 
 #include <q3D/model/model.h>
 
-#include <q3D/ui/ui_level_dlg.h>
+namespace Ui {
+ class CLevelDlgUI;
+}
 
 namespace Q3D {
 
@@ -30,7 +32,6 @@ class GUISHARED_EXPORT CLevelDlg :  public QDialog
     
 public:
     CLevelDlg( QWidget* parent );
-    ~CLevelDlg();
 
     void setMinMax( const Point3d& min, const Point3d& max );
 
@@ -45,7 +46,7 @@ protected:
     double mMax;
     double mLevel;
 
-    Ui_CLevelDlgUI ui_;
+    Ui::CLevelDlgUI* ui_;
 
 };
 }

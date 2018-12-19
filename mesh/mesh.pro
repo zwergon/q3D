@@ -1,14 +1,10 @@
-! include( ../q3d.pri ) {
-    error( "Couldn't find the q3d.pri file!" )
-}
+include( ../q3d.pri )
 
 TEMPLATE = lib
 
 DEFINES += MESH_LIBRARY
 
 QT       -= gui
-
-DESTDIR= $${Q3D_DIR}/libs
 
 # Input
 HEADERS += \

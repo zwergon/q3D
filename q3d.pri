@@ -1,14 +1,16 @@
 
-
 CONFIG += warn_on windows
 
 Q3D_DIR=$$dirname(_PRO_FILE_)/..
 
-INCLUDEPATH += . .. $${Q3D_DIR}/..
+CONFIG += mongo
+MONGO_DIR=D:/lecomtje/Utils/mongo-c/x64
 
-UI_DIR=$${Q3D_DIR}/ui
+INCLUDEPATH += $${Q3D_DIR}/..
 
-DEPENDPATH += $${Q3D_DIR}/libs
+DESTDIR=$${Q3D_DIR}/lib
+LIBS += -L$${DESTDIR}
+
 
 #QMAKE_CXXFLAGS += -Wno-enum-compare -Wno-unused-local-typedefs -Wno-sign-conversion
 

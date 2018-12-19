@@ -5,7 +5,7 @@
  *      Author: lecomtje
  */
 
-#include <filters/mesh_importer.h>
+#include <q3D/filters/mesh_importer.h>
 
 #include <QtCore/QDebug>
 #include <QtCore/QTextStream>
@@ -13,7 +13,6 @@
 
 #include <q3D/mesh/region.h>
 #include <q3D/mesh/region_db.h>
-
 #include <q3D/model/matrix.h>
 
 

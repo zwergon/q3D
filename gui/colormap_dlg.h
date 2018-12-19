@@ -19,7 +19,9 @@
 #include <q3D/gui/gui_global.h>
 #include <q3D/model/colormap.h>
 
-#include <q3D/ui/ui_colormap_dlg.h>
+namespace Ui {
+    class ColormapUI;
+}
 
 namespace Q3D {
 
@@ -63,7 +65,7 @@ private:
     ColorMap  cmap_ ;
 
 
-    Ui::ColormapUI ui_;
+    Ui::ColormapUI* ui_;
 
 };
 

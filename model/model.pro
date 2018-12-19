@@ -1,6 +1,5 @@
 include( ../q3d.pri )
 
-
 TEMPLATE = lib
 
 CONFIG += shared 
@@ -14,15 +13,14 @@ win32 {
 
 DEFINES += MODEL_LIBRARY
 
-DESTDIR= $${Q3D_DIR}/libs
-
 # Input
-HEADERS += factory.hpp \
-           model_scope.h \
-           model.h \
-           model_driver.h \
-           model_driver_mgr.h \
-           model_open_info.h \
+HEADERS += \
+    factory.hpp \
+    model_scope.h \
+    model.h \
+    model_driver.h \
+    model_driver_mgr.h \
+    model_open_info.h \
     renderer.h \
     gl_data.h \
     colormap.h \
@@ -32,9 +30,10 @@ HEADERS += factory.hpp \
     point3d.h \
     model_mgr.h
 
-SOURCES += model.cpp \
-           model_driver.cpp \
-           model_driver_mgr.cpp \
+SOURCES += \
+    model.cpp \
+    model_driver.cpp \
+    model_driver_mgr.cpp \
     renderer.cpp \
     gl_data.cpp \
     colormap.cpp \

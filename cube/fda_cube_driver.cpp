@@ -31,14 +31,14 @@ Model* FdaCubeDriver::open(const ModelOpenInfo& openInfo )
     QFileInfo fi(fileName);
     if ( !fi.exists() || (fi.suffix() != "fda")){
         qDebug() << description() << " is not the good driver\n";
-        return 0;
+        return nullptr;
     }
 
     QFile file( fileName );
     if (!file.open(QIODevice::ReadOnly))
     {
         qCritical() << "unable to open " << fileName << endl ;
-        return  0;
+        return  nullptr;
     }
 
     QDataStream stream(&file);
@@ -58,7 +58,7 @@ Model* FdaCubeDriver::open(const ModelOpenInfo& openInfo )
     sharedMemory.create(size);
 
     sharedMemory.lock();
-    quint8* buffer = (quint8*)sharedMemory.data();
+    quint8* buffer = static_cast<quint8*>(sharedMemory.data());
     for( int i=0; i<size; i++ ){
         stream >> buffer[i];
     }
