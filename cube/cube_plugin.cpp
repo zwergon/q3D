@@ -7,6 +7,7 @@
 #ifdef WITH_MONGO
 #include <mongoc/mongoc.h>
 #include <q3D/cube/cube_load_mongo_dlg.h>
+#include <q3D/cube/mongo_cube_driver.h>
 #endif
 
 namespace Q3D {
@@ -15,7 +16,10 @@ namespace Q3D {
 
 CubePlugin::CubePlugin()
 {
-    drivers_.append( new FdaCubeDriver );
+    drivers_.append(new FdaCubeDriver);
+#ifdef WITH_MONGO
+    drivers_.append(new MongoCubeDriver);
+#endif
 }
 
 QStringList CubePlugin::drivers() const{
