@@ -215,8 +215,6 @@ void CubeLoadMongoDlg::on_numero_selection_changed(const QString& numero_str){
     if ( !series.isEmpty() ){
         on_serie_selection_changed(QString::number(series.at(0)));
     }
-
-
 }
 
 void CubeLoadMongoDlg::on_serie_selection_changed(const QString& ) {

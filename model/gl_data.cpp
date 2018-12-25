@@ -13,16 +13,21 @@
 
 #include "gl_data.h"
 
+#include <QWidget>
+#include <QPalette>
+
 namespace Q3D {
 
 GLData* GLData::instance_ = 0;
 
 GLData::GLData()
 {
-  mCouleurAP[0] = 0.8 ;
-  mCouleurAP[1] = 0.8 ;
-  mCouleurAP[2] = 0.8 ;
-  mCouleurAP[3] = 1.0 ;
+
+  QColor color = qApp->palette().color(QPalette::Background);
+  mCouleurAP[0] = color.redF() ;
+  mCouleurAP[1] = color.greenF() ;
+  mCouleurAP[2] = color.blueF() ;
+  mCouleurAP[3] = color.alphaF() ;
 
   ambient_light_[0] = 1.;
   ambient_light_[1] = 1.;

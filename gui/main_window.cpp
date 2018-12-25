@@ -25,7 +25,8 @@
 
 #include <q3D/plugins/plugin_dialog.h>
 #include <q3D/plugins/plugins.h>
-#include <q3D/plugins/interfaces.h>
+#include <q3D/plugins/plugin_action.h>
+#include <q3D/plugins/plugin_collection.h>
 
 #include <q3D/gui/gl_area.h>
 
@@ -190,24 +191,31 @@ CGlWindow::CGlWindow(QWidget *parent)
 QTreeWidget* CGlWindow::treeWidget() const {
     return ui_->mpCoreTreeView;
 }
+
 void CGlWindow::populateMenus(){
-    ui_->menuTools->clear();
     QStringList fileNames = Plugins::instance()->get_plugins();
     foreach (QString fileName, fileNames) {
         QPluginLoader loader(fileName);
         QObject *plugin = loader.instance();
-        PluginCollectionInterface* plugin_collection =
-                qobject_cast<PluginCollectionInterface*>(plugin);
+        PluginCollection* plugin_collection =
+                qobject_cast<PluginCollection*>(plugin);
         if (plugin_collection != nullptr) {
-            foreach (auto p, plugin_collection->plugins()) {
-                PluginActionInterface *iTool = qobject_cast<PluginActionInterface *>(p);
-                if (iTool){
-                   ui_->menuTools->addMenu(iTool->tools());
+
+            ActionInterface* pai = plugin_collection->getActionPlugin();
+            if ( pai != nullptr ){
+                foreach( auto a, pai->getActions()){
+                    qDebug() << "load " << a->getDescription();
+                    PluginIOAction* io_action = qobject_cast<PluginIOAction*>(a);
+                    if ( io_action != nullptr ){
+                        ui_->fileToolBar->addAction(io_action->getAction());
+                    }
                 }
             }
+
         }
     }
 }
+
 
 void
 CGlWindow::on_actionOpen_triggered()

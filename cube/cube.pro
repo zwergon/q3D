@@ -59,9 +59,13 @@ CONFIG(mongo){
 
     HEADERS += \
         cube_load_mongo_dlg.h \
-        mongo_cube_driver.h
+        mongo_cube_driver.h\
+        mongo_load_action.h
+
     SOURCES += mongo_cube_driver.cpp \
-            cube_load_mongo_dlg.cpp
+            cube_load_mongo_dlg.cpp \
+            mongo_load_action.cpp
+
     FORMS += cube_load_mongo_dlg.ui
 }
 
@@ -72,5 +76,9 @@ unix {
 }
 
 DISTFILES += \
-    cubeplugin.json
+    cubeplugin.json \
+    mongodb.png
+
+RESOURCES += \
+    cube_icons.qrc
 

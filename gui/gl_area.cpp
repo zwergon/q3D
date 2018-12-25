@@ -75,9 +75,6 @@ CGlArea::initializeGL()
     glDepthFunc(GL_LEQUAL);	            // The Type Of Depth Testing To Do
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
 
-
-
-
 }
 
 /*!
@@ -164,7 +161,6 @@ void CGlArea::paintGL()
         if (glIsList(model_renderer->glList())){
             glCallList(model_renderer->glList());
         }
-
     }
 }
 

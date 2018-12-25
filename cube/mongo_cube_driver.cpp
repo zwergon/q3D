@@ -9,7 +9,8 @@
 
 namespace Q3D {
 
-QString MongoCubeOpenInfo::URI("mongodb://IRPCF328421/");
+//QString MongoCubeOpenInfo::URI("mongodb://IRPCF328421/");
+QString MongoCubeOpenInfo::URI("mongodb://localhost/");
 QString MongoCubeOpenInfo::DATABASE("tim8");
 
 MongoCubeOpenInfo::MongoCubeOpenInfo(

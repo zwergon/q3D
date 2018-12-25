@@ -30,7 +30,7 @@ namespace Q3D {
 class CGlArea;
 class Model;
 class ModelRenderer;
-class PluginActionInterface;
+class ActionInterface;
 class ModelManager;
 
 

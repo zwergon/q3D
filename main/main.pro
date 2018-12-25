@@ -13,3 +13,4 @@ LIBS +=  -lmodel -lplugins -lgui
 TARGET = main
 
 SOURCES += main.cpp
+

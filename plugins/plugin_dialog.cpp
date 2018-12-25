@@ -1,8 +1,9 @@
 #include "plugin_dialog.h"
 #include "ui_plugin_dialog.h"
 
-#include <q3D/plugins/interfaces.h>
+#include <q3D/plugins/plugin_collection.h>
 #include <q3D/plugins/plugins.h>
+#include <q3D/plugins/plugin_action.h>
 
 #include <QPluginLoader>
 #include <QStringList>
@@ -62,25 +63,28 @@ void PluginsDialog::populateTreeWidget( QObject *plugin, const QString &text )
     boldFont.setBold(true);
     pluginItem->setFont(0, boldFont);
 
-    PluginCollectionInterface* plugin_collection =
-            qobject_cast<PluginCollectionInterface*>(plugin);
+    PluginCollection* plugin_collection =
+            qobject_cast<PluginCollection*>(plugin);
 
     if (plugin_collection != nullptr) {
-        foreach (auto p, plugin_collection->plugins()) {
-            PluginActionInterface *iTool = qobject_cast<PluginActionInterface *>(p);
-            if (iTool != nullptr){
-                QMenu* toolMenu = iTool->tools();
-                QStringList entry = {toolMenu->title()};
-                addItems(pluginItem, "Actions", entry);
+
+        ActionInterface *iTool = plugin_collection->getActionPlugin();
+        if ( iTool != nullptr ){
+            QStringList entry;
+            foreach( auto a, iTool->getActions()){
+                entry.append(a->getDescription());
             }
-            DriverInterface* iDriver = qobject_cast<DriverInterface*>(p);
-            if (iDriver != nullptr){
-                addItems(pluginItem, "Drivers", iDriver->drivers() );
-            }
+            addItems(pluginItem, "Actions", entry);
         }
 
+        DriverInterface* iDriver = plugin_collection->getDriverPlugin();
+        if (iDriver != nullptr){
+            addItems(pluginItem, "Drivers", iDriver->drivers() );
+        }
     }
+
 }
+
 
 void PluginsDialog::addItems(QTreeWidgetItem *pluginItem,
                              const char *interfaceName,

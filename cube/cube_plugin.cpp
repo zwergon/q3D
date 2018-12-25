@@ -6,15 +6,15 @@
 
 #ifdef WITH_MONGO
 #include <mongoc/mongoc.h>
-#include <q3D/cube/cube_load_mongo_dlg.h>
 #include <q3D/cube/mongo_cube_driver.h>
+#include <q3D/cube/mongo_load_action.h>
 #endif
 
 namespace Q3D {
 
 /**********************************************/
 
-CubePlugin::CubePlugin()
+CubeDriverPlugin::CubeDriverPlugin(QObject* parent) : QObject(parent)
 {
     drivers_.append(new FdaCubeDriver);
 #ifdef WITH_MONGO
@@ -22,7 +22,7 @@ CubePlugin::CubePlugin()
 #endif
 }
 
-QStringList CubePlugin::drivers() const{
+QStringList CubeDriverPlugin::drivers() const{
     QStringList drivers;
     QListIterator<ModelDriver*> itd( drivers_ );
     while( itd.hasNext() ){
@@ -33,7 +33,7 @@ QStringList CubePlugin::drivers() const{
     return drivers;
 }
 
-ModelDriver* CubePlugin::driver( const QString& key ){
+ModelDriver* CubeDriverPlugin::driver( const QString& key ){
     QListIterator<ModelDriver*> itd( drivers_ );
     while( itd.hasNext() ){
         ModelDriver* driver = itd.next();
@@ -47,39 +47,30 @@ ModelDriver* CubePlugin::driver( const QString& key ){
 
 /**********************************************/
 
-CubePluginAction::CubePluginAction(QObject *parent) : QObject(parent)
+CubeActionPlugin::CubeActionPlugin(QObject *parent) : QObject(parent)
 {
 }
 
-QMenu* CubePluginAction::tools() const {
-    QMenu* cubeMenu = new QMenu("Cube");
+QList<PluginAction*> CubeActionPlugin::getActions() const {
+    QList<PluginAction*> actions;
 #ifdef WITH_MONGO
-    cubeMenu->addAction("load Mongo", this, &CubePluginAction::onCubeLoadMongo );
+    actions.append(new MongoLoadAction);
 #endif
-
-    return cubeMenu;
+    return actions;
 }
 
-void CubePluginAction::onCubeLoadMongo(){
-#ifdef WITH_MONGO
-    CubeLoadMongoDlg dlg;
-    dlg.exec();
-#endif
-}
 
 /**********************************************/
 
-CubePluginCollection::CubePluginCollection(QObject *parent) : QObject(parent){
+CubePluginCollection::CubePluginCollection(QObject *parent) : PluginCollection(parent){
+    driver_interface_ = new CubeDriverPlugin(this);
+    action_interface_ = new CubeActionPlugin(this);
 }
 
 void CubePluginCollection::start(){
 #ifdef WITH_MONGO
    mongoc_init();
 #endif
-}
-
-QList<QObject*> CubePluginCollection::plugins(){
-    return QList<QObject*>{ new CubePlugin, new CubePluginAction};
 }
 
 void CubePluginCollection::end(){
