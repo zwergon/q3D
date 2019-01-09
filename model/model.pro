@@ -28,7 +28,9 @@ HEADERS += \
     renderer_attribute_dialog.h \
     matrix.h \
     point3d.h \
-    model_mgr.h
+    model_mgr.h \
+    geometry.h \
+    picking.h
 
 SOURCES += \
     model.cpp \
@@ -39,5 +41,7 @@ SOURCES += \
     colormap.cpp \
     renderer_attribute.cpp \
     renderer_attribute_dialog.cpp \
-    model_mgr.cpp
+    model_mgr.cpp \
+    geometry.cpp \
+    picking.cpp
 

@@ -5,7 +5,7 @@
 
 #include <QDialog>
 #include <QIcon>
-#include <QTreeWidgetItem>>
+#include <QTreeWidgetItem>
 
 namespace Ui {
  class PluginDialogBase;

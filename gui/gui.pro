@@ -30,8 +30,9 @@ HEADERS +=\
     abstract_tool.h \
     gui_global.h \
     glu.h \
-    camera_tool.h
-
+    camera_tool.h \
+    tool_manager.h \
+    picking_tool.h
 SOURCES += \
     gl_area.cpp \
     main_window.cpp \
@@ -43,4 +44,6 @@ SOURCES += \
     renderer_menu.cpp \
     abstract_tool.cpp \
     glu.cpp \
-    camera_tool.cpp
+    camera_tool.cpp \
+    tool_manager.cpp \
+    picking_tool.cpp

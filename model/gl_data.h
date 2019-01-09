@@ -16,7 +16,11 @@
 
 #include <q3D/model/model_scope.h>
 
+#include <q3D/model/point3d.h>
+#include <q3D/model/picking.h>
+
 #include <QtOpenGL>
+#include <QSet>
 
 namespace Q3D {
 
@@ -30,19 +34,16 @@ class MODELSHARED_EXPORT GLData
   const GLfloat* specularLight() const { return specular_light_; }
   const GLfloat* positionLight() const { return position_light_; }
 
-  const GLbitfield&  masqueClear() const { return mMasqueClear; }
-  const GLfloat* backgroundColor() const { return mCouleurAP; }
+  const GLbitfield&  clearMask() const { return clear_mask_; }
+  const GLfloat* backgroundColor() const { return color_bg_; }
 
   void setPositionLight( GLfloat* light );
 
-
-
-
-  bool    withAxis() const { return mWithAxis; }
-  bool    withFill() const  { return mWithFill; }
-  bool    withLight() const { return mWithLight; }
-  bool    withProf() const { return mWithProf; }
-  bool    withSmooth() const { return mWithSmooth; }
+  bool    withAxis() const { return with_axis_; }
+  bool    withFill() const  { return with_fill_; }
+  bool    withLight() const { return with_light_; }
+  bool    withProf() const { return with_prof_; }
+  bool    withSmooth() const { return with_smooth_; }
 
   void    setWithAxis  ( const bool option );
   void    setWithFill  ( const bool option );
@@ -50,7 +51,6 @@ class MODELSHARED_EXPORT GLData
   void    setWithProf  ( const bool option );
   void    setWithSmooth( const bool option );
 
-  
  protected:
 
   /*Light parameters*/
@@ -59,13 +59,13 @@ class MODELSHARED_EXPORT GLData
   GLfloat      specular_light_[4];
   GLfloat      diffusion_light_[4];
 
-  bool                mWithAxis;
-  bool                mWithLight;
-  bool                mWithFill;
-  bool                mWithSmooth;
-  bool                mWithProf;
-  GLfloat             mCouleurAP[4]; /*background color*/
-  GLbitfield          mMasqueClear ;
+  bool                with_axis_;
+  bool                with_light_;
+  bool                with_fill_;
+  bool                with_smooth_;
+  bool                with_prof_;
+  GLfloat             color_bg_[4]; /*background color*/
+  GLbitfield          clear_mask_ ;
 
   static GLData* instance_;
   GLData();

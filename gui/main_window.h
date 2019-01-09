@@ -32,7 +32,7 @@ class Model;
 class ModelRenderer;
 class ActionInterface;
 class ModelManager;
-
+class ToolManager;
 
 class GUISHARED_EXPORT CGlWindow : public QMainWindow
 {
@@ -60,7 +60,8 @@ private:
     void populateMenus();
 
 private:
-    CGlArea*       gl_area_;
+    CGlArea* gl_area_;
+    ToolManager* tool_manager_;
     Ui::MainWindow* ui_;
 
 };

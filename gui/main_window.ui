@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>1000</width>
+    <height>800</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>800</width>
-    <height>600</height>
+    <width>1000</width>
+    <height>800</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,7 @@
   <property name="dockOptions">
    <set>QMainWindow::AllowTabbedDocks|QMainWindow::AnimatedDocks</set>
   </property>
-  <widget class="Q3D::CGlArea" name="gl_area_"/>
+  <widget class="QWidget" name="central_"/>
   <widget class="QStatusBar" name="statusbar"/>
   <widget class="QDockWidget" name="modelsDock">
    <property name="features">
@@ -38,6 +38,12 @@
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
       <widget class="QTreeWidget" name="mpCoreTreeView">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="contextMenuPolicy">
         <enum>Qt::CustomContextMenu</enum>
        </property>
@@ -81,8 +87,6 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
-   <addaction name="actionMoveTool"/>
-   <addaction name="actionPick"/>
   </widget>
   <action name="actionOpen">
    <property name="icon">
@@ -139,14 +143,6 @@
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>Q3D::CGlArea</class>
-   <extends>QWidget</extends>
-   <header location="global">q3D/gui/gl_area.h</header>
-   <container>1</container>
-  </customwidget>
- </customwidgets>
  <resources>
   <include location="../icons/icons.qrc"/>
  </resources>

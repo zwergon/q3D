@@ -22,10 +22,21 @@
 #include <q3D/model/renderer.h>
 
 #include <q3D/gui/camera_tool.h>
+#include <q3D/gui/tool_manager.h>
 
 
 namespace Q3D {
 
+
+QSize CGlArea::minimumSizeHint() const
+{
+    return QSize(50, 50);
+}
+
+QSize CGlArea::sizeHint() const
+{
+    return QSize(800, 800);
+}
 
 void
 CGlArea::init()
@@ -53,10 +64,6 @@ CGlArea::CGlArea( QWidget* parent )
 }
 
 CGlArea::~CGlArea(){
-    if ( nullptr != current_tool_ ){
-        current_tool_->deactivate();
-        delete current_tool_;
-    }
 }
 
 /*!
@@ -98,7 +105,7 @@ performed here.
 
 void CGlArea::paintGL()
 {
-    glClear( gl_machine_->masqueClear() );
+    glClear( gl_machine_->clearMask() );
 
     if (gl_machine_->withLight()){
         glEnable( GL_LIGHTING );
@@ -193,22 +200,24 @@ CGlArea::computeBoundingBox()
 }
 
 void
-CGlArea::setActiveTool(AbstractTool *tool){
+CGlArea::onToolSelected(AbstractTool *tool){
 
     qDebug() << "setActiveTool";
+
     if ( current_tool_ != nullptr ){
         current_tool_->deactivate();
-        delete current_tool_;
     }
 
     current_tool_ = tool;
     if ( nullptr != current_tool_ ){
+        current_tool_->setGlArea(this);
         current_tool_->activate();
+
     }
 }
 
 void 
-CGlArea::setGeometry()
+CGlArea::adjustBoundingBox()
 {
     computeBoundingBox();
 
@@ -346,7 +355,7 @@ CGlArea::addCoreRenderer(ModelRenderer *model_renderer)
     model_renderers_.insert(model_renderer);
     connect( model_renderer, SIGNAL(needRedraw(ModelRenderer*)),
              this, SLOT(updateGL()));
-    setGeometry();
+    adjustBoundingBox();
     buildAll();
     updateGL();
 }
@@ -437,6 +446,45 @@ CGlArea::update( Model* model ){
         updateGL();
     }
 }
+
+
+void
+CGlArea::doPickingAt(int x, int y, Pick& pick){
+
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+
+    GLdouble matModelView[16], matProjection[16];
+    glGetDoublev( GL_MODELVIEW_MATRIX, matModelView );
+    glGetDoublev( GL_PROJECTION_MATRIX, matProjection );
+
+    GLfloat winX = (float)x;
+    GLfloat winY = (float)viewport[3] - (float)y;
+
+    GLdouble posX, posY, posZ;
+    GLu::unProject(winX, winY, 0.,
+                   matModelView, matProjection, viewport,
+                   &posX, &posY, &posZ);
+
+    Point3d origin = { posX, posY, posZ };
+
+    GLu::unProject(winX, winY, 1.,
+                   matModelView, matProjection, viewport,
+                   &posX, &posY, &posZ);
+
+
+    Point3d ray = { posX - origin[0], posY - origin[1], posZ - origin[2]};
+
+    pick.setPickRay(origin, ray);
+    foreach(ModelRenderer* renderer, model_renderers_){
+        renderer->pick(pick);
+    }
+
+    pick.sort();
+
+}
+
+
 
 }
 

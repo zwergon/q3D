@@ -26,6 +26,8 @@ namespace Q3D {
 
 class Model;
 class RendererAttribute;
+class Pick;
+class PickInfo;
 
 class MODELSHARED_EXPORT ModelRenderer : public QObject
 {
@@ -53,6 +55,7 @@ public:
     virtual void init(){}
     virtual void buildGlList() = 0;
     virtual void draw(){}
+    virtual void pick( Pick& ){}
 
 signals:
     void needRedraw( ModelRenderer* );

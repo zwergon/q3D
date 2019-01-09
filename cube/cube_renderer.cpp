@@ -1,6 +1,9 @@
 #include "cube_renderer.h"
 
+#include <q3D/model/geometry.h>
+#include <q3D/model/picking.h>
 #include <q3D/cube/cube_model.h>
+
 
 #include <q3D/cube/slicer.h>
 #include <q3D/cube/cube_renderer_attribute.h>
@@ -157,6 +160,83 @@ void CubeRenderer::createTexture(const Cube& cube, Slice slice, GLuint tId){
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, nx, ny, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, (GLvoid*)image);
 
     delete [] image;
+}
+
+
+void
+CubeRenderer::pick(Pick& pick){
+    CubeModel* cube_model = dynamic_cast<CubeModel*>( model() );
+    if ( nullptr == cube_model ){
+        return;
+    }
+
+    CubeRendererAttribute* cube_attribute =
+            static_cast<CubeRendererAttribute*>(attribute());
+    if ( nullptr == cube_attribute ){
+
+        return;
+    }
+
+    Cube& cube = cube_model->cube();
+    int nx = cube.getNx();
+    int ny = cube.getNy();
+    int nz = cube.getNz();
+
+    QList<double> t_list;
+    double t;
+    {
+        Point3d v0 = {0, 0, cube_attribute->getCursorZ()};
+        Point3d v1 = {0, ny, cube_attribute->getCursorZ()};
+        Point3d v2 = {nx, ny, cube_attribute->getCursorZ()};
+        Point3d v3 = {nx, 0, cube_attribute->getCursorZ()};
+        if ( pick.is_quad_picked(v0, v1, v2, v3, t) ){
+            t_list.append(t);
+        }
+    }
+    {
+        Point3d v0 = {0, cube_attribute->getCursorY(), 0};
+        Point3d v1 = {0, cube_attribute->getCursorY(), nz};
+        Point3d v2 = {nx, cube_attribute->getCursorY(), nz};
+        Point3d v3 = {nx, cube_attribute->getCursorY(), 0};
+        if ( pick.is_quad_picked(v0, v1, v2, v3, t) ){
+            t_list.append(t);
+        }
+    }
+    {
+        Point3d v0 = {cube_attribute->getCursorX(), 0, 0};
+        Point3d v1 = {cube_attribute->getCursorX(), 0, nz};
+        Point3d v2 = {cube_attribute->getCursorX(), ny, nz};
+        Point3d v3 = {cube_attribute->getCursorX(), ny, 0};
+        if ( pick.is_quad_picked(v0, v1, v2, v3, t) ){
+            t_list.append(t);
+        }
+    }
+
+    if (!t_list.isEmpty()){
+        qSort(t_list);
+        PickInfo* pinfo = new CubePickInfo();
+        pinfo->setCurvi(t_list.at(0));
+        pinfo->setModel(cube_model);
+        pick.addPickInfo(pinfo);
+    }
+
+}
+
+
+QString
+CubePickInfo::toString(const Pick& pick) const {
+    CubeModel* cube_model = dynamic_cast<CubeModel*>( getModel() );
+    if ( nullptr == cube_model ){
+        return QString();
+    }
+    Cube& cube = cube_model->cube();
+
+    Point3d impact = pick.impact(this);
+    int i = (int)impact[0];
+    int j = (int)impact[1];
+    int k = (int)impact[2];
+
+    return QString("(%1, %2, %3) : %4").arg(i).arg(j).arg(k).arg(cube.getValue(i, j, k));
 }
 
 }

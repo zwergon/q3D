@@ -24,6 +24,7 @@
 #include <q3D/model/gl_data.h>
 #include <q3D/gui/view_control.h>
 
+#include <QMainWindow>
 
 namespace Q3D {
 
@@ -37,13 +38,21 @@ public:
 	CGlArea( QWidget* parent );
     virtual ~CGlArea();
 
+    QMainWindow* mainWindow() const {return qobject_cast<QMainWindow*>(parent());}
+
     void getBoundingBox( Point3d& min, Point3d& max ) const;
     ViewControl& getViewControl();
 
     void addCoreRenderer   ( ModelRenderer* );
     void removeCoreRenderer( ModelRenderer* );
+    void doPickingAt(int x, int y, Pick& );
 
-    void setActiveTool( AbstractTool* tool );
+    QSize minimumSizeHint() const override;
+    QSize sizeHint() const override;
+
+public slots:
+    void onToolSelected(AbstractTool*);
+
 
 protected:
 	/*overload of QT virtual functions*/
@@ -58,7 +67,7 @@ protected:
 private:
 	void init();
 	void computeBoundingBox();
-	void setGeometry();
+    void adjustBoundingBox();
 	void buildAll();
 	void buildAxis();
     void popupMenuExec( QMouseEvent *);

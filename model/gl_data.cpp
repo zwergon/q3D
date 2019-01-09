@@ -24,10 +24,10 @@ GLData::GLData()
 {
 
   QColor color = qApp->palette().color(QPalette::Background);
-  mCouleurAP[0] = color.redF() ;
-  mCouleurAP[1] = color.greenF() ;
-  mCouleurAP[2] = color.blueF() ;
-  mCouleurAP[3] = color.alphaF() ;
+  color_bg_[0] = color.redF() ;
+  color_bg_[1] = color.greenF() ;
+  color_bg_[2] = color.blueF() ;
+  color_bg_[3] = color.alphaF() ;
 
   ambient_light_[0] = 1.;
   ambient_light_[1] = 1.;
@@ -70,40 +70,40 @@ GLData::instance(){
 void
 GLData::setWithAxis  ( const bool option )
 {
-  mWithAxis = option;
+  with_axis_ = option;
 }
 
 void 
 GLData::setWithFill  ( const bool option )
 {
-  mWithFill = option;
+  with_fill_ = option;
 }
 
 void  
 GLData::setWithLight ( const bool option )
 {
-  mWithLight = option;
+  with_light_ = option;
 }
 
 void 
 GLData::setWithProf  ( const bool option )
 {
-  mWithProf = option;
+  with_prof_ = option;
 
-  if (mWithProf)
+  if (with_prof_)
     {
-      mMasqueClear = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ;
+      clear_mask_ = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT ;
     }
   else
     {
-      mMasqueClear = GL_COLOR_BUFFER_BIT  ;
+      clear_mask_ = GL_COLOR_BUFFER_BIT  ;
     }
 }
 
 void 
 GLData::setWithSmooth( const bool option )
 {
-  mWithSmooth = option;
+  with_smooth_ = option;
 }
   
 void
@@ -112,6 +112,7 @@ GLData::setPositionLight( GLfloat* light ){
         position_light_[i] = light[i];
     }
 }
+
 
 
 }

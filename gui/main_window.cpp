@@ -32,6 +32,8 @@
 
 #include <q3D/gui/renderer_menu.h>
 #include <q3D/gui/camera_tool.h>
+#include <q3D/gui/picking_tool.h>
+#include <q3D/gui/tool_manager.h>
 
 Q_DECLARE_METATYPE( Q3D::Model* );
 
@@ -162,19 +164,20 @@ CTreeViewItem* ModelTreeViewItem::defaultRenderer() {
     return nullptr;
 }
 
-
-
-
 /*********************************************************/
 
 CGlWindow::CGlWindow(QWidget *parent)
 : QMainWindow( parent ),
-  ui_(new Ui::MainWindow)
+  ui_(new Ui::MainWindow),
+  tool_manager_(new ToolManager(this))
 {
+
 
     ui_->setupUi( this );
 
-    gl_area_ = ui_->gl_area_;
+    gl_area_ = new CGlArea(this);
+    setCentralWidget(gl_area_);
+
 
     ModelManager* model_mgr = ModelManager::instance();
     connect( model_mgr, &ModelManager::modelAdded, this, &CGlWindow::modelAddedSlot );
@@ -182,10 +185,14 @@ CGlWindow::CGlWindow(QWidget *parent)
 
     populateMenus();
 
-    AbstractTool* tool = new CameraTool();
-    tool->setGlArea(gl_area_);
-    gl_area_->setActiveTool( tool );
+    tool_manager_->registerTool(ui_->actionMoveTool, new CameraTool);
+    tool_manager_->registerTool(ui_->actionPick, new PickingTool);
 
+    //toolGroup->addAction(ui_->actionPick);
+    ui_->toolsToolBar->addActions(tool_manager_->getActions());
+
+    connect(tool_manager_, &ToolManager::toolSelected, gl_area_, &CGlArea::onToolSelected);
+    tool_manager_->onActionGroupTriggered(ui_->actionMoveTool);
 }
 
 QTreeWidget* CGlWindow::treeWidget() const {

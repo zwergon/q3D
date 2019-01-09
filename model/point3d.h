@@ -53,6 +53,14 @@ template<class T> void normalize(std::array<T,3>& v)
     v[2] /= r;
 }
 
+template<class T> std::array<T,3> operator-(const std::array<T,3>& v1, const std::array<T, 3>& v2){
+    std::array<T,3> result;
+    for(int i=0; i<3; i++){
+        result[i] = v1[i] - v2[i];
+    }
+    return result;
+}
+
 }
 
 #endif // Q3D_MODEL_POINT3D_H
