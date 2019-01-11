@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg
+   sodipodi:docname="query_erase.svg"
+   height="60.0000000"
+   sodipodi:version="0.32"
+   width="60.0000000"
+   _SVGFile__filename="scalable/actions/clear_left.svg"
+   version="1.0"
+   y="0"
+   x="0"
+   inkscape:version="0.39"
+   id="svg1"
+   sodipodi:docbase="/home/danny/work/flat/newscale/actions"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <sodipodi:namedview
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="0"
+     pagecolor="#ffffff"
+     inkscape:window-height="685"
+     inkscape:zoom="6.9465337"
+     inkscape:window-x="0"
+     borderopacity="1.0"
+     inkscape:cx="37.697540"
+     inkscape:cy="17.130398"
+     inkscape:window-width="1016"
+     inkscape:pageopacity="0.0"
+     id="base" />
+  <defs
+     id="defs3" />
+  <metadata
+     id="metadata6">
+    <rdf:RDF
+       id="RDF7">
+      <cc:Work
+         rdf:about=""
+         id="Work8">
+        <dc:title
+           id="title9">Part of the Flat Icon Collection (Thu Aug 26 14:38:01 2004)</dc:title>
+        <dc:description
+           id="description11" />
+        <dc:subject
+           id="subject12">
+          <rdf:Bag
+             id="Bag13">
+            <rdf:li
+               id="li14" />
+          </rdf:Bag>
+        </dc:subject>
+        <dc:publisher
+           id="publisher15">
+          <cc:Agent
+             rdf:about=""
+             id="Agent16">
+            <dc:title
+               id="title17" />
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator
+           id="creator18">
+          <cc:Agent
+             rdf:about=""
+             id="Agent19">
+            <dc:title
+               id="title20">Danny Allen</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights
+           id="rights22">
+          <cc:Agent
+             rdf:about=""
+             id="Agent23">
+            <dc:title
+               id="title24">Danny Allen</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:date
+           id="date26" />
+        <dc:format
+           id="format27">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type29" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/LGPL/2.1/"
+           id="license30">
+          <dc:date
+             id="date31" />
+        </cc:license>
+        <dc:language
+           id="language32">en</dc:language>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="g1553"
+     transform="matrix(-1.000000,0.000000,0.000000,1.000000,60.28187,0.000000)">
+    <path
+       sodipodi:nodetypes="cccc"
+       style="font-size:12.000000;fill:#7f7f7f;fill-rule:evenodd;stroke:#333333;stroke-width:2.5000000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.0000000;"
+       d="M 19.866622,46.972648 L 2.9960053,30.462827 L 20.006048,14.472100 L 19.866622,46.972648 z "
+       sodipodi:stroke-cmyk="(0 0 0 0.8)"
+       id="path878"
+       transform="translate(0.139884,-0.503413)" />
+    <path
+       style="fill:#b3b3b3;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:2.4984269;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;"
+       d="M 25.685206,14.472864 C 25.279727,14.456813 24.975750,14.567074 24.771794,14.775700 C 23.331460,16.249002 27.858141,23.097102 34.976811,30.735114 C 27.858142,38.373125 23.331460,45.221225 24.771794,46.694527 C 26.216730,48.172539 33.068621,43.631770 40.740756,36.488983 C 48.412893,43.631770 55.296278,48.172539 56.741216,46.694527 C 58.181549,45.221225 53.623371,38.373125 46.504701,30.735114 C 53.623370,23.097102 58.181549,16.249002 56.741216,14.775700 C 55.296280,13.297689 48.412894,17.838457 40.740756,24.981245 C 34.151559,18.846678 28.152353,14.570535 25.685206,14.472864 z "
+       id="path1602"
+       transform="translate(0.139884,-0.503413)" />
+  </g>
+</svg>

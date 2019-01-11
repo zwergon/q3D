@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg
+   sodipodi:docname="cut.svg"
+   height="60.0000000"
+   sodipodi:version="0.32"
+   width="60.0000000"
+   _SVGFile__filename="scalable/actions/cut.svg"
+   version="1.0"
+   y="0"
+   x="0"
+   inkscape:version="0.39"
+   id="svg1"
+   sodipodi:docbase="/home/danny/work/flat/newscale/actions"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <sodipodi:namedview
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="0"
+     pagecolor="#ffffff"
+     inkscape:window-height="685"
+     inkscape:zoom="3.4732669"
+     inkscape:window-x="0"
+     borderopacity="1.0"
+     inkscape:cx="34.418460"
+     inkscape:cy="19.883289"
+     inkscape:window-width="1016"
+     inkscape:pageopacity="0.0"
+     id="base" />
+  <defs
+     id="defs3" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF
+       id="RDF8">
+      <cc:Work
+         rdf:about=""
+         id="Work9">
+        <dc:title
+           id="title10">Part of the Flat Icon Collection (Thu Aug 26 14:38:01 2004)</dc:title>
+        <dc:description
+           id="description12" />
+        <dc:subject
+           id="subject13">
+          <rdf:Bag
+             id="Bag14">
+            <rdf:li
+               id="li15" />
+          </rdf:Bag>
+        </dc:subject>
+        <dc:publisher
+           id="publisher16">
+          <cc:Agent
+             rdf:about=""
+             id="Agent17">
+            <dc:title
+               id="title18" />
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator
+           id="creator19">
+          <cc:Agent
+             rdf:about=""
+             id="Agent20">
+            <dc:title
+               id="title21">Danny Allen</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights
+           id="rights23">
+          <cc:Agent
+             rdf:about=""
+             id="Agent24">
+            <dc:title
+               id="title25">Danny Allen</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:date
+           id="date27" />
+        <dc:format
+           id="format28">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type30" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/LGPL/2.1/"
+           id="license31">
+          <dc:date
+             id="date32" />
+        </cc:license>
+        <dc:language
+           id="language33">en</dc:language>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+     style="font-size:12.000000;fill:#b3b3b3;fill-rule:evenodd;stroke:#4c4c4c;stroke-width:3.1250000;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1.0000000;"
+     d="M 37.811757,33.004945 L 37.811757,55.770253 L 37.811757,56.147152 L 52.717669,56.147152 C 54.116917,56.147151 55.218912,55.010893 55.218912,53.611645 L 55.218912,32.969438 L 37.811757,33.004945 z "
+     sodipodi:stroke-cmyk="(0.0000000 0.0000000 0.0000000 0.69999999)"
+     id="path1126"
+     sodipodi:nodetypes="ccccccc" />
+  <path
+     style="font-size:12.000000;fill:#cccccc;fill-rule:evenodd;stroke:#4c4c4c;stroke-width:3.1250000;stroke-linejoin:round;stroke-opacity:1.0000000;"
+     d="M 7.8125000 4.0625000 C 6.4416207 4.0624998 5.3437500 5.1603705 5.3437500 6.5312500 L 5.3437500 38.093750 C 5.3437501 39.464627 6.4416206 40.562500 7.8125000 40.562500 L 20.500000 40.562500 L 20.500000 22.093750 C 20.500000 20.722871 21.597872 19.625000 22.968750 19.625000 L 40.093750 19.625000 L 40.093750 6.5312500 C 40.093752 5.1603703 38.964630 4.0625000 37.593750 4.0625000 L 7.8125000 4.0625000 z "
+     id="rect1101" />
+  <path
+     style="font-size:12.000000;fill:#7f7f7f;fill-rule:evenodd;stroke:#333333;stroke-width:2.9712136;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.0000000;"
+     d="M 11.922158,22.504893 C 14.314665,43.628559 32.656416,42.210133 33.836083,42.099187 L 33.836083,48.416884 L 43.076896,39.270367 L 33.836083,30.142708 L 33.836083,36.384970 C 32.449015,36.547889 19.490756,37.848341 11.922158,22.504893 z "
+     id="path1574"
+     transform="translate(0.309280,-0.527065)" />
+</svg>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   version="1.0"
+   x="0"
+   y="0"
+   width="60.0000000"
+   height="60.0000000"
+   id="svg1"
+   sodipodi:version="0.32"
+   inkscape:version="0.39"
+   sodipodi:docname="business_user.svg"
+   sodipodi:docbase="/home/danny/work/flat/newscale/actions"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="6.9465337"
+     inkscape:cx="37.697545"
+     inkscape:cy="14.913114"
+     inkscape:window-width="1024"
+     inkscape:window-height="699"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <defs
+     id="defs3" />
+  <g
+     id="g1532"
+     transform="translate(-7.678592e-2,-8.685887e-5)">
+    <path
+       style="font-size:12.000000;fill:#666666;fill-rule:evenodd;stroke:#333333;stroke-width:3.1250000;stroke-linecap:round;stroke-linejoin:round;"
+       d="M 20.718750,37.781250 C 14.061073,41.324851 10.017540,48.364151 7.5000000,55.687500 L 54.375000,55.687500 C 52.069787,48.519546 48.321442,41.588524 42.187500,37.781250 C 36.012068,37.512752 28.236677,37.781250 20.718750,37.781250 z "
+       id="path966"
+       transform="translate(-0.719783,0.000000)" />
+    <path
+       transform="matrix(1.546589,0.000000,0.000000,1.546589,2.191841e-2,-10.67671)"
+       style="font-size:12.000000;fill:#cccccc;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:2.0205801;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1.0000000;"
+       d="M 31.850417,22.301342 C 31.850417,29.105455 26.328239,34.627633 19.524126,34.627633 C 12.720013,34.627633 7.1978350,29.105455 7.1978350,22.301342 C 7.1978350,15.497229 12.720013,9.9750509 19.524126,9.9750509 C 26.328239,9.9750509 31.850417,15.497229 31.850417,22.301342 z "
+       id="path710" />
+  </g>
+  <metadata
+     id="metadata6">
+    <rdf:RDF
+       id="RDF7">
+      <cc:Work
+         rdf:about=""
+         id="Work8">
+        <dc:format
+           id="format9">image/svg+xml</dc:format>
+        <dc:type
+           id="type11"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

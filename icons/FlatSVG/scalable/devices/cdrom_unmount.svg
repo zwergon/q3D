@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg
+   sodipodi:docname="cdrom_unmount.svg"
+   height="60.0000000"
+   sodipodi:version="0.32"
+   width="60.0000000"
+   _SVGFile__filename="scalable/devices/cdrom_unmount.svg"
+   version="1.0"
+   y="0"
+   x="0"
+   inkscape:version="0.39"
+   id="svg1"
+   sodipodi:docbase="/home/danny/work/flat/newscale/devices"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <sodipodi:namedview
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="0"
+     pagecolor="#ffffff"
+     inkscape:window-height="685"
+     inkscape:zoom="9.8238822"
+     inkscape:window-x="0"
+     borderopacity="1.0"
+     inkscape:cx="42.359450"
+     inkscape:cy="21.841094"
+     inkscape:window-width="1016"
+     inkscape:pageopacity="0.0"
+     id="base" />
+  <defs
+     id="defs3" />
+  <path
+     style="font-size:12.000000;fill:#b3b3b3;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:3.1250000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.0000000;stroke-dasharray:none;"
+     d="M 30.156250 2.7500000 C 25.171239 2.7500000 20.557635 4.1673984 16.531250 6.5000000 C 15.360550 7.1845035 14.238025 7.9355406 13.187500 8.7812500 C 12.881227 9.0256658 12.576601 9.2741685 12.281250 9.5312500 C 11.135806 10.537670 10.057706 11.628949 9.0937500 12.812500 C 8.9617109 12.973112 8.8471718 13.148860 8.7187500 13.312500 C 7.6844123 14.643292 6.7486834 16.051233 5.9687500 17.562500 C 5.9257303 17.645859 5.8859460 17.728645 5.8437500 17.812500 C 5.0278731 19.433878 4.3631391 21.151338 3.8750000 22.937500 L 24.187500 23.750000 L 38.937500 31.625000 L 55.906250 21.156250 C 55.901645 21.143042 55.879625 21.138199 55.875000 21.125000 C 55.316260 19.530362 54.642311 18.006265 53.812500 16.562500 C 53.805479 16.550281 53.788290 16.543457 53.781250 16.531250 C 53.776979 16.523846 53.785527 16.507400 53.781250 16.500000 C 53.002212 15.152218 52.082564 13.877662 51.093750 12.687500 C 50.956471 12.522671 50.828545 12.349021 50.687500 12.187500 C 49.689472 11.041726 48.578471 9.9981510 47.406250 9.0312500 C 47.349631 8.9847869 47.306996 8.9210165 47.250000 8.8750000 C 47.202883 8.8367641 47.141122 8.8191796 47.093750 8.7812500 C 45.974662 7.8852233 44.782147 7.0899544 43.531250 6.3750000 C 39.560439 4.1287819 35.040958 2.7500000 30.156250 2.7500000 z M 23.531250 31.000000 L 3.2187500 34.375000 C 3.2203364 34.385048 3.2171520 34.396206 3.2187500 34.406250 C 3.9178125 38.800340 5.7329856 42.810429 8.2500000 46.250000 L 8.1875000 46.250000 C 13.170388 53.004915 21.124391 57.468750 30.156250 57.468750 C 39.188110 57.468750 47.142112 53.004915 52.125000 46.250000 L 52.093750 46.250000 C 52.869294 45.188037 53.565577 44.073493 54.187500 42.906250 C 56.053270 39.404520 57.196360 35.455998 57.375000 31.250000 L 36.406250 40.531250 L 23.531250 31.000000 z "
+     id="path587" />
+  <path
+     style="font-size:12.000000;fill:#7f7f7f;fill-rule:evenodd;stroke:#333333;stroke-width:3.1250000;stroke-linecap:round;stroke-linejoin:round;"
+     d="M 30.156250 19.531250 C 26.796092 19.531250 23.934684 21.208209 22.000000 23.656250 L 24.187500 23.750000 L 38.937500 31.625000 L 40.625000 30.593750 C 40.633531 30.419788 40.718750 30.269816 40.718750 30.093750 C 40.718750 24.264079 35.985920 19.531250 30.156250 19.531250 z M 23.531250 31.000000 L 19.906250 31.593750 C 20.661477 36.684057 24.856943 40.656250 30.156250 40.656250 C 31.888334 40.656250 33.463372 40.146301 34.906250 39.406250 L 23.531250 31.000000 z "
+     id="path968" />
+  <path
+     style="font-size:12.000000;fill:#cccccc;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:1.8750000;stroke-linecap:round;stroke-linejoin:round;"
+     d="M 30.156250 24.437500 C 29.057886 24.437500 28.087143 24.833008 27.218750 25.375000 L 35.781250 29.937500 C 35.692882 26.889033 33.225983 24.437500 30.156250 24.437500 z M 24.875000 32.000000 C 25.628207 34.096501 27.549987 35.567286 29.875000 35.687500 L 24.875000 32.000000 z "
+     id="path589" />
+  <metadata
+     id="metadata7">
+    <rdf:RDF
+       id="RDF8">
+      <cc:Work
+         rdf:about=""
+         id="Work9">
+        <dc:title
+           id="title10">Part of the Flat Icon Collection (Thu Aug 26 14:39:51 2004)</dc:title>
+        <dc:description
+           id="description12" />
+        <dc:subject
+           id="subject13">
+          <rdf:Bag
+             id="Bag14">
+            <rdf:li
+               id="li15" />
+          </rdf:Bag>
+        </dc:subject>
+        <dc:publisher
+           id="publisher16">
+          <cc:Agent
+             rdf:about=""
+             id="Agent17">
+            <dc:title
+               id="title18" />
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator
+           id="creator19">
+          <cc:Agent
+             rdf:about=""
+             id="Agent20">
+            <dc:title
+               id="title21">Danny Allen</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights
+           id="rights23">
+          <cc:Agent
+             rdf:about=""
+             id="Agent24">
+            <dc:title
+               id="title25">Danny Allen</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:date
+           id="date27" />
+        <dc:format
+           id="format28">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type30" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/LGPL/2.1/"
+           id="license31">
+          <dc:date
+             id="date32" />
+        </cc:license>
+        <dc:language
+           id="language33">en</dc:language>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

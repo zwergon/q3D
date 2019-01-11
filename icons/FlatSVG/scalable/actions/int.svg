@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' sodipodi:docname='int.svg' height='60.0000000' sodipodi:version='0.32' width='60.0000000' _SVGFile__filename='scalable/actions/int.svg' version='1.0' y='0' x='0' inkscape:version='0.38.1' id='svg1' sodipodi:docbase='/home/danny/flat/scalable/actions'>
+  <sodipodi:namedview bordercolor='#666666' inkscape:pageshadow='2' inkscape:window-y='0' pagecolor='#ffffff' inkscape:window-height='685' inkscape:zoom='6.9465337' inkscape:window-x='0' borderopacity='1.0' inkscape:cx='37.697540' inkscape:cy='14.678974' inkscape:window-width='1016' inkscape:pageopacity='0.0' id='base'/>
+  <defs id='defs3'>
+    <linearGradient id='linearGradient900'>
+      <stop style='stop-color:#000;stop-opacity:1;' id='stop901' offset='0'/>
+      <stop style='stop-color:#fff;stop-opacity:1;' id='stop902' offset='1'/>
+    </linearGradient>
+    <linearGradient xlink:href='#linearGradient900' id='linearGradient903'/>
+    <linearGradient xlink:href='#linearGradient900' id='linearGradient904'/>
+    <linearGradient xlink:href='#linearGradient900' id='linearGradient905'/>
+    <linearGradient xlink:href='#linearGradient900' id='linearGradient906'/>
+    <linearGradient xlink:href='#linearGradient900' id='linearGradient907'/>
+  </defs>
+  <path style='font-size:12.000000;font-weight:900;fill:#333333;stroke-width:1.0000000pt;font-family:VAG Rounded Black SSi;' d='M 29.366295,38.660613 L 35.732980,31.802382 L 31.870836,27.635948 C 30.934559,26.637252 30.302572,25.958451 29.974875,25.599545 C 29.662782,25.225034 29.420911,24.858326 29.249260,24.499419 C 29.077609,24.124908 28.991784,23.703584 28.991784,23.235445 C 28.991784,22.111912 29.358492,21.183437 30.091909,20.450020 C 30.825327,19.716603 31.652371,19.349894 32.573044,19.349894 C 33.462508,19.349894 34.164716,19.474731 34.679668,19.724405 C 35.194621,19.974079 35.725178,20.457822 36.271339,21.175635 L 40.250518,26.161312 L 44.229696,21.175635 C 44.807067,20.457822 45.345427,19.974079 45.844774,19.724405 C 46.344122,19.474731 47.038528,19.349894 47.927991,19.349894 C 48.848664,19.349894 49.675709,19.708801 50.409126,20.426613 C 51.142543,21.144426 51.509252,22.080703 51.509252,23.235445 C 51.509252,23.703584 51.423427,24.124908 51.251776,24.499419 C 51.080125,24.858326 50.830451,25.225034 50.502754,25.599545 C 50.190661,25.958451 49.566476,26.637252 48.630199,27.635948 L 44.768055,31.802382 L 51.134741,38.660613 C 51.540461,39.097542 51.883763,39.573483 52.164646,40.088436 C 52.461134,40.587784 52.609378,41.180759 52.609378,41.867363 C 52.609378,43.006500 52.242669,43.927173 51.509252,44.629380 C 50.775835,45.315984 49.870767,45.659285 48.794048,45.659285 C 48.091840,45.659285 47.514469,45.511042 47.061935,45.214554 C 46.625006,44.918066 46.094448,44.426520 45.470264,43.739917 L 40.250518,37.560487 L 35.030772,43.739917 C 34.484610,44.364102 33.969658,44.840043 33.485915,45.167740 C 33.002171,45.495437 32.409195,45.659285 31.706988,45.659285 C 30.630269,45.659285 29.725201,45.315984 28.991784,44.629380 C 28.258366,43.927173 27.891658,43.006500 27.891658,41.867363 C 27.891658,41.196364 28.016495,40.626795 28.266169,40.158656 C 28.531447,39.690518 28.898156,39.191170 29.366295,38.660613 z ' id='path837'/>
+  <path sodipodi:nodetypes='cc' style='fill:none;fill-opacity:0.75000000;fill-rule:evenodd;stroke:#333333;stroke-width:5.0000000;stroke-linecap:round;stroke-linejoin:round;' d='M 33.007082,7.3504808 C 15.636879,12.273026 25.489214,48.247684 9.1002611,53.059120' sodipodi:stroke-cmyk='(0.0000000 0.0000000 0.0000000 0.80000001)' id='path836'/>
+
+  <metadata>
+    <rdf:RDF 
+     xmlns="http://web.resource.org/cc/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <Work rdf:about="">
+        <dc:title>Part of the Flat Icon Collection (Thu Aug 26 14:38:01 2004)</dc:title>
+	<dc:description></dc:description>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li></rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:publisher>
+           <Agent rdf:about="">
+             <dc:title></dc:title>
+           </Agent>
+         </dc:publisher>
+         <dc:creator>
+           <Agent rdf:about="">
+             <dc:title>Danny Allen</dc:title>
+           </Agent>
+        </dc:creator>
+         <dc:rights>
+           <Agent rdf:about="">
+             <dc:title>Danny Allen</dc:title>
+           </Agent>
+        </dc:rights>
+        <dc:date></dc:date>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <license rdf:resource="http://creativecommons.org/licenses/LGPL/2.1/">
+	  <dc:date></dc:date>
+	</license>
+        <dc:language>en</dc:language>
+      </Work>
+
+    </rdf:RDF>
+  </metadata>
+</svg>

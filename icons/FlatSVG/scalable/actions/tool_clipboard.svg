@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   version="1.0"
+   x="0"
+   y="0"
+   width="60.0000000"
+   height="60.0000000"
+   id="svg1"
+   sodipodi:version="0.32"
+   inkscape:version="0.39"
+   sodipodi:docname="klipper.svg"
+   sodipodi:docbase="/home/danny/work/flat/newscale/apps"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="6.9465337"
+     inkscape:cx="37.697545"
+     inkscape:cy="31.806332"
+     inkscape:window-width="1016"
+     inkscape:window-height="685"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <defs
+     id="defs3">
+    <linearGradient
+       id="linearGradient900">
+      <stop
+         style="stop-color:#000;stop-opacity:1;"
+         offset="0"
+         id="stop901" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         offset="1"
+         id="stop902" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient900"
+       id="linearGradient903" />
+    <linearGradient
+       xlink:href="#linearGradient900"
+       id="linearGradient904" />
+    <linearGradient
+       xlink:href="#linearGradient900"
+       id="linearGradient905" />
+    <linearGradient
+       xlink:href="#linearGradient900"
+       id="linearGradient906" />
+    <linearGradient
+       xlink:href="#linearGradient900"
+       id="linearGradient907" />
+  </defs>
+  <metadata
+     id="metadata15">
+    <rdf:RDF
+       id="RDF16">
+      <cc:Work
+         rdf:about=""
+         id="Work17">
+        <dc:format
+           id="format18">image/svg+xml</dc:format>
+        <dc:type
+           id="type20"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="g1543"
+     transform="translate(0.327715,0.376728)">
+    <path
+       transform="matrix(1.172765,0.000000,0.000000,1.246476,3.448230,4.790461)"
+       style="font-size:12.000000;fill:#b3b3b3;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:2.5846548;stroke-linejoin:round;"
+       d="M 7.5129962,4.5766745 C 6.1421168,4.5766745 5.0384846,5.6803066 5.0384846,7.0511861 L 5.0384846,38.614973 C 5.0384846,39.985852 6.1421168,41.089484 7.5129962,41.089484 L 37.295666,41.089484 C 38.666546,41.089484 39.770178,39.985852 39.770178,38.614973 L 39.770178,7.0511861 C 39.770178,5.6803066 38.666546,4.5766745 37.295666,4.5766745 L 7.5129962,4.5766745 z "
+       id="rect1101" />
+    <path
+       style="font-size:12.000000;fill:#cccccc;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:1.8750001;stroke-linejoin:round;stroke-opacity:1.0000000;"
+       d="M 12.763708,21.656130 L 21.779855,53.128544 L 46.682783,45.994409 L 37.666636,14.521995 L 12.763708,21.656130 z "
+       id="rect690" />
+    <path
+       style="font-size:12.000000;fill:#7f7f7f;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:3.1250000;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1.0000000;"
+       d="M 19.985542,3.6769445 C 17.775931,3.6769445 15.997074,5.4558013 15.997074,7.6654125 L 15.997074,9.9158200 C 15.997074,12.125432 17.775931,13.904288 19.985542,13.904288 L 39.460949,13.904288 C 41.670560,13.904288 43.449417,12.125432 43.449417,9.9158200 L 43.449417,7.6654125 C 43.449417,5.4558013 41.670560,3.6769445 39.460949,3.6769445 L 19.985542,3.6769445 z "
+       id="rect689" />
+  </g>
+</svg>

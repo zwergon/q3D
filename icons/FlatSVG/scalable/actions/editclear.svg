@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg
+   sodipodi:docname="editclear.svg"
+   sodipodi:version="0.32"
+   height="48pt"
+   width="48pt"
+   _SVGFile__filename="scalable/actions/editclear.svg"
+   inkscape:version="0.39"
+   id="svg1"
+   sodipodi:docbase="/home/danny/work/flat/newscale/actions"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="0"
+     pagecolor="#ffffff"
+     inkscape:window-height="699"
+     inkscape:zoom="8.0000000"
+     inkscape:window-x="0"
+     showgrid="false"
+     borderopacity="1.0"
+     inkscape:cx="45.375000"
+     inkscape:cy="25.873444"
+     inkscape:window-width="1024"
+     inkscape:pageopacity="0.0"
+     id="base" />
+  <g
+     id="g1556"
+     transform="translate(7.812500e-2,-1.562500)">
+    <path
+       transform="translate(-1.250000,-6.406250)"
+       style="fill:#b3b3b3;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:3.1250000;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1.0000000;"
+       d="M 6.8437500,27.812500 C 5.7357500,27.812500 4.8437500,28.704500 4.8437500,29.812500 L 4.8437500,45.968750 C 4.8437500,47.076750 5.7357500,47.968750 6.8437500,47.968750 L 55.656250,47.968750 C 56.764250,47.968750 57.656250,47.076750 57.656250,45.968750 L 57.656250,29.812500 C 57.656250,28.704500 56.764250,27.812500 55.656250,27.812500 L 6.8437500,27.812500 z "
+       id="rect834" />
+    <path
+       style="fill:none;fill-opacity:0.75000000;fill-rule:evenodd;stroke:#333333;stroke-width:3.1250000;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;"
+       transform="translate(0.156250,0.312500)"
+       d="M 9.3750000,25.625000 L 9.3750000,36.718750"
+       sodipodi:stroke-cmyk="(0.0000000 0.0000000 0.0000000 0.80000001)"
+       id="path835" />
+  </g>
+  <metadata
+     id="metadata6">
+    <rdf:RDF
+       id="RDF7">
+      <cc:Work
+         rdf:about=""
+         id="Work8">
+        <dc:title
+           id="title9">Part of the Flat Icon Collection (Thu Aug 26 14:38:01 2004)</dc:title>
+        <dc:description
+           id="description11" />
+        <dc:subject
+           id="subject12">
+          <rdf:Bag
+             id="Bag13">
+            <rdf:li
+               id="li14" />
+          </rdf:Bag>
+        </dc:subject>
+        <dc:publisher
+           id="publisher15">
+          <cc:Agent
+             rdf:about=""
+             id="Agent16">
+            <dc:title
+               id="title17" />
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator
+           id="creator18">
+          <cc:Agent
+             rdf:about=""
+             id="Agent19">
+            <dc:title
+               id="title20">Danny Allen</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights
+           id="rights22">
+          <cc:Agent
+             rdf:about=""
+             id="Agent23">
+            <dc:title
+               id="title24">Danny Allen</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:date
+           id="date26" />
+        <dc:format
+           id="format27">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type29" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/LGPL/2.1/"
+           id="license30">
+          <dc:date
+             id="date31" />
+        </cc:license>
+        <dc:language
+           id="language32">en</dc:language>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

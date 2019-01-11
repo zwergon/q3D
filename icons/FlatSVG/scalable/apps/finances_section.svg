@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg
+   sodipodi:docname="finances_section.svg"
+   height="60.0000000"
+   sodipodi:version="0.32"
+   width="60.0000000"
+   _SVGFile__filename="scalable/apps/finances_section.svg"
+   version="1.0"
+   y="0"
+   x="0"
+   inkscape:version="0.39"
+   id="svg1"
+   sodipodi:docbase="/home/danny/work/flat/newscale/apps"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <sodipodi:namedview
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="0"
+     snaptoguides="true"
+     pagecolor="#ffffff"
+     inkscape:window-height="685"
+     inkscape:zoom="6.9465337"
+     inkscape:window-x="0"
+     borderopacity="1.0"
+     inkscape:cx="33.984503"
+     inkscape:cy="18.129014"
+     inkscape:window-width="1016"
+     inkscape:pageopacity="0.0"
+     id="base"
+     showguides="true" />
+  <defs
+     id="defs3" />
+  <path
+     id="path828"
+     style="font-size:12.000000;font-weight:900;fill:#333333;stroke-width:1.0000000pt;font-family:VAG Rounded Black SSi;"
+     d="M 28.322194,54.600961 L 28.322194,51.993638 C 26.470616,51.861381 24.581253,51.606319 22.654106,51.228447 C 20.726953,50.850574 18.998185,50.170403 17.467803,49.187935 C 15.956312,48.186574 15.200567,46.854571 15.200567,45.191932 C 15.200567,43.944954 15.597332,42.820783 16.390867,41.819417 C 17.203294,40.818056 18.195209,40.317378 19.366612,40.317378 C 19.876741,40.317378 20.793081,40.600778 22.115638,41.167590 C 23.438189,41.734396 24.515125,42.159505 25.346445,42.442910 C 26.196662,42.726311 27.188577,42.868014 28.322194,42.868014 L 28.322194,33.770733 C 25.903810,33.033881 23.872744,32.268689 22.228997,31.475159 C 20.585250,30.662732 19.253252,29.774730 18.232994,28.811154 C 17.212741,27.828685 16.475888,26.770642 16.022441,25.637024 C 15.587886,24.503407 15.370609,23.246983 15.370609,21.867745 C 15.370609,19.940597 15.710696,18.183491 16.390867,16.596426 C 17.071038,14.990464 17.996824,13.611230 19.168232,12.458720 C 20.358527,11.287313 21.747211,10.352080 23.334276,9.6530167 C 24.921341,8.9539534 26.583980,8.5382911 28.322194,8.4060345 L 28.322194,5.6570133 C 28.322194,4.5045032 28.898447,3.9282457 30.050962,3.9282457 C 31.222365,3.9282457 31.808068,4.5045032 31.808068,5.6570133 L 31.808068,8.4060345 C 33.225092,8.4438242 34.727136,8.6611015 36.314201,9.0578665 C 37.920158,9.4357391 39.280499,10.078120 40.395224,10.985015 C 41.509945,11.891909 42.067310,13.101101 42.067310,14.612591 C 42.067310,15.349444 41.897264,16.067404 41.557181,16.766467 C 41.235990,17.446638 40.773097,17.994552 40.168501,18.410214 C 39.582797,18.825872 38.921519,19.033703 38.184666,19.033703 C 37.731219,19.033703 37.183305,18.892000 36.540924,18.608594 C 35.917431,18.325194 35.350624,18.051234 34.840495,17.786721 C 34.330366,17.503320 33.829688,17.276597 33.338451,17.106550 C 32.847219,16.917616 32.337090,16.823150 31.808068,16.823150 L 31.808068,25.126900 C 35.756835,26.203836 38.921519,27.724772 41.302119,29.689710 C 43.701606,31.654647 44.901352,34.479243 44.901352,38.163502 C 44.901352,40.355163 44.495141,42.310654 43.682713,44.029975 C 42.889183,45.730399 41.840586,47.156869 40.536922,48.309379 C 39.252156,49.442997 37.844583,50.312106 36.314201,50.916702 C 34.783813,51.521298 33.281769,51.880279 31.808068,51.993638 L 31.808068,54.600961 C 31.808068,55.753471 31.222365,56.329724 30.050962,56.329724 C 28.898447,56.329724 28.322194,55.753471 28.322194,54.600961 z M 28.322194,24.078303 L 28.322194,16.823150 C 27.377510,17.030976 26.602873,17.474977 25.998277,18.155147 C 25.412573,18.816426 25.119721,19.666638 25.119721,20.705788 C 25.119721,21.574898 25.412573,22.292853 25.998277,22.859665 C 26.602873,23.426471 27.377510,23.832682 28.322194,24.078303 z M 31.808068,34.677628 L 31.808068,42.868014 C 32.733855,42.868014 33.517943,42.461803 34.160324,41.649375 C 34.821603,40.836948 35.152239,39.911162 35.152239,38.872011 C 35.152239,37.681716 34.868834,36.774822 34.302027,36.151328 C 33.754113,35.508947 32.922794,35.017711 31.808068,34.677628 z " />
+  <metadata
+     id="metadata5">
+    <rdf:RDF
+       id="RDF6">
+      <cc:Work
+         rdf:about=""
+         id="Work7">
+        <dc:title
+           id="title8">Part of the Flat Icon Collection (Thu Aug 26 14:31:40 2004)</dc:title>
+        <dc:description
+           id="description10" />
+        <dc:subject
+           id="subject11">
+          <rdf:Bag
+             id="Bag12">
+            <rdf:li
+               id="li13" />
+          </rdf:Bag>
+        </dc:subject>
+        <dc:publisher
+           id="publisher14">
+          <cc:Agent
+             rdf:about=""
+             id="Agent15">
+            <dc:title
+               id="title16" />
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator
+           id="creator17">
+          <cc:Agent
+             rdf:about=""
+             id="Agent18">
+            <dc:title
+               id="title19">Danny Allen</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights
+           id="rights21">
+          <cc:Agent
+             rdf:about=""
+             id="Agent22">
+            <dc:title
+               id="title23">Danny Allen</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:date
+           id="date25" />
+        <dc:format
+           id="format26">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type28" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/LGPL/2.1/"
+           id="license29">
+          <dc:date
+             id="date30" />
+        </cc:license>
+        <dc:language
+           id="language31">en</dc:language>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

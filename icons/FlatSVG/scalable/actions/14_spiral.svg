@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg
+   sodipodi:docname="14_spiral.svg"
+   sodipodi:version="0.32"
+   height="60.0000000"
+   width="60.0000000"
+   _SVGFile__filename="scalable/actions/14_spiral.svg"
+   version="1.0"
+   y="0"
+   x="0"
+   inkscape:version="0.39"
+   id="svg1"
+   sodipodi:docbase="/home/danny/work/flat/newscale/actions"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <sodipodi:namedview
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="0"
+     pagecolor="#ffffff"
+     inkscape:window-height="685"
+     inkscape:zoom="6.9465338"
+     inkscape:window-x="0"
+     borderopacity="1.0"
+     inkscape:cx="33.307957"
+     inkscape:cy="18.927783"
+     inkscape:window-width="1016"
+     inkscape:pageopacity="0.0"
+     id="base" />
+  <defs
+     id="defs3">
+    <linearGradient
+       id="linearGradient772">
+      <stop
+         style="stop-color:#000;stop-opacity:1;"
+         id="stop773"
+         offset="0" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         id="stop774"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient772"
+       id="linearGradient775" />
+  </defs>
+  <g
+     id="g916"
+     transform="translate(0.125151,-0.178718)">
+    <rect
+       style="fill:#b3b3b3;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:1.0000000pt;"
+       sodipodi:fill-cmyk="(0.0000000 0.0000000 0.0000000 0.30000001)"
+       height="26.452042"
+       width="25.012474"
+       y="16.812994"
+       x="16.734964"
+       id="rect830" />
+    <path
+       id="path831"
+       style="fill:#b3b3b3;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:2.6400204;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2.6400204 2.6400204 ;stroke-dashoffset:0.0000000;stroke-opacity:1.0000000;"
+       d="M -28.611391,-7.4796977 C -27.731728,-5.7745013 -30.475967,-5.4526459 -31.445540,-6.0176401 C -34.073021,-7.5487394 -33.370767,-11.316272 -31.535506,-13.147995 C -28.252656,-16.424518 -22.835851,-15.201208 -20.108945,-11.865871 C -16.107101,-6.9711285 -17.908300,0.28660176 -22.763161,3.8568966 C -29.233925,8.6155382 -38.387577,6.2141977 -42.782134,-0.16940950 C -48.312235,-8.2025277 -45.301054,-19.275068 -37.383737,-24.484589 C -27.794805,-30.794018 -14.791564,-27.168036 -8.7723510,-17.714101 C -1.6789162,-6.5729659 -5.9225448,8.3678785 -16.914930,15.193491"
+       transform="matrix(1.183703,0.000000,0.000000,1.183703,59.95724,37.94181)" />
+  </g>
+  <metadata
+     id="metadata10">
+    <rdf:RDF
+       id="RDF11">
+      <cc:Work
+         rdf:about=""
+         id="Work12">
+        <dc:format
+           id="format13">image/svg+xml</dc:format>
+        <dc:type
+           id="type15"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>

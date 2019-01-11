@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' sodipodi:docname='stop.svg' height='60.0000000' sodipodi:version='0.32' width='60.0000000' _SVGFile__filename='scalable/actions/kdeprint_stopprinter.svg' version='1.0' y='0' x='0' inkscape:version='0.38.1' id='svg1' sodipodi:docbase='/home/danny/flat/scalable/actions'>
+  <sodipodi:namedview bordercolor='#666666' inkscape:pageshadow='2' inkscape:window-y='0' pagecolor='#ffffff' inkscape:window-height='685' inkscape:zoom='27.786135' inkscape:window-x='0' borderopacity='1.0' inkscape:cx='34.945517' inkscape:cy='28.894390' inkscape:window-width='1016' inkscape:pageopacity='0.0' id='base'/>
+  <defs id='defs3'>
+    <linearGradient id='linearGradient1160'>
+      <stop style='stop-color:#000;stop-opacity:1;' id='stop1161' offset='0'/>
+      <stop style='stop-color:#fff;stop-opacity:1;' id='stop1162' offset='1'/>
+    </linearGradient>
+    <linearGradient xlink:href='#linearGradient1160' id='linearGradient1163'/>
+  </defs>
+  <path style='fill:#b3b3b3;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:3.1250000;stroke-dasharray:none;stroke-opacity:1.0000000;stroke-linejoin:round;' d='M 30.156250 4.7812500 C 16.122529 4.7812500 4.7187501 16.185029 4.7187500 30.218750 C 4.7187500 44.252471 16.122530 55.656252 30.156250 55.656250 C 44.189971 55.656250 55.562501 44.252470 55.562500 30.218750 C 55.562500 16.185029 44.189971 4.7812502 30.156250 4.7812500 z M 42.562500 16.531250 C 45.114004 16.264113 42.617255 21.291992 34.531250 30.312500 C 48.526824 45.826207 45.403291 49.265991 30.000000 35.093750 C 14.930731 49.676324 11.098061 45.996690 25.125000 30.312500 C 10.977697 15.249830 14.667299 11.530939 30.000000 25.562500 C 36.290062 19.773557 40.736617 16.722415 42.562500 16.531250 z ' id='path848'/>
+
+  <metadata>
+    <rdf:RDF 
+     xmlns="http://web.resource.org/cc/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <Work rdf:about="">
+        <dc:title>Part of the Flat Icon Collection (Thu Aug 26 14:38:01 2004)</dc:title>
+	<dc:description></dc:description>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li></rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:publisher>
+           <Agent rdf:about="">
+             <dc:title></dc:title>
+           </Agent>
+         </dc:publisher>
+         <dc:creator>
+           <Agent rdf:about="">
+             <dc:title>Danny Allen</dc:title>
+           </Agent>
+        </dc:creator>
+         <dc:rights>
+           <Agent rdf:about="">
+             <dc:title>Danny Allen</dc:title>
+           </Agent>
+        </dc:rights>
+        <dc:date></dc:date>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <license rdf:resource="http://creativecommons.org/licenses/LGPL/2.1/">
+	  <dc:date></dc:date>
+	</license>
+        <dc:language>en</dc:language>
+      </Work>
+
+    </rdf:RDF>
+  </metadata>
+</svg>

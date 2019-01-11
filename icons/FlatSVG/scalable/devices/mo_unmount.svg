@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<svg
+   sodipodi:docname="mo_unmount.svg"
+   height="60.0000000"
+   sodipodi:version="0.32"
+   width="60.0000000"
+   _SVGFile__filename="scalable/devices/mo_unmount.svg"
+   version="1.0"
+   y="0"
+   x="0"
+   inkscape:version="0.39"
+   id="svg1"
+   sodipodi:docbase="/home/danny/work/flat/newscale/devices"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <sodipodi:namedview
+     bordercolor="#666666"
+     inkscape:pageshadow="2"
+     inkscape:window-y="0"
+     pagecolor="#ffffff"
+     inkscape:window-height="685"
+     inkscape:zoom="6.9465337"
+     inkscape:window-x="0"
+     borderopacity="1.0"
+     inkscape:cx="21.707261"
+     inkscape:cy="17.844237"
+     inkscape:window-width="1016"
+     inkscape:pageopacity="0.0"
+     id="base" />
+  <defs
+     id="defs3">
+    <linearGradient
+       id="linearGradient772">
+      <stop
+         style="stop-color:#000;stop-opacity:1;"
+         id="stop773"
+         offset="0" />
+      <stop
+         style="stop-color:#fff;stop-opacity:1;"
+         id="stop774"
+         offset="1" />
+    </linearGradient>
+    <linearGradient
+       xlink:href="#linearGradient772"
+       id="linearGradient775" />
+  </defs>
+  <metadata
+     id="metadata13">
+    <rdf:RDF
+       id="RDF14">
+      <cc:Work
+         rdf:about=""
+         id="Work15">
+        <dc:title
+           id="title16">Part of the Flat Icon Collection (Thu Aug 26 14:39:51 2004)</dc:title>
+        <dc:description
+           id="description18" />
+        <dc:subject
+           id="subject19">
+          <rdf:Bag
+             id="Bag20">
+            <rdf:li
+               id="li21" />
+          </rdf:Bag>
+        </dc:subject>
+        <dc:publisher
+           id="publisher22">
+          <cc:Agent
+             rdf:about=""
+             id="Agent23">
+            <dc:title
+               id="title24" />
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator
+           id="creator25">
+          <cc:Agent
+             rdf:about=""
+             id="Agent26">
+            <dc:title
+               id="title27">Danny Allen</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights
+           id="rights29">
+          <cc:Agent
+             rdf:about=""
+             id="Agent30">
+            <dc:title
+               id="title31">Danny Allen</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:date
+           id="date33" />
+        <dc:format
+           id="format34">image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage"
+           id="type36" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/licenses/LGPL/2.1/"
+           id="license37">
+          <dc:date
+             id="date38" />
+        </cc:license>
+        <dc:language
+           id="language39">en</dc:language>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+     style="font-size:12.000000;fill:#b3b3b3;fill-opacity:1.0000000;fill-rule:evenodd;stroke:none;stroke-width:3.1250000;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1.0000000;"
+     d="M 11.812500 4.4062500 L 4.4062500 11.843750 L 4.4062500 23.968750 L 19.437500 22.937500 L 55.781250 29.062500 L 55.781250 18.781250 L 55.875000 18.781250 L 55.875000 6.4062500 C 55.874999 5.2982501 54.983000 4.4062500 53.875000 4.4062500 L 11.812500 4.4062500 z M 26.281250 33.375000 L 4.4062500 36.343750 L 4.4062500 53.875000 C 4.4062498 54.983001 5.2982500 55.875000 6.4062500 55.875000 L 53.875000 55.875000 C 54.982999 55.875001 55.875000 54.983000 55.875000 53.875000 L 55.875000 53.531250 L 55.781250 53.531250 L 55.781250 46.187500 L 26.281250 33.375000 z "
+     id="path987" />
+  <path
+     style="font-size:12.000000;fill:#7f7f7f;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:1.8750000;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1.0000000;stroke-miterlimit:4.0000000;stroke-dasharray:none;"
+     d="M 30.156250 6.0312500 C 19.060894 6.0312500 9.8054556 13.573074 7.0000000 23.781250 L 19.437500 22.937500 L 54.125000 28.781250 C 53.412110 16.109425 43.005407 6.0312502 30.156250 6.0312500 z M 26.281250 33.375000 L 6.8437500 36.000000 C 9.4762043 46.463517 18.879519 54.249999 30.156250 54.250000 C 38.427863 54.250000 45.687345 50.040536 50.031250 43.687500 L 26.281250 33.375000 z "
+     id="path980" />
+  <path
+     style="font-size:12.000000;fill:#4c4c4c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:1.2500000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;stroke-dasharray:none;"
+     d="M 30.156250 20.781250 C 27.524003 20.781250 25.169508 21.873621 23.468750 23.625000 L 38.531250 26.156250 C 37.027394 22.998997 33.884233 20.781250 30.156250 20.781250 z M 26.281250 33.375000 L 21.687500 34.000000 C 23.165203 37.224403 26.379315 39.500001 30.156250 39.500000 C 32.276089 39.500000 34.118004 38.658416 35.687500 37.468750 L 26.281250 33.375000 z "
+     id="path982" />
+  <path
+     style="font-size:12.000000;fill:#b3b3b3;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:1.2500000;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4.0000000;stroke-opacity:1.0000000;stroke-dasharray:none;"
+     d="M 30.156250,23.187500 C 28.923428,23.187500 27.815723,23.622242 26.812500,24.187500 L 35.281250,25.625000 C 34.010929,24.169419 32.238479,23.187500 30.156250,23.187500 z M 26.281250,33.375000 L 24.312500,33.656250 C 25.529033,35.651419 27.650079,37.062501 30.156250,37.062500 C 31.219218,37.062500 32.193295,36.772157 33.093750,36.343750 L 26.281250,33.375000 z "
+     id="path988" />
+  <path
+     style="font-size:12.000000;fill:#4c4c4c;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:1.8750000;stroke-opacity:1.0000000;stroke-linejoin:round;stroke-linecap:round;"
+     d="M 22.937500 5.4062500 L 22.937500 23.531250 L 36.687500 25.843750 C 37.046657 25.692344 37.343750 25.415500 37.343750 25.000000 L 37.343750 5.4062500 L 22.937500 5.4062500 z "
+     id="rect981" />
+  <path
+     style="font-size:12.000000;fill:none;fill-opacity:1.0000000;fill-rule:evenodd;stroke:#333333;stroke-width:3.1250000;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1.0000000;"
+     d="M 11.812500 4.4062500 L 4.4062500 11.843750 L 4.4062500 23.968750 L 19.437500 22.937500 L 55.781250 29.062500 L 55.781250 18.781250 L 55.875000 18.781250 L 55.875000 6.4062500 C 55.874999 5.2982501 54.983000 4.4062500 53.875000 4.4062500 L 11.812500 4.4062500 z M 26.281250 33.375000 L 4.4062500 36.343750 L 4.4062500 53.875000 C 4.4062498 54.983001 5.2982500 55.875000 6.4062500 55.875000 L 53.875000 55.875000 C 54.982999 55.875001 55.875000 54.983000 55.875000 53.875000 L 55.875000 53.531250 L 55.781250 53.531250 L 55.781250 46.187500 L 26.281250 33.375000 z "
+     id="path1569" />
+</svg>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN"
+"http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   version="1.0"
+   x="0"
+   y="0"
+   width="60.0000000"
+   height="60.0000000"
+   id="svg1"
+   sodipodi:version="0.32"
+   inkscape:version="0.39"
+   sodipodi:docname="kopete_offline.svg"
+   sodipodi:docbase="/home/danny/work/flat/newscale/apps"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:xlink="http://www.w3.org/1999/xlink">
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="4.9119411"
+     inkscape:cx="34.193486"
+     inkscape:cy="14.573679"
+     inkscape:window-width="1024"
+     inkscape:window-height="699"
+     inkscape:window-x="0"
+     inkscape:window-y="0" />
+  <defs
+     id="defs3" />
+  <path
+     style="font-size:12.000000;fill:#7f7f7f;fill-rule:evenodd;stroke:#333333;stroke-width:3.1250029;stroke-linecap:round;stroke-linejoin:round;"
+     d="M 9.7066513,49.280507 C 6.9007026,50.773995 5.0785306,53.607041 3.8774138,56.654492 L 25.124985,56.654492 C 24.022681,53.681022 22.335710,50.877928 19.762086,49.280507 C 16.868482,49.154701 13.229303,49.280507 9.7066513,49.280507 z "
+     id="path692" />
+  <path
+     style="font-size:12.000000;fill:#bfbfbf;fill-rule:evenodd;stroke:#333333;stroke-width:3.1249986;stroke-linecap:round;stroke-linejoin:round;"
+     d="M 23.433828,42.745499 C 23.433828,47.676310 19.432011,51.678128 14.501199,51.678128 C 9.5703880,51.678128 5.5685705,47.676310 5.5685705,42.745499 C 5.5685705,37.814687 9.5703880,33.812870 14.501199,33.812870 C 19.432011,33.812870 23.433828,37.814687 23.433828,42.745499 z "
+     id="path716" />
+  <metadata
+     id="metadata8">
+    <rdf:RDF
+       id="RDF9">
+      <cc:Work
+         rdf:about=""
+         id="Work10">
+        <dc:format
+           id="format11">image/svg+xml</dc:format>
+        <dc:type
+           id="type13"
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+</svg>
