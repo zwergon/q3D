@@ -3,6 +3,7 @@
 
 #include <q3D/gui/gui_global.h>
 
+#include <q3D/gui/gl_area.h>
 #include <QObject>
 #include <QAction>
 
@@ -14,12 +15,13 @@ class GUISHARED_EXPORT ToolManager : public QObject
 {
     Q_OBJECT
 public:
-    explicit ToolManager(QObject *parent = nullptr);
-    virtual ~ToolManager();
+    explicit ToolManager(CGlArea* area);
 
     void registerTool( QAction* action, AbstractTool* tool );
 
     QList<QAction*> getActions() const;
+
+    CGlArea* getGlArea() const;
 
 signals:
     void toolSelected(AbstractTool* );
@@ -31,6 +33,10 @@ private:
     QActionGroup* action_group_;
     QMap<QAction*, AbstractTool*> action_tool_map_;
 };
+
+inline CGlArea* ToolManager::getGlArea() const {
+    return static_cast<CGlArea*>(parent());
+}
 
 }
 

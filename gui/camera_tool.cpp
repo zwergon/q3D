@@ -2,7 +2,7 @@
 
 namespace Q3D {
 
-CameraTool::CameraTool() :
+CameraTool::CameraTool(ToolManager* manager) : AbstractTool(manager),
     x_prec_(0),
     y_prec_(0),
     move_activated_(false)
@@ -21,24 +21,26 @@ CameraTool::handleMousePressEvent (QMouseEvent* mouseEvent){
 void
 CameraTool::handleMouseMoveEvent (QMouseEvent* mouseEvent){
 
-    ViewControl& view_control = gl_area_->getViewControl();
+    CGlArea* gl_area = getGlArea();
+
+    ViewControl& view_control = gl_area->getViewControl();
     if ( move_activated_ ){
         QPoint p = mouseEvent->globalPos();
 
         if (mouseEvent->buttons() & Qt::LeftButton)
         {
             if ( mouseEvent->modifiers() == Qt::CTRL ){
-                cameraTranslate( p.y()-y_prec_,	p.x()-x_prec_  ) ;
+                cameraTranslate( p.x()-x_prec_,	p.y()-y_prec_  ) ;
             }
             else {
-                cameraRotate( p.y()-y_prec_,	p.x()-x_prec_ ) ;
+                cameraRotate( p.x()-x_prec_,	p.y()-y_prec_ ) ;
             }
         }
 
         if (mouseEvent->buttons() & Qt::MidButton)
         {
             view_control.scaleZIncr( (p.y()-y_prec_) < 0 ) ;
-            gl_area_->updateGL();
+            gl_area->updateGL();
         }
 
         x_prec_ = p.x();
@@ -61,32 +63,35 @@ CameraTool::handleWheelEvent( QWheelEvent* wevent){
 
 void
 CameraTool::cameraRotate( int angle_x, int angle_y ){
-    ViewControl& view_control = gl_area_->getViewControl();
+    CGlArea* gl_area = getGlArea();
+    ViewControl& view_control = gl_area->getViewControl();
     view_control.angleTranslate(  angle_x,	angle_y ) ;
-    gl_area_->updateGL();
+    gl_area->updateGL();
 }
 
 void
 CameraTool::cameraZoom( bool increase ){
-    ViewControl& view_control = gl_area_->getViewControl();
+    CGlArea* gl_area = getGlArea();
+    ViewControl& view_control = gl_area->getViewControl();
     view_control.scaleXYIncr( increase );
     view_control.scaleZIncr( increase ) ;
 
-    gl_area_->updateGL();
+    gl_area->updateGL();
 }
 
 void
-CameraTool::cameraTranslate( int translate_y, int translate_x ){
+CameraTool::cameraTranslate( int translate_x, int translate_y ){
 
+    CGlArea* gl_area = getGlArea();
     Point3d min, max;
-    gl_area_->getBoundingBox(min, max);
+    gl_area->getBoundingBox(min, max);
 
-    ViewControl& view_control = gl_area_->getViewControl();
-    double dx =  (double)translate_x / (double)gl_area_->width()  * (max[0]- min[0]);
-    double dy = -(double)translate_y / (double)gl_area_->height() * (max[1]- min[1]);
+    ViewControl& view_control = gl_area->getViewControl();
+    double dx = (double)translate_x * (max[0]- min[0]) / (double)gl_area->width()  ;
+    double dy = -(double)translate_y * (max[1]- min[1]) / (double)gl_area->height() ;
     view_control.camTranslate(dx, dy, 0);
 
-    gl_area_->updateGL();
+    gl_area->updateGL();
 }
 
 

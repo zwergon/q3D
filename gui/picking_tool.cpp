@@ -1,23 +1,7 @@
 #include "picking_tool.h"
 
 namespace Q3D {
-PickingTool::PickingTool(){
-}
-
-void
-PickingTool::activate(){
-    CGlArea* area = getGlArea();
-    if ( nullptr != area ){
-        area->setCursor(Qt::CrossCursor);
-    }
-}
-
-void PickingTool::deactivate(){
-    CGlArea* area = getGlArea();
-    if ( nullptr != area ){
-        area->setCursor(Qt::ArrowCursor);
-        area->mainWindow()->statusBar()->clearMessage();
-    }
+PickingTool::PickingTool(ToolManager* manager) : AbstractTool(manager) {
 }
 
 void

@@ -11,7 +11,7 @@ namespace Q3D {
 class GUISHARED_EXPORT CameraTool : public AbstractTool
 {
 public:
-    CameraTool();
+    CameraTool(ToolManager*);
 
     virtual void  handleMousePressEvent  ( QMouseEvent * );
     virtual void  handleMouseMoveEvent   ( QMouseEvent * );

@@ -12,10 +12,9 @@ namespace Q3D {
 class GUISHARED_EXPORT PickingTool : public AbstractTool
 {
 public:
-    PickingTool();
+    PickingTool(ToolManager* manager);
 
-    virtual void activate() override;
-    virtual void deactivate() override;
+    virtual Qt::CursorShape cursor() const override;
 
     virtual void  handleMousePressEvent  ( QMouseEvent * ) override;
     virtual void  handleMouseMoveEvent   ( QMouseEvent * ) override;
@@ -23,6 +22,10 @@ public:
     virtual void  handleWheelEvent       ( QWheelEvent * ) override;
 
 };
+
+inline Qt::CursorShape PickingTool::cursor() const {
+    return Qt::CrossCursor;
+}
 
 }
 

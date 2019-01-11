@@ -1,8 +1,10 @@
 #include "abstract_tool.h"
 
+#include <QDebug>
+
 namespace Q3D {
 
-AbstractTool::AbstractTool(){}
+AbstractTool::AbstractTool(ToolManager* manager) : QObject(manager){}
 
 AbstractTool::~AbstractTool(){}
 

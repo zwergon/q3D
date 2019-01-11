@@ -169,15 +169,15 @@ CTreeViewItem* ModelTreeViewItem::defaultRenderer() {
 CGlWindow::CGlWindow(QWidget *parent)
 : QMainWindow( parent ),
   ui_(new Ui::MainWindow),
-  tool_manager_(new ToolManager(this))
+  tool_manager_(nullptr)
 {
-
 
     ui_->setupUi( this );
 
     gl_area_ = new CGlArea(this);
     setCentralWidget(gl_area_);
 
+    tool_manager_ = new ToolManager(gl_area_);
 
     ModelManager* model_mgr = ModelManager::instance();
     connect( model_mgr, &ModelManager::modelAdded, this, &CGlWindow::modelAddedSlot );
@@ -185,8 +185,8 @@ CGlWindow::CGlWindow(QWidget *parent)
 
     populateMenus();
 
-    tool_manager_->registerTool(ui_->actionMoveTool, new CameraTool);
-    tool_manager_->registerTool(ui_->actionPick, new PickingTool);
+    tool_manager_->registerTool(ui_->actionMoveTool, new CameraTool(tool_manager_));
+    tool_manager_->registerTool(ui_->actionPick, new PickingTool(tool_manager_));
 
     //toolGroup->addAction(ui_->actionPick);
     ui_->toolsToolBar->addActions(tool_manager_->getActions());

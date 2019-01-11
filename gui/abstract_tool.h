@@ -4,15 +4,20 @@
 #include <q3D/gui/gui_global.h>
 
 #include <q3D/gui/gl_area.h>
+#include <q3D/gui/tool_manager.h>
+#include <QObject>
 
 namespace Q3D {
 
-class GUISHARED_EXPORT AbstractTool
+
+class GUISHARED_EXPORT AbstractTool : public QObject
 {
 public:
     virtual ~AbstractTool();
 
-    void setGlArea( CGlArea* area );
+    virtual Qt::CursorShape cursor() const;
+
+    ToolManager* getManager() const;
     CGlArea* getGlArea() const;
 
     bool isActive();
@@ -25,19 +30,21 @@ public:
     virtual void  handleWheelEvent       ( QWheelEvent * ) = 0;
 
 protected:
-    AbstractTool();
+    explicit AbstractTool(ToolManager* manager);
 
-
-protected:
-    CGlArea* gl_area_;
 };
 
-inline void AbstractTool::setGlArea(CGlArea *area){
-    gl_area_ = area;
+inline ToolManager* AbstractTool::getManager() const {
+    return static_cast<ToolManager*>(parent());
 }
 
 inline CGlArea* AbstractTool::getGlArea() const {
-    return gl_area_;
+    ToolManager* manager = getManager();
+    return manager->getGlArea();
+}
+
+inline Qt::CursorShape AbstractTool::cursor() const {
+    return Qt::ArrowCursor;
 }
 
 }

@@ -142,13 +142,11 @@ void CGlArea::paintGL()
                0.0, 1.0 ,0.0 );
 
     glTranslated( view_control_.centreX(), view_control_.centreY(), view_control_.centreZ() );
-
     glScaled( view_control_.zoomFactor(), view_control_.zoomFactor(), view_control_.zoomFactor());
+    glTranslated( view_control_.dx(), view_control_.dy(), 0 );
 
-    glTranslated( view_control_.dx(), view_control_.dy
-                  (), 0 );
-    glRotated( view_control_.angleX(), 1.0, 0.0, 0.0);
-    glRotated( view_control_.angleY(), 0.0, 0.0, 1.0 );
+    glRotated( view_control_.angleX(), 0.0, 1.0, 0.0);
+    glRotated( view_control_.angleY(), 1.0, 0.0, 0.0 );
 
     glScaled( 1., 1., view_control_.scaleZ() );
 
@@ -206,14 +204,15 @@ CGlArea::onToolSelected(AbstractTool *tool){
 
     if ( current_tool_ != nullptr ){
         current_tool_->deactivate();
+        mainWindow()->statusBar()->clearMessage();
     }
 
     current_tool_ = tool;
     if ( nullptr != current_tool_ ){
-        current_tool_->setGlArea(this);
         current_tool_->activate();
-
+        setCursor(current_tool_->cursor());
     }
+
 }
 
 void 
