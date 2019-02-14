@@ -4,6 +4,7 @@
 #include <QUuid>
 #include <QSharedMemory>
 
+#include <q3D/cube/cube.h>
 #include <q3D/cube/cube_model.h>
 #include <q3D/cube/cube_renderer.h>
 
@@ -98,11 +99,10 @@ MongoCubeDriver::MongoCubeDriver()
     renderer_factory_.registerFactory<CubeRenderer>( "Cube" );
 }
 
-void MongoCubeDriver::getCubeInfo(
+Cube* MongoCubeDriver::getCubeInfo(
         mongoc_client_t* client,
         const MongoCubeOpenInfo& moi,
-        bson_oid_t& cube_id,
-        Cube& cube)
+        bson_oid_t& cube_id)
 {
 
     bson_t* query = BCON_NEW(
@@ -119,6 +119,9 @@ void MongoCubeDriver::getCubeInfo(
                 nullptr); /* read prefs, NULL for default */
     bson_destroy (query);
 
+    const char* cube_type;
+    int   cube_dim[3];
+
     const bson_t *doc;
     while (mongoc_cursor_next (cursor, &doc)) {
         bson_iter_t iter;
@@ -130,7 +133,13 @@ void MongoCubeDriver::getCubeInfo(
                 }
                 else {
 
-                    if (BSON_ITER_IS_KEY(&iter, "cube_size") &&
+                    if (BSON_ITER_IS_KEY(&iter, "cube_type") &&
+                        BSON_ITER_HOLDS_UTF8 (&iter)) {
+                        uint32_t length = 0;
+                        cube_type = bson_iter_utf8(&iter, &length);
+
+                    }
+                    else if (BSON_ITER_IS_KEY(&iter, "cube_size") &&
                         BSON_ITER_HOLDS_ARRAY(&iter)){
                         const uint8_t * data = nullptr;
                         uint32_t len = 0;
@@ -139,12 +148,12 @@ void MongoCubeDriver::getCubeInfo(
                         bson_iter_t array_itr;
                         bson_t* bson_array = bson_new_from_data(data, len);
                         bson_iter_init(&array_itr, bson_array);
-                        int dim[3];
-                        for(auto& v : dim){
+
+                        for(auto& v : cube_dim){
                             bson_iter_next(&array_itr);
                             v = bson_iter_int32(&array_itr);
                         }
-                        cube.setSize(dim[0], dim[1], dim[2]);
+
                     }
 
                 }
@@ -152,8 +161,22 @@ void MongoCubeDriver::getCubeInfo(
         }
     }
 
+    Cube* cube = nullptr;
+    if ( strcmp(cube_type, "uint8") == 0){
+        cube = new CubeUC;
+    }
+    else if ( strcmp(cube_type, "float32") == 0 ){
+        cube = new CubeF;
+    }
+
+    if ( nullptr != cube ){
+        cube->setSize(cube_dim[0], cube_dim[1], cube_dim[2]);
+    }
+
     mongoc_cursor_destroy (cursor);
     mongoc_collection_destroy (collection);
+
+    return cube;
 
 }
 
@@ -173,12 +196,14 @@ void MongoCubeDriver::loadCube(
 
     mongoc_stream_t* stream = mongoc_stream_gridfs_new(file);
 
+
+    long byte_size = cube.byteSize();
     QSharedMemory sharedMemory(QUuid::createUuid().toString());
-    sharedMemory.create(cube.size());
+    sharedMemory.create(byte_size);
 
     sharedMemory.lock();
-    quint8* buffer = static_cast<quint8*>(sharedMemory.data());
-    mongoc_stream_read(stream, buffer, cube.size(), cube.size(), -1 );
+    void* buffer = sharedMemory.data();
+    mongoc_stream_read(stream, buffer, byte_size, byte_size, -1 );
     sharedMemory.unlock();
 
     cube.attach(sharedMemory);
@@ -199,21 +224,27 @@ Model* MongoCubeDriver::open(const ModelOpenInfo &openInfo ){
             return nullptr;
         };
 
+        bson_oid_t cube_id;
+        Cube* cube = getCubeInfo(client, moi, cube_id);
+        if ( cube == nullptr ){
+            return nullptr;
+        }
+
+
         cube_model = new CubeModel();
         cube_model->setObjectName(moi.getName());
         cube_model->setDriver(this);
+        cube_model->setCube(cube);
 
-        Cube& cube = cube_model->cube();
-
-        bson_oid_t cube_id;
-        getCubeInfo(client, moi, cube_id, cube);
         char oidstr[25];
         bson_oid_to_string (&cube_id, oidstr);
         qDebug() << "cube_id: " << oidstr << " dims: "
-                 << cube.getNx()  << ", " << cube.getNy() << ", " << cube.getNz();
+                 << cube->getNx()  << ", " << cube->getNy() << ", " << cube->getNz();
+
+
 
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-        loadCube(client, moi, cube_id, cube);
+        loadCube(client, moi, cube_id, *cube);
         QApplication::restoreOverrideCursor();
 
         cube_model->update();

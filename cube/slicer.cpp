@@ -19,7 +19,7 @@ int XSlicer2D::getNy() const {
     return cube_.getNz();
 }
 
-quint8 XSlicer2D::getValue(int i, int j) const {
+double XSlicer2D::getValue(int i, int j) const {
     return cube_.getValue(cursor_, i, j);
 }
 
@@ -35,7 +35,7 @@ int YSlicer2D::getNy() const {
     return cube_.getNz();
 }
 
-quint8 YSlicer2D::getValue(int i, int j) const {
+double YSlicer2D::getValue(int i, int j) const {
     return cube_.getValue(i, cursor_, j);
 }
 
@@ -50,7 +50,7 @@ int ZSlicer2D::getNy() const {
     return cube_.getNy();
 }
 
-quint8 ZSlicer2D::getValue(int i, int j) const {
+double ZSlicer2D::getValue(int i, int j) const {
     return cube_.getValue(i, j, cursor_);
 }
 

@@ -37,7 +37,15 @@ void CubeRenderer::init(){
     cube_attribute->setCursorZ(cube.getNz()/2);
     cube_attribute->blockSignals(false);
 
-    colormap()->setMinMax( cube_model->mini()[2], cube_model->maxi()[2] );
+    double min = cube.getValue(0);
+    double max = min;
+    for( int i=1; i<cube.size(); i++ ){
+        double val = cube.getValue(i);
+        if (val < min) min = val;
+        if (val > max) max = val;
+    }
+
+    colormap()->setMinMax( min, max );
 
 }
 
@@ -142,7 +150,7 @@ void CubeRenderer::createTexture(const Cube& cube, Slice slice, GLuint tId){
     GLuint*  image = new GLuint[nx*ny];
     for( int y=0; y<ny; y++ ){
         for( int x=0; x<nx; x++ ){
-            quint8 val = slicer->getValue(x, y);
+            double val = slicer->getValue(x, y);
             GlColor3uv color;
             cmap->getGlColor(val, color);
             image[x+y*nx]   = ((color[0] << 24) | (color[1] << 16) | (color[2] << 8) | (255 << 0));

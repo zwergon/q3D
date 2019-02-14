@@ -13,7 +13,7 @@ public:
 
     virtual int getNx() const = 0;
     virtual int getNy() const = 0;
-    virtual quint8 getValue( int i, int j ) const = 0;
+    virtual double getValue( int i, int j ) const = 0;
 
 protected:
     const Cube& cube_;
@@ -26,7 +26,7 @@ public:
 
     virtual int getNx() const;
     virtual int getNy() const;
-    virtual quint8 getValue( int i, int j ) const;
+    virtual double getValue( int i, int j ) const;
 };
 
 class CUBESHARED_EXPORT YSlicer2D : public Slicer2D {
@@ -35,7 +35,7 @@ public:
 
     virtual int getNx() const;
     virtual int getNy() const;
-    virtual quint8 getValue( int i, int j ) const;
+    virtual double getValue( int i, int j ) const;
 };
 
 class CUBESHARED_EXPORT ZSlicer2D : public Slicer2D {
@@ -44,7 +44,7 @@ public:
 
     virtual int getNx() const;
     virtual int getNy() const;
-    virtual quint8 getValue( int i, int j ) const;
+    virtual double getValue( int i, int j ) const;
 };
 
 }

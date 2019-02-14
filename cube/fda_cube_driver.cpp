@@ -47,7 +47,18 @@ Model* FdaCubeDriver::open(const ModelOpenInfo& openInfo )
 
     stream >> type >> nx >> ny >> nz;
 
+    Cube* cube = nullptr;
+    switch(type){
+    case 300:
+        cube = new CubeUC;
+        break;
+    default:
+        qCritical() << "unable to read fda cube with type different as quint8";
+        return nullptr;
+    }
+
     CubeModel* cube_model = new CubeModel();
+    cube_model->setCube(cube);
     cube_model->setObjectName(fileName);
     cube_model->setDriver(this);
     cube_model->cube().setSize(nx, ny, nz);

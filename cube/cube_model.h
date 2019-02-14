@@ -17,7 +17,10 @@ class CUBESHARED_EXPORT CubeModel : public Model
 
 public:
     CubeModel();
+    virtual ~CubeModel();
+
     Cube& cube();
+    void setCube( Cube* cube );
 
     virtual void update();
 
@@ -27,11 +30,15 @@ private slots:
     virtual void onCubeLaunchAction();
 
 private:
-    Cube  cube_;
+    Cube*  cube_;
 };
 
 inline Cube& CubeModel::cube() {
-    return cube_;
+    return *cube_;
+}
+
+inline void CubeModel::setCube( Cube* cube ) {
+    cube_ = cube;
 }
 
 }

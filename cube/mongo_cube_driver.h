@@ -59,11 +59,10 @@ public:
     virtual void save( const Model& model, const QString& fileName  );
 
 private:
-    void getCubeInfo(
+    Cube* getCubeInfo(
             mongoc_client_t* client,
             const MongoCubeOpenInfo& moi,
-            bson_oid_t& cube_id,
-            Cube& cube);
+            bson_oid_t& cube_id);
     void loadCube(
             mongoc_client_t* client,
             const MongoCubeOpenInfo& moi,
