@@ -30,7 +30,10 @@ HEADERS += \
     point3d.h \
     model_mgr.h \
     geometry.h \
-    picking.h
+    picking.h \
+    process_info.h \
+    process.h \
+    process_mgr.h
 
 SOURCES += \
     model.cpp \
@@ -43,5 +46,8 @@ SOURCES += \
     renderer_attribute_dialog.cpp \
     model_mgr.cpp \
     geometry.cpp \
-    picking.cpp
+    picking.cpp \
+    process_info.cpp \
+    process.cpp \
+    process_mgr.cpp
 

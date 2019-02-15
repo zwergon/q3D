@@ -11,6 +11,14 @@ namespace Q3D {
 class CUBESHARED_EXPORT FdaCubeDriver : public ModelDriver
 {
 public:
+    enum FDA_TYPE {
+        SAVEF3UC = 300,
+        SAVEF3I,
+        SAVEF3F,
+        SAVEF3D
+    };
+
+public:
     FdaCubeDriver();
 
     virtual Model* open( const ModelOpenInfo& );

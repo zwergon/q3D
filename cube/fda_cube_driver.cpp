@@ -48,12 +48,18 @@ Model* FdaCubeDriver::open(const ModelOpenInfo& openInfo )
     stream >> type >> nx >> ny >> nz;
 
     Cube* cube = nullptr;
+    int size_of = 0;
     switch(type){
-    case 300:
+    case SAVEF3UC:
         cube = new CubeUC;
+        size_of = sizeof(quint8);
+        break;
+    case SAVEF3F:
+        cube = new CubeF;
+        size_of = sizeof(float);
         break;
     default:
-        qCritical() << "unable to read fda cube with type different as quint8";
+        qCritical() << "type " << type << "is not readable !";
         return nullptr;
     }
 
@@ -63,16 +69,13 @@ Model* FdaCubeDriver::open(const ModelOpenInfo& openInfo )
     cube_model->setDriver(this);
     cube_model->cube().setSize(nx, ny, nz);
 
-    long size = nx*ny*nz;
+    long size = nx*ny*nz*size_of;
 
     QSharedMemory sharedMemory(QUuid::createUuid().toString());
     sharedMemory.create(size);
 
     sharedMemory.lock();
-    quint8* buffer = static_cast<quint8*>(sharedMemory.data());
-    for( int i=0; i<size; i++ ){
-        stream >> buffer[i];
-    }
+    stream.readRawData(static_cast<char*>(sharedMemory.data()), size);
     sharedMemory.unlock();
 
     cube_model->cube().attach(sharedMemory);
@@ -83,6 +86,28 @@ Model* FdaCubeDriver::open(const ModelOpenInfo& openInfo )
 }
 
 void FdaCubeDriver::save( const Model& model, const QString& filename ){
+
+    const CubeModel* cube_model = dynamic_cast<const CubeModel*>(&model);
+
+    const Cube& cube = cube_model->cube();
+
+    auto type = SAVEF3UC;
+    if ( dynamic_cast<const CubeF*>(&cube) != nullptr ){
+        type = SAVEF3F;
+    }
+
+    QFile file( filename );
+    if (!file.open(QIODevice::WriteOnly))
+    {
+        qCritical() << "unable to open " << filename << endl ;
+        return;
+    }
+
+    QDataStream stream(&file);
+    stream.setByteOrder(QDataStream::ByteOrder::LittleEndian);
+    stream << type << cube.getNx() << cube.getNy() << cube.getNz();
+    stream.writeRawData(static_cast<const char*>(cube.data()), cube.byteSize());
+
 
 }
 

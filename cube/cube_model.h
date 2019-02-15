@@ -20,6 +20,7 @@ public:
     virtual ~CubeModel();
 
     Cube& cube();
+    const Cube& cube() const;
     void setCube( Cube* cube );
 
     virtual void update();
@@ -34,6 +35,10 @@ private:
 };
 
 inline Cube& CubeModel::cube() {
+    return *cube_;
+}
+
+inline const Cube& CubeModel::cube() const  {
     return *cube_;
 }
 

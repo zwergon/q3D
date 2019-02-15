@@ -3,7 +3,6 @@
 #include <QDebug>
 
 #include <q3D/cube/fda_cube_driver.h>
-
 #ifdef WITH_MONGO
 #include <mongoc/mongoc.h>
 #include <q3D/cube/mongo_cube_driver.h>

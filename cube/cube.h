@@ -26,6 +26,8 @@ public:
     int getNy() const;
     int getNz() const;
 
+    const void* data() const;
+
     double getValue(int i, int j, int k) const;
     virtual int sizeOf() const = 0;
     virtual double getValue(int idx) const = 0;
@@ -74,6 +76,10 @@ inline int Cube::index(int i, int j, int k) const {
 
 inline double Cube::getValue(int i, int j, int k) const {
     return getValue(index(i, j, k));
+}
+
+inline const void* Cube::data() const{
+    return data_.data();
 }
 
 /*************************************************/
