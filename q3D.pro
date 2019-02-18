@@ -11,6 +11,7 @@ SUBDIRS = \
     filters \
     drivers \
     cube \
+    plugim \
 # unit tests
     tests
 

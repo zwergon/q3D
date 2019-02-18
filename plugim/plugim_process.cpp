@@ -12,11 +12,11 @@
 
 namespace Q3D {
 
-PlugimProcess::PlugimProcess(const ProcessInfo& pi ): Process(pi)
+PlugImProcess::PlugImProcess(const ProcessInfo& pi ): Process(pi)
 {
 }
 
-bool PlugimProcess::prepare() {
+bool PlugImProcess::prepare() {
 
     Model* model = process_info_.model();
     if ( nullptr == model ){
@@ -60,7 +60,7 @@ bool PlugimProcess::prepare() {
     return true;
 }
 
-bool PlugimProcess::validate(){
+bool PlugImProcess::validate(){
 
 
     ProcessParam outParam = process_info_.getParam("OUT");
@@ -83,8 +83,8 @@ bool PlugimProcess::validate(){
 }
 
 
-Process* PlugimProcessBuilder::createProcess(const ProcessInfo &pi) const {
-    return new PlugimProcess(pi);
+Process* PlugImProcessBuilder::createProcess(const ProcessInfo &pi) const {
+    return new PlugImProcess(pi);
 }
 
 }

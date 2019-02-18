@@ -8,21 +8,14 @@
 namespace Q3D {
 
 
-class CUBESHARED_EXPORT MongoLoadAction : public PluginIOAction
+class CUBESHARED_EXPORT MongoLoadAction : public PluginAction
 {
     Q_OBJECT
-
 public:
     explicit MongoLoadAction(QObject* parent=nullptr);
 
-    virtual QString getDescription() const;
-    virtual QAction* getAction() const;
-
 private slots:
     void onActionTriggered();
-
-private:
-    QAction* action_;
 
 };
 

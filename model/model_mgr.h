@@ -30,6 +30,7 @@ signals:
 private:
     QList<Model*> models_;
     static ModelManager* instance_;
+
 };
 
 inline const QList<Model*>& ModelManager::models() const {

@@ -6,6 +6,8 @@ CONFIG += shared
 
 QT += widgets
 
+LIBS += -lmodel -lplugins
+
 DEFINES += PLUGINS_LIBRARY
 
 SOURCES += \

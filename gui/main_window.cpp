@@ -204,21 +204,13 @@ void CGlWindow::populateMenus(){
     foreach (QString fileName, fileNames) {
         QPluginLoader loader(fileName);
         QObject *plugin = loader.instance();
-        PluginCollection* plugin_collection =
-                qobject_cast<PluginCollection*>(plugin);
+        PluginCollection* plugin_collection =  qobject_cast<PluginCollection*>(plugin);
         if (plugin_collection != nullptr) {
-
-            ActionInterface* pai = plugin_collection->getActionPlugin();
-            if ( pai != nullptr ){
-                foreach( auto a, pai->getActions()){
-                    qDebug() << "load " << a->getDescription();
-                    PluginIOAction* io_action = qobject_cast<PluginIOAction*>(a);
-                    if ( io_action != nullptr ){
-                        ui_->fileToolBar->addAction(io_action->getAction());
-                    }
-                }
+            QList<QAction*> actions;
+            plugin_collection->getActions(PluginAction::IO_ACTION, actions);
+            foreach( auto a, actions){
+                ui_->fileToolBar->addAction(a);
             }
-
         }
     }
 }

@@ -21,6 +21,7 @@ public:
 };
 
 /**************************************************************/
+class PluginAction;
 
 class GUISHARED_EXPORT RendererMenu : public QObject {
     Q_OBJECT
@@ -45,6 +46,7 @@ protected slots:
     virtual void onEditAttributesAction();
     virtual void onSaveAction();
     virtual void onDeleteAction();
+    virtual void onActionActivated(PluginAction*);
 
 protected:
     ModelRenderer* renderer_;

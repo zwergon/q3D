@@ -4,6 +4,7 @@
 #include <q3D/plugins/plugins_global.h>
 
 #include <QObject>
+#include <QAction>
 
 #include <q3D/plugins/plugin_interfaces.h>
 
@@ -19,6 +20,8 @@ public:
     virtual ActionInterface* getActionPlugin() override;
     virtual DriverInterface* getDriverPlugin() override;
     virtual void end() override;
+
+     void getActions(int action_type, QList<QAction*>&) const;
 
 protected:
     ActionInterface* action_interface_;

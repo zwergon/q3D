@@ -11,6 +11,8 @@
 
 namespace Q3D {
 
+class PluginAction;
+
 class CUBESHARED_EXPORT CubeModel : public Model
 {
     Q_OBJECT
@@ -26,9 +28,6 @@ public:
     virtual void update();
 
     virtual void popupMenu(QMenu* );
-
-private slots:
-    virtual void onCubeLaunchAction();
 
 private:
     Cube*  cube_;

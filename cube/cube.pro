@@ -1,6 +1,6 @@
 include( ../q3d.pri )
 
-QT       += opengl xml
+QT       += opengl
 
 TARGET = cube
 CONFIG += shared
@@ -24,8 +24,7 @@ SOURCES += \
     slicer.cpp \
     cube_renderer_attribute.cpp \
     cube_renderer_attribute_dlg.cpp \
-    cube_api.cpp \
-    plugim_process.cpp
+    cube_api.cpp
 
 
 HEADERS += \
@@ -38,8 +37,7 @@ HEADERS += \
     slicer.h \
     cube_renderer_attribute.h \
     cube_renderer_attribute_dlg.h \
-    cube_api.h \
-    plugim_process.h
+    cube_api.h
 
 FORMS += \
     cube_renderer_attribute_dlg.ui

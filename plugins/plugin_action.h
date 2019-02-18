@@ -8,37 +8,48 @@
 
 namespace Q3D {
 
+class Model;
 
 class AbstractTool;
 
 class PLUGINSSHARED_EXPORT PluginAction : public QObject
 {
     Q_OBJECT
+
 public:
-    explicit PluginAction(QObject *parent = nullptr);
+    enum {
+        MENU_ACTION,
+        IO_ACTION,
+        TOOL_ACTION
+    };
+
+public:
     virtual ~PluginAction();
 
-    virtual QString getDescription() const = 0;
+    int getType() const { return type_; }
+
+    QString getDescription() const { return description_; }
+    QAction* getAction() const { return action_; }
+
+    virtual bool canWorkOn(Model*) const;
+    virtual bool execute(Model*);
+
+signals:
+    void activated( PluginAction* );
+
+protected:
+    explicit PluginAction(int type, QObject *parent = nullptr);
+
+protected:
+    int type_;
+    QString description_;
+    QAction* action_;
+
+private slots:
+    void on_action_triggered();
 };
 
 
-class PLUGINSSHARED_EXPORT PluginIOAction : public PluginAction {
-    Q_OBJECT
-
-public:
-    explicit PluginIOAction(QObject* parent = nullptr);
-
-    virtual QAction* getAction() const = 0;
-};
-
-class PLUGINSSHARED_EXPORT PluginToolAction : public PluginAction {
-    Q_OBJECT
-
-public:
-    explicit PluginToolAction(QObject* parent = nullptr);
-
-    virtual AbstractTool* getTool() const = 0;
-};
 
 
 }

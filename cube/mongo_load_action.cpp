@@ -6,23 +6,17 @@
 
 namespace Q3D {
 
-MongoLoadAction::MongoLoadAction(QObject*parent):PluginIOAction(parent)
+MongoLoadAction::MongoLoadAction(QObject*parent):
+    PluginAction(PluginAction::IO_ACTION, parent)
 {
+    description_ = "Mongo load";
     QIcon icon1;
     icon1.addFile(QLatin1String(":/mongodb.png"), QSize(), QIcon::Normal, QIcon::Off);
-    action_ = new QAction(icon1, "Mongo", this);
+    action_->setIcon(icon1);
+    action_->setText("Mongo");
 
     connect(action_, &QAction::triggered, this, &MongoLoadAction::onActionTriggered );
 }
-
-QString MongoLoadAction::getDescription() const {
-    return "Mongo load";
-}
-
-QAction* MongoLoadAction::getAction() const {
-    return action_;
-}
-
 
 void MongoLoadAction::onActionTriggered(){
     CubeLoadMongoDlg dlg;

@@ -39,7 +39,7 @@ public:
     void setModel( Model* model );
     Model* model() const;
 
-    void setProcessExe( const QString& dir, const QString& exe );
+    void setProcessExe( const QFileInfo& );
     const QFileInfo& processExe() const { return process_exe_; }
 
     void addParam( const QString& name, const QVariant& value );
@@ -59,8 +59,8 @@ inline void ProcessInfo::addParam(const QString &name, const QVariant &value){
     params_.insert(name, param);
 }
 
-inline void ProcessInfo::setProcessExe(const QString &dir, const QString &exe){
-    process_exe_ = QFileInfo(QDir(dir), exe);
+inline void ProcessInfo::setProcessExe(const QFileInfo& file_info){
+    process_exe_ = file_info;
 }
 
 inline ProcessParam ProcessInfo::getParam(const QString& name ) const {
