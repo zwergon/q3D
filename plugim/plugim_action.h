@@ -18,6 +18,8 @@ public:
     virtual bool canWorkOn(Model*) const override;
     virtual bool execute(Model*) override;
 
+    QFileInfo getIniFile() const;
+
 private:
     QFileInfo exe_;
 };

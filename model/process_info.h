@@ -19,7 +19,10 @@ class MODELSHARED_EXPORT ProcessParam {
 public:
         ProcessParam(const QString& name = QString::null, const QString& value = QString::null );
 
+        void setName( const QString& name ){ name_ = name; }
         const QString& name() const { return name_; }
+
+        void setValue( const QString& value ){ value_ = value; }
         const QString& value() const { return value_; }
 
 private:

@@ -65,7 +65,7 @@ Model* FdaCubeDriver::open(const ModelOpenInfo& openInfo )
 
     CubeModel* cube_model = new CubeModel();
     cube_model->setCube(cube);
-    cube_model->setObjectName(fileName);
+    cube_model->setObjectName(fi.baseName());
     cube_model->setDriver(this);
     cube_model->cube().setSize(nx, ny, nz);
 

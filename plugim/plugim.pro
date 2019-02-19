@@ -12,13 +12,17 @@ LIBS += -lmodel -lplugins -lcube
 SOURCES += \
     plugim_plugin.cpp \
     plugim_action.cpp \
-    plugim_process.cpp
+    plugim_process.cpp \
+    plugim_dialog.cpp \
+    widget_creator.cpp
 
 HEADERS += \
         plugim_global.h \ 
     plugim_plugin.h \
     plugim_action.h \
-    plugim_process.h
+    plugim_process.h \
+    plugim_dialog.h \
+    widget_creator.h
 
 unix {
     target.path = /usr/lib

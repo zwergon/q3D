@@ -1,10 +1,13 @@
 #include "plugim_action.h"
 
 #include <QAction>
+#include <QMessageBox>
 
 #include <q3d/cube/cube_model.h>
+
 #include <q3D/model/process_mgr.h>
 #include <q3D/plugim/plugim_process.h>
+#include <q3D/plugim/plugim_dialog.h>
 
 #include <QDebug>
 
@@ -21,6 +24,10 @@ PlugImAction::PlugImAction(const QString& exe_file, QObject* parent) :
 
 }
 
+QFileInfo PlugImAction::getIniFile() const {
+    return QFileInfo(exe_.absoluteDir(), QString("%1INI.xml").arg(exe_.baseName()));
+}
+
 bool PlugImAction::canWorkOn(Model* model) const {
     return nullptr != qobject_cast<CubeModel*>(model);
 }
@@ -28,17 +35,41 @@ bool PlugImAction::canWorkOn(Model* model) const {
 
 bool PlugImAction::execute(Model* model){
 
-    ProcessInfo pi( description_ );
-    pi.setModel(model);
-    pi.setProcessExe( exe_ );
-    pi.addParam("IN", "C:\\TEMP\\In.fda");
-    pi.addParam("OUT", "C:\\TEMP\\Out.fda" );
-    pi.addParam("flow", "true");
-    pi.addParam("sigmaR", 49);
-    pi.addParam("sigmaS", 20);
+    QFileInfo ini_file = getIniFile();
+    QFile file( ini_file.absoluteFilePath() );
+    if ( !file.open(QFile::ReadOnly | QFile::Text)){
+        qCritical() << "unable to save xml parameter file";
+        file.close();
+        return false;
+    }
 
-    PlugImProcessBuilder builder;
-    ProcessManager::instance()->submitProcess(pi, builder);
+    QDomDocument doc(ini_file.baseName());
+    if ( !doc.setContent(&file)){
+        file.close();
+        return false;
+    }
+
+    file.close();
+
+    PlugImDialog dlg(doc);
+    if ( dlg.exec()  == QDialog::Accepted ){
+
+        ProcessInfo pi( description_ );
+        pi.setModel(model);
+        pi.setProcessExe( exe_ );
+
+        QFileInfo file_in(QDir::temp(), "In.fda");
+        pi.addParam("IN", file_in.absoluteFilePath());
+
+        QFileInfo file_out(QDir::temp(), QString("%1_filtered.fda").arg(model->objectName()));
+        pi.addParam("OUT", file_out.absoluteFilePath() );
+        for( auto p : dlg.getParams() ){
+            pi.addParam( p.name(), p.value() );
+        }
+
+        PlugImProcessBuilder builder;
+        ProcessManager::instance()->submitProcess(pi, builder);
+    }
 
     return true;
 }
