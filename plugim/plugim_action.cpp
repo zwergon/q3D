@@ -38,7 +38,7 @@ bool PlugImAction::execute(Model* model){
     QFileInfo ini_file = getIniFile();
     QFile file( ini_file.absoluteFilePath() );
     if ( !file.open(QFile::ReadOnly | QFile::Text)){
-        qCritical() << "unable to save xml parameter file";
+        qCritical() << "unable to read xml file" << ini_file.fileName();
         file.close();
         return false;
     }

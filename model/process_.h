@@ -35,10 +35,14 @@ public:
 
 signals:
     void processEnded( Process* );
+    void log(const QString&);
+    void error(const QString&);
 
 protected slots:
     void on_process_finished(int);
     void on_error_occured(QProcess::ProcessError);
+    void on_standard_output();
+    void on_standard_error();
 
 protected:
     Process(const ProcessInfo& pi);

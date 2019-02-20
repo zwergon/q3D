@@ -25,7 +25,8 @@ bool PlugImProcess::prepare() {
     }
 
     // 1. Create a copy of the data in IN directory
-    ProcessParam inParam = process_info_.getParam("IN");
+    ProcessParam inParam;
+    process_info_.getParam("IN", inParam);
     ModelDriver* driver =
             ModelDriverManager::instance()->getDriverByName("FdaCubeDriver");
     driver->save(*model, inParam.value());
@@ -62,26 +63,22 @@ bool PlugImProcess::prepare() {
 
 bool PlugImProcess::validate(){
 
+    ProcessParam outParam;
+    if ( process_info_.getParam("OUT", outParam) ){
+        FileModelOpenInfo fmoi(outParam.value());
+        ModelManager::instance()->loadModel(fmoi);
 
-    ProcessParam outParam = process_info_.getParam("OUT");
-    FileModelOpenInfo fmoi(outParam.value());
-    Model* newModel = ModelManager::instance()->loadModel(fmoi);
+        QFile fiOut(outParam.value());
+        fiOut.remove();
+    }
 
-    ProcessParam inParam = process_info_.getParam("IN");
-    QString name = QString("%1_filtered").arg(inParam.value());
-    newModel->setObjectName(name);
-    newModel->update();
-
-    QFile fiOut(outParam.value());
-    fiOut.remove();
-
+    ProcessParam inParam;
+    process_info_.getParam("IN", inParam);
     QFile fiIn(inParam.value());
     fiIn.remove();
 
-
     return true;
 }
-
 
 Process* PlugImProcessBuilder::createProcess(const ProcessInfo &pi) const {
     return new PlugImProcess(pi);

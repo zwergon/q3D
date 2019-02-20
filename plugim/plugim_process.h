@@ -3,7 +3,7 @@
 
 #include <q3D/plugim/plugim_global.h>
 
-#include <q3D/model/process.h>
+#include <q3D/model/process_.h>
 
 namespace Q3D {
 

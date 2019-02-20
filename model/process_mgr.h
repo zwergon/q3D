@@ -4,7 +4,7 @@
 #include <q3D/model/model_scope.h>
 
 #include <q3D/model/process_info.h>
-#include <q3D/model/process.h>
+#include <q3D/model/process_.h>
 
 
 namespace Q3D {

@@ -2,6 +2,8 @@
 
 #include <QDebug>
 
+#include <q3D/model/process_log.h>
+
 namespace Q3D {
 
 ProcessManager* ProcessManager::instance_ = nullptr;
@@ -32,6 +34,12 @@ bool ProcessManager::submitProcess(
     }
 
     process->setState(Process::PREPARED);
+
+    ProcessLog* process_log = findChild<ProcessLog*>();
+    if ( nullptr != process_log ){
+        QObject::connect(process, &Process::log, process_log, &ProcessLog::log );
+        QObject::connect(process, &Process::error, process_log, &ProcessLog::error );
+    }
 
     if (!process->launch()){
         return false;

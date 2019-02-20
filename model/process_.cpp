@@ -1,4 +1,4 @@
-#include "process.h"
+#include "process_.h"
 
 #include <QDebug>
 
@@ -12,13 +12,23 @@ Process::Process(const ProcessInfo& pi) :
                      this, &Process::on_process_finished);
     QObject::connect(&process_, &QProcess::errorOccurred,
                      this, &Process::on_error_occured);
+    QObject::connect(&process_, &QProcess::readyReadStandardOutput,
+                     this, &Process::on_standard_output);
+    QObject::connect(&process_, &QProcess::readyReadStandardError,
+                     this, &Process::on_standard_error);
 }
 
 bool Process::launch(){
     qDebug() << "launch Process";
 
     QFileInfo process_exe = process_info_.processExe();
-    process_.start(process_exe.absoluteFilePath());
+    if ( process_exe.suffix() == "py"){
+        QStringList arguments { "-u" /*for direct flush of stdout*/, process_exe.absoluteFilePath()  };
+        process_.start("D:\\lecomtje\\Utils\\Anaconda\\python.exe", arguments);
+    }
+    else {
+        process_.start(process_exe.absoluteFilePath());
+    }
 
     if (!process_.waitForStarted()){
         setState(Process::ERROR);
@@ -48,6 +58,26 @@ void Process::on_process_finished(int code){
 void Process::on_error_occured(QProcess::ProcessError error){
     qDebug() << "an error occured";
     setState(Process::ERROR);
+}
+
+void Process::on_standard_output(){
+    QProcess *p = qobject_cast<QProcess*>(sender());
+    p->setReadChannel(QProcess::StandardOutput);
+    QTextStream in(p);
+    while(!in.atEnd())
+    {
+         emit log(in.readLine());
+    }
+}
+
+void Process::on_standard_error(){
+    QProcess *p = qobject_cast<QProcess*>(sender());
+    p->setReadChannel(QProcess::StandardError);
+    QTextStream in(p);
+    while(!in.atEnd())
+    {
+         emit error(in.readLine());
+    }
 }
 
 

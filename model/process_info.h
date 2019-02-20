@@ -48,7 +48,7 @@ public:
     void addParam( const QString& name, const QVariant& value );
     const QHash<QString, ProcessParam>& getParams() const { return params_; }
 
-    ProcessParam getParam(const QString& name ) const;
+    bool getParam(const QString& name, ProcessParam&) const;
 
 protected:
     QString name_;
@@ -66,8 +66,12 @@ inline void ProcessInfo::setProcessExe(const QFileInfo& file_info){
     process_exe_ = file_info;
 }
 
-inline ProcessParam ProcessInfo::getParam(const QString& name ) const {
-    return params_[name];
+inline bool ProcessInfo::getParam(const QString& name, ProcessParam& process_param) const {
+    if (!params_.contains(name)){
+        return false;
+    }
+    process_param = params_[name];
+    return true;
 }
 
 inline void ProcessInfo::setModel( Model* model ){

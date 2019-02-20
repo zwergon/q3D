@@ -32,8 +32,9 @@ HEADERS += \
     geometry.h \
     picking.h \
     process_info.h \
-    process.h \
-    process_mgr.h
+    process_mgr.h \
+    process_.h \
+    process_log.h
 
 SOURCES += \
     model.cpp \
@@ -48,6 +49,7 @@ SOURCES += \
     geometry.cpp \
     picking.cpp \
     process_info.cpp \
-    process.cpp \
-    process_mgr.cpp
+    process_mgr.cpp \
+    process_.cpp \
+    process_log.cpp
 

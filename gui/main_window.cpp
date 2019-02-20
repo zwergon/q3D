@@ -22,11 +22,14 @@
 #include <q3D/model/model_driver.h>
 #include <q3D/model/renderer.h>
 #include <q3D/model/model_mgr.h>
+#include <q3D/model/process_mgr.h>
+#include <q3D/model/process_log.h>
 
 #include <q3D/plugins/plugin_dialog.h>
 #include <q3D/plugins/plugins.h>
 #include <q3D/plugins/plugin_action.h>
 #include <q3D/plugins/plugin_collection.h>
+
 
 #include <q3D/gui/gl_area.h>
 
@@ -173,6 +176,8 @@ CGlWindow::CGlWindow(QWidget *parent)
 {
 
     ui_->setupUi( this );
+    ui_->terminalDock->hide();
+
 
     gl_area_ = new CGlArea(this);
     setCentralWidget(gl_area_);
@@ -193,6 +198,8 @@ CGlWindow::CGlWindow(QWidget *parent)
 
     connect(tool_manager_, &ToolManager::toolSelected, gl_area_, &CGlArea::onToolSelected);
     tool_manager_->onActionGroupTriggered(ui_->actionMoveTool);
+
+    new ProcessLog(ProcessManager::instance());
 }
 
 QTreeWidget* CGlWindow::treeWidget() const {
