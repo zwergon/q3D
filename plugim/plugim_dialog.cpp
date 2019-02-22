@@ -8,7 +8,7 @@
 namespace Q3D {
 
 PlugImDialog::PlugImDialog(const QDomDocument& document, QWidget *parent)
-    : QDialog(parent), document_(document)
+    : QDialog(parent), document_(document), has_param_(false)
 {
 
     QVBoxLayout* main_layout = new QVBoxLayout;
@@ -22,8 +22,8 @@ PlugImDialog::PlugImDialog(const QDomDocument& document, QWidget *parent)
 
         QWidget* widget = widget_creator_.create(param_elt, this);
         if ( nullptr != widget ){
-
             main_layout->addWidget(widget);
+            has_param_ = true;
         }
 
     }

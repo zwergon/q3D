@@ -77,7 +77,7 @@ void RendererMenu::init(CGlWindow* window, ModelRenderer* renderer){
             if ( nullptr != action_interface ){
                 QMenu* submenu = new QMenu(action_interface->name(), menu);
                 bool is_empty = true;
-                foreach( auto action, action_interface->getActions()){
+                foreach( auto action, action_interface->getActions(submenu)){
                     if ( ( action->getType() == PluginAction::MENU_ACTION ) &&
                          action->canWorkOn(model) ){
                         is_empty = false;

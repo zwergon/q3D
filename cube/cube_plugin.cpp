@@ -50,10 +50,10 @@ CubeActionPlugin::CubeActionPlugin(QObject *parent) : QObject(parent)
 {
 }
 
-QList<PluginAction*> CubeActionPlugin::getActions() const {
+QList<PluginAction*> CubeActionPlugin::getActions(QObject* parent) const {
     QList<PluginAction*> actions;
 #ifdef WITH_MONGO
-    actions.append(new MongoLoadAction);
+    actions.append(new MongoLoadAction(parent));
 #endif
     return actions;
 }

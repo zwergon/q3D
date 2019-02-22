@@ -71,7 +71,7 @@ void PluginsDialog::populateTreeWidget( QObject *plugin, const QString &text )
         ActionInterface *iTool = plugin_collection->getActionPlugin();
         if ( iTool != nullptr ){
             QStringList entry;
-            foreach( auto a, iTool->getActions()){
+            foreach( auto a, iTool->getActions(ui_->tree_widget_)){
                 entry.append(a->getDescription());
             }
             addItems(pluginItem, "Actions", entry);

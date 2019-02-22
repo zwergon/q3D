@@ -16,6 +16,7 @@
 
 #include <q3D/gui/gui_global.h>
 #include <q3D/model/model.h>
+#include <q3D/gui/arc_ball.h>
 
 namespace Q3D {
 
@@ -26,26 +27,27 @@ class GUISHARED_EXPORT ViewControl
 public:
     ViewControl();
 
-    double angleX() { return mAngleX; }
-    double angleY() { return mAngleY; }
 
-    double camX() { return mCamX; }
-    double camY() { return mCamY; }
-    double camZ() { return mCamZ; }
+    ArcBall& arcBall() { return arc_ball_; }
+    void setBounds( int width, int heigth );
+    void getRotation4f( GLfloat* t) { return arc_ball_.getRotation4f(t); }
 
-    double centreX() { return mCentreX; }
-    double centreY() { return mCentreY; }
-    double centreZ() { return mCentreZ; }
+    double camX() { return cam_x_; }
+    double camY() { return cam_y_; }
+    double camZ() { return cam_z_; }
 
-    double zoomFactor() { return mZoomFactor; }
-    double scaleZ() { return mScaleZ / mZoomFactor; }
+    double centreX() { return centre_x_; }
+    double centreY() { return centre_y_; }
+    double centreZ() { return centre_z_; }
 
-    double dx(){ return mDx; }
-    double dy(){ return mDy; }
+    double zoomFactor() { return zoom_factor_; }
+    double scaleZ() { return scale_z_ / zoom_factor_; }
 
-    double pointSize(){ return mPointSize; }
+    double dx(){ return dx_; }
+    double dy(){ return dy_; }
 
-    void   angleTranslate( double angle_x, double angle_y );
+    double pointSize(){ return point_size_; }
+
     void   scaleZIncr( bool increase  );
     void   scaleXYIncr( bool increase );
     void   camTranslate( double t_x, double t_y, double t_z );
@@ -57,14 +59,14 @@ protected:
     void camInit();
 
 private:
-    double              mAngleX, mAngleY;
-    double              mCamX, mCamY, mCamZ;
-    double              mZoomFactor, mZoomInc;
-    double              mScaleZ, mScaleZInc;
-    double              mDistMin, mDistMax;
-    double              mCentreX, mCentreY, mCentreZ;
-    double              mPointSize;
-    double              mDx, mDy;
+    ArcBall             arc_ball_;
+    double              cam_x_, cam_y_, cam_z_;
+    double              zoom_factor_, zoom_inc_;
+    double              scale_z_, scale_z_inc_;
+    double              dist_min_, dist_max_;
+    double              centre_x_, centre_y_, centre_z_;
+    double              point_size_;
+    double              dx_, dy_;
 
 
 };

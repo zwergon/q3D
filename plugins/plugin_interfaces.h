@@ -14,7 +14,7 @@ class ModelDriver;
 class PLUGINSSHARED_EXPORT ActionInterface {
 public:
     virtual QString name() const = 0;
-    virtual QList<PluginAction*> getActions() const = 0;
+    virtual QList<PluginAction*> getActions( QObject* parent ) const = 0;
 };
 
 

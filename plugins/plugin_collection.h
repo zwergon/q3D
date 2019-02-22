@@ -21,8 +21,6 @@ public:
     virtual DriverInterface* getDriverPlugin() override;
     virtual void end() override;
 
-     void getActions(int action_type, QList<QAction*>&) const;
-
 protected:
     ActionInterface* action_interface_;
     DriverInterface* driver_interface_;

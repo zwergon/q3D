@@ -96,6 +96,8 @@ void CGlArea::resizeGL( int width, int height )
     double fwidth = 0.5;
     double fheight = 0.5 * ((double)(height)/width);
     glFrustum(-fwidth,fwidth,-fheight,fheight,1.,500.);
+
+    view_control_.setBounds(width, height);
 }
 
 /*!
@@ -145,8 +147,9 @@ void CGlArea::paintGL()
     glScaled( view_control_.zoomFactor(), view_control_.zoomFactor(), view_control_.zoomFactor());
     glTranslated( view_control_.dx(), view_control_.dy(), 0 );
 
-    glRotated( view_control_.angleX(), 0.0, 1.0, 0.0);
-    glRotated( view_control_.angleY(), 1.0, 0.0, 0.0 );
+    GLfloat transform[16];
+    view_control_.getRotation4f(transform);
+    glMultMatrixf(transform);
 
     glScaled( 1., 1., view_control_.scaleZ() );
 

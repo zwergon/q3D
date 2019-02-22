@@ -18,10 +18,12 @@ class PLUGIMSHARED_EXPORT PlugImDialog : public QDialog
 public:
     explicit PlugImDialog( const QDomDocument& document, QWidget *parent = nullptr);
 
+    bool hasParam() const { return has_param_; }
 
     QList<ProcessParam> getParams() const;
 
 protected:
+    bool has_param_;
     QDomDocument document_;
     WidgetCreator widget_creator_;
 };

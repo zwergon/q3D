@@ -31,9 +31,11 @@ bool Process::launch(){
     }
 
     if (!process_.waitForStarted()){
+        emit error(getMessage("unable to start"));
         setState(Process::ERROR);
         return false;
     }
+    emit log(getMessage("started"));
 
     setState(Process::RUNNING);
 
@@ -43,12 +45,12 @@ bool Process::launch(){
 void Process::on_process_finished(int code){
 
     if ( code != 0 ){
-        qDebug() << "process exited with error code " << code;
+        emit error(getMessage(QString("exited with %1 code").arg(code)));
         setState(Process::ERROR);
         return;
     }
 
-    qDebug() << "process is finished";
+    emit log(getMessage("finished"));
     setState(Process::FINISHED);
 
     emit processEnded(this);
@@ -66,7 +68,7 @@ void Process::on_standard_output(){
     QTextStream in(p);
     while(!in.atEnd())
     {
-         emit log(in.readLine());
+         emit log(getMessage(in.readLine()));
     }
 }
 
@@ -76,8 +78,12 @@ void Process::on_standard_error(){
     QTextStream in(p);
     while(!in.atEnd())
     {
-         emit error(in.readLine());
+         emit error(getMessage(in.readLine()));
     }
+}
+
+QString Process::getMessage( const QString& text ) const {
+    return QString("[%1] : %2").arg(process_info_.name()).arg(text);
 }
 
 

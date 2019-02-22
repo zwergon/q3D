@@ -32,7 +32,9 @@ HEADERS +=\
     glu.h \
     camera_tool.h \
     tool_manager.h \
-    picking_tool.h
+    picking_tool.h \
+    terminal_log.h \
+    arc_ball.h
 SOURCES += \
     gl_area.cpp \
     main_window.cpp \
@@ -46,4 +48,6 @@ SOURCES += \
     glu.cpp \
     camera_tool.cpp \
     tool_manager.cpp \
-    picking_tool.cpp
+    picking_tool.cpp \
+    terminal_log.cpp \
+    arc_ball.cpp

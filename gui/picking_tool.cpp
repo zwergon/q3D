@@ -5,7 +5,7 @@ PickingTool::PickingTool(ToolManager* manager) : AbstractTool(manager) {
 }
 
 void
-PickingTool::handleMousePressEvent (QMouseEvent* mouseEvent){
+PickingTool::handleMousePressEvent (QMouseEvent* ){
 
 }
 
@@ -24,11 +24,11 @@ PickingTool::handleMouseMoveEvent (QMouseEvent* mouseEvent){
 }
 
 void
-PickingTool::handleMouseReleaseEvent( QMouseEvent* mouseEvent){
+PickingTool::handleMouseReleaseEvent(QMouseEvent* ){
 }
 
 void
-PickingTool::handleWheelEvent( QWheelEvent* wevent){
+PickingTool::handleWheelEvent(QWheelEvent* ){
 }
 
 

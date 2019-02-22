@@ -23,7 +23,7 @@
 #include <q3D/model/renderer.h>
 #include <q3D/model/model_mgr.h>
 #include <q3D/model/process_mgr.h>
-#include <q3D/model/process_log.h>
+
 
 #include <q3D/plugins/plugin_dialog.h>
 #include <q3D/plugins/plugins.h>
@@ -37,6 +37,7 @@
 #include <q3D/gui/camera_tool.h>
 #include <q3D/gui/picking_tool.h>
 #include <q3D/gui/tool_manager.h>
+#include <q3D/gui/terminal_log.h>
 
 Q_DECLARE_METATYPE( Q3D::Model* );
 
@@ -199,7 +200,7 @@ CGlWindow::CGlWindow(QWidget *parent)
     connect(tool_manager_, &ToolManager::toolSelected, gl_area_, &CGlArea::onToolSelected);
     tool_manager_->onActionGroupTriggered(ui_->actionMoveTool);
 
-    new ProcessLog(ProcessManager::instance());
+    new TerminalLog(ui_->terminal_text_, ProcessManager::instance());
 }
 
 QTreeWidget* CGlWindow::treeWidget() const {
@@ -210,13 +211,16 @@ void CGlWindow::populateMenus(){
     QStringList fileNames = Plugins::instance()->get_plugins();
     foreach (QString fileName, fileNames) {
         QPluginLoader loader(fileName);
-        QObject *plugin = loader.instance();
-        PluginCollection* plugin_collection =  qobject_cast<PluginCollection*>(plugin);
-        if (plugin_collection != nullptr) {
-            QList<QAction*> actions;
-            plugin_collection->getActions(PluginAction::IO_ACTION, actions);
-            foreach( auto a, actions){
-                ui_->fileToolBar->addAction(a);
+
+        PluginCollection* plugin_collection =  qobject_cast<PluginCollection*>(loader.instance());
+        if (plugin_collection == nullptr) continue;
+
+        ActionInterface* action_interface = plugin_collection->getActionPlugin();
+        if ( nullptr == action_interface ) continue;
+
+        foreach( auto action, action_interface->getActions(ui_->fileToolBar)){
+            if ( action->getType() == PluginAction::IO_ACTION ){
+                ui_->fileToolBar->addAction(action->getAction());
             }
         }
     }

@@ -9,8 +9,6 @@
 
 namespace Q3D {
 
-
-
 class MODELSHARED_EXPORT Process : public QObject {
       Q_OBJECT
 public:
@@ -46,6 +44,7 @@ protected slots:
 
 protected:
     Process(const ProcessInfo& pi);
+    QString getMessage( const QString& text ) const;
 
 protected:
     int state_;

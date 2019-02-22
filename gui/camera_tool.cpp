@@ -11,9 +11,16 @@ CameraTool::CameraTool(ToolManager* manager) : AbstractTool(manager),
 
 void
 CameraTool::handleMousePressEvent (QMouseEvent* mouseEvent){
+
+
     QPoint p = mouseEvent->globalPos();
     x_prec_ = p.x();
     y_prec_ = p.y();
+
+    CGlArea* gl_area = getGlArea();
+    ViewControl& view_control = gl_area->getViewControl();
+    ArcBall& arc_ball = view_control.arcBall();
+    arc_ball.click(mouseEvent->x(), mouseEvent->y());
 
     move_activated_ = true;
 }
@@ -33,7 +40,7 @@ CameraTool::handleMouseMoveEvent (QMouseEvent* mouseEvent){
                 cameraTranslate( p.x()-x_prec_,	p.y()-y_prec_  ) ;
             }
             else {
-                cameraRotate( p.x()-x_prec_,	p.y()-y_prec_ ) ;
+                cameraRotate(mouseEvent->x(), mouseEvent->y());
             }
         }
 
@@ -62,10 +69,11 @@ CameraTool::handleWheelEvent( QWheelEvent* wevent){
 }
 
 void
-CameraTool::cameraRotate( int angle_x, int angle_y ){
+CameraTool::cameraRotate( int x, int y ){
     CGlArea* gl_area = getGlArea();
     ViewControl& view_control = gl_area->getViewControl();
-    view_control.angleTranslate(  angle_x,	angle_y ) ;
+    ArcBall& arc_ball = view_control.arcBall();
+    arc_ball.drag(x, y);
     gl_area->updateGL();
 }
 

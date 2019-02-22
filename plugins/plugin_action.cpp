@@ -1,5 +1,7 @@
 #include "plugin_action.h"
 
+#include <QDebug>
+
 namespace Q3D {
 
 PluginAction::PluginAction(int type, QObject *parent) :
@@ -12,6 +14,7 @@ PluginAction::PluginAction(int type, QObject *parent) :
 
 PluginAction::~PluginAction(){
     //do nothing.
+    qDebug() << "~PluginAction";
 }
 
 bool PluginAction::canWorkOn(Model*) const {

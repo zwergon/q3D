@@ -26,63 +26,46 @@ ViewControl::ViewControl(){
     camInit();
 }
 
-void   ViewControl::angleTranslate( double angle_x, double angle_y ){
-    int angle_y_max = 360;
-    int angle_x_max = 360;
 
-    mAngleX += angle_x/4.;
-    mAngleY += angle_y/4.;
-
-    while ( mAngleX  <  0 )
-        mAngleX += angle_x_max;
-
-    while ( mAngleX  >  angle_x_max )
-        mAngleX -= angle_x_max;
-
-    while ( mAngleY  <  0 )
-        mAngleY += angle_y_max;
-
-    while ( mAngleY  >  angle_y_max )
-        mAngleY -= angle_y_max;
-
+void ViewControl::setBounds(int width, int height){
+    arc_ball_.setBounds(width, height);
 }
 
 
 void   ViewControl::scaleZIncr( bool increase  ){
     if ( increase ){
-        mScaleZ *= (1 + mScaleZInc );
+        scale_z_ *= (1 + scale_z_inc_ );
     }
     else {
-        mScaleZ *= (1 - mScaleZInc);
+        scale_z_ *= (1 - scale_z_inc_);
     }
 }
 
 void ViewControl::scaleXYIncr( bool increase ){
     if ( increase ){
-        mZoomFactor *= (1 + mZoomInc );
+        zoom_factor_ *= (1 + zoom_inc_ );
     }
     else {
-        mZoomFactor *= (1 - mZoomInc );
+        zoom_factor_ *= (1 - zoom_inc_ );
     }
 }
 
 void   ViewControl::camTranslate( double t_x, double t_y, double  ){
-    mDx += t_x;
-    mDy += t_y;
+    dx_ += t_x;
+    dy_ += t_y;
 }
 
 void ViewControl::camInit() {
-    mAngleX = 0 ;
-    mAngleY = 0 ;
 
-    mZoomFactor    = 1.;
-    mZoomInc = 0.1;
+    arc_ball_.reset();
+    zoom_factor_    = 1.;
+    zoom_inc_ = 0.1;
 
-    mScaleZ    = 1.;
-    mScaleZInc = 0.1;
+    scale_z_    = 1.;
+    scale_z_inc_ = 0.1;
 
-    mDx = 0;
-    mDy = 0;
+    dx_ = 0;
+    dy_ = 0;
 
 }
 
@@ -103,24 +86,24 @@ void ViewControl::setControls ( const Point3d& min, const Point3d& max ){
         dist_max = diff[2];
 
     /*compute center position*/
-    mCentreX = (max[0] + min[0]) / 2 ;
-    mCentreY = (max[1] + min[1]) / 2 ;
-    mCentreZ = (max[2] + min[2]) / 2 ;
+    centre_x_ = (max[0] + min[0]) / 2 ;
+    centre_y_ = (max[1] + min[1]) / 2 ;
+    centre_z_ = (max[2] + min[2]) / 2 ;
 
 
-    mZoomFactor = 2. / dist_max;
-    mScaleZ = mZoomFactor;
+    zoom_factor_ = 2. / dist_max;
+    scale_z_ = zoom_factor_;
 
 
     /*Camera position*/
-    mCamX = mCentreX ;
-    mCamY = mCentreY ;
-    mCamZ = mCentreZ + 3. ;
+    cam_x_ = centre_x_ ;
+    cam_y_ = centre_y_ ;
+    cam_z_ = centre_z_ + 3. ;
 
-    mDx = 0;
-    mDy = 0;
+    dx_ = 0;
+    dy_ = 0;
 
-    mPointSize = dist_max / 50.;
+    point_size_ = dist_max / 50.;
 
 }
 

@@ -15,7 +15,7 @@ class PlugImActionPlugin : public QObject, public ActionInterface
 public:
     explicit PlugImActionPlugin(QObject *parent = nullptr);
     virtual QString name() const { return "PlugIm"; }
-    virtual QList<PluginAction*> getActions() const;
+    virtual QList<PluginAction*> getActions( QObject* parent ) const;
 };
 
 class PlugImCollection : public PluginCollection {

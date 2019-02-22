@@ -28,7 +28,7 @@ class CubeActionPlugin : public QObject, public ActionInterface
 
 public:
     explicit CubeActionPlugin(QObject *parent = nullptr);
-    virtual QList<PluginAction*> getActions() const;
+    virtual QList<PluginAction*> getActions( QObject* parent ) const;
     virtual QString name() const { return "Cube"; }
 };
 

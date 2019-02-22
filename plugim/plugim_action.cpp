@@ -52,7 +52,7 @@ bool PlugImAction::execute(Model* model){
     file.close();
 
     PlugImDialog dlg(doc);
-    if ( dlg.exec()  == QDialog::Accepted ){
+    if ( !dlg.hasParam() || (dlg.exec()  == QDialog::Accepted) ){
 
         ProcessInfo pi( description_ );
         pi.setModel(model);
@@ -61,7 +61,7 @@ bool PlugImAction::execute(Model* model){
         QFileInfo file_in(QDir::temp(), "In.fda");
         pi.addParam("IN", file_in.absoluteFilePath());
 
-        QFileInfo file_out(QDir::temp(), QString("%1_filtered.fda").arg(model->objectName()));
+        QFileInfo file_out(QDir::temp(), QString("%1_%2.fda").arg(model->objectName()).arg(pi.name()));
         pi.addParam("OUT", file_out.absoluteFilePath() );
         for( auto p : dlg.getParams() ){
             pi.addParam( p.name(), p.value() );
