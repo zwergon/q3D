@@ -19,7 +19,7 @@ public:
     MeshRenderer();
 
     virtual void init();
-    virtual void buildGlList();
+    virtual void update();
     virtual RendererAttribute* createAttribute();
 
 private:

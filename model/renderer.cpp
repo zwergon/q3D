@@ -71,12 +71,15 @@ void ModelRenderer::attributeChangedSlot( RendererAttribute* ){
     notify();
 }
 
-void ModelRenderer::update(){
-   buildGlList();
-}
 
 void ModelRenderer::notify(){
     emit needRedraw( this );
+}
+
+void ModelRenderer::draw(){
+    if (glIsList(gl_list_)){
+        glCallList(gl_list_);
+    }
 }
 
 

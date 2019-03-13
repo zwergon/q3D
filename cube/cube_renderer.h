@@ -12,15 +12,17 @@
 
 namespace Q3D {
 
+class CubeRendererAttribute;
+
 class CUBESHARED_EXPORT CubeRenderer : public ModelRenderer
 {
     Q_OBJECT
 
 public:
     enum Slice {
-        XY = 0,
-        XZ,
+        XZ = 0,
         YZ,
+        XY,
         LAST
     };
 
@@ -28,7 +30,7 @@ public:
     virtual ~CubeRenderer();
 
     virtual void init();
-    virtual void buildGlList();
+    virtual void update();
 
 
     virtual void draw() override;
@@ -38,8 +40,12 @@ protected:
     virtual RendererAttribute* createAttribute();
 
 private:
-    void createTexture( const Cube& cube, Slice slice, GLuint tId );
+    void createTexture(const Cube& cube, GLuint* tex, int slice);
+    void drawTexturedPlanes(const Cube& cube, GLuint* tex, int slice);
 
+
+private:
+    GLuint* texture_;
 };
 
 class CUBESHARED_EXPORT CubePickInfo : public PickInfo {

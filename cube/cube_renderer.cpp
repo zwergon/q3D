@@ -10,11 +10,15 @@
 
 
 namespace Q3D {
-CubeRenderer::CubeRenderer()
+CubeRenderer::CubeRenderer() : texture_(nullptr)
 {
 }
 
 CubeRenderer::~CubeRenderer(){
+    if ( nullptr != texture_ ){
+        glDeleteTextures(3, texture_);
+        delete [] texture_; texture_ = nullptr;
+    }
 }
 
 RendererAttribute* CubeRenderer::createAttribute(){
@@ -49,81 +53,90 @@ void CubeRenderer::init(){
 
 }
 
-void CubeRenderer::buildGlList(){
+void CubeRenderer::update(){
 
-    if (glIsList(gl_list_))
-        glDeleteLists(gl_list_,1);
-
-    gl_list_=glGenLists(1);
-
-    glNewList( gl_list_, GL_COMPILE );
-
-    draw();
-
-    glEndList();
-
-}
-
-void CubeRenderer::draw(){
     CubeModel* cube_model = dynamic_cast<CubeModel*>( model() );
     if ( nullptr == cube_model ){
         return;
     }
 
-    CubeRendererAttribute* cube_attribute =
-            static_cast<CubeRendererAttribute*>(attribute());
-    if ( nullptr == cube_attribute ){
-        return;
-    }
-
-    Cube& cube = cube_model->cube();
-    int nx = cube.getNx();
-    int ny = cube.getNy();
-    int nz = cube.getNz();
-
     glEnable(GL_TEXTURE_2D);
 
-    GLuint* tex = new GLuint[Slice::LAST];
-    glGenTextures(Slice::LAST, tex);
+    glTexEnvi(GL_TEXTURE_ENV,GL_TEXTURE_ENV_MODE, GL_REPLACE);
 
-    createTexture(cube, Slice::YZ, tex[Slice::YZ]);
-    createTexture(cube, Slice::XZ, tex[Slice::XZ]);
-    createTexture(cube, Slice::XY, tex[Slice::XY]);
-
-    glColor3f(1., 1., 1.);
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-    glBindTexture(GL_TEXTURE_2D, tex[Slice::XY]);
-    glBegin(GL_QUADS);
-    glTexCoord2i(0, 0); glVertex3i(0, 0, cube_attribute->getCursorZ());
-    glTexCoord2i(0, 1); glVertex3i(0, ny, cube_attribute->getCursorZ());
-    glTexCoord2i(1, 1); glVertex3i(nx, ny, cube_attribute->getCursorZ());
-    glTexCoord2i(1, 0); glVertex3i(nx, 0, cube_attribute->getCursorZ());
-    glEnd();
-
-    glBindTexture(GL_TEXTURE_2D, tex[Slice::XZ]);
-    glBegin(GL_QUADS);
-    glTexCoord2i(0, 0); glVertex3i(0, cube_attribute->getCursorY(), 0);
-    glTexCoord2i(0, 1); glVertex3i(0, cube_attribute->getCursorY(), nz);
-    glTexCoord2i(1, 1); glVertex3i(nx, cube_attribute->getCursorY(), nz);
-    glTexCoord2i(1, 0); glVertex3i(nx, cube_attribute->getCursorY(), 0);
-    glEnd();
-
-    glBindTexture(GL_TEXTURE_2D, tex[Slice::YZ]);
-    glBegin(GL_QUADS);
-    glTexCoord2i(0, 0); glVertex3i(cube_attribute->getCursorX(), 0, 0);
-    glTexCoord2i(0, 1); glVertex3i(cube_attribute->getCursorX(), 0, nz);
-    glTexCoord2i(1, 1); glVertex3i(cube_attribute->getCursorX(), ny, nz);
-    glTexCoord2i(1, 0); glVertex3i(cube_attribute->getCursorX(), ny, 0);
-    glEnd();
-
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glDeleteTextures(Slice::LAST, tex);
+    if ( nullptr != texture_ ){
+        glDeleteTextures(3, texture_);
+        delete [] texture_; texture_ = nullptr;
+    }
+    texture_ = new GLuint[Slice::LAST];
+    glGenTextures(3, texture_);
+    for( int slice = 0; slice < Slice::LAST;  slice++ ){
+        createTexture(cube_model->cube(), texture_, slice);
+    }
     glDisable(GL_TEXTURE_2D);
 
 }
 
-void CubeRenderer::createTexture(const Cube& cube, Slice slice, GLuint tId){
+void CubeRenderer::draw(){
+
+    CubeModel* cube_model = dynamic_cast<CubeModel*>( model() );
+    if ( nullptr == cube_model ){
+        return;
+    }
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);;
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    for( int slice = 0; slice < Slice::LAST;  slice++ ){
+        drawTexturedPlanes(cube_model->cube(), texture_, slice);
+    }
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_BLEND);
+
+
+}
+
+void CubeRenderer::drawTexturedPlanes(const Cube& cube, GLuint* tex, int slice) {
+
+    CubeRendererAttribute* cube_attribute =
+            static_cast<CubeRendererAttribute*>(attribute());
+
+    int nx = cube.getNx();
+    int ny = cube.getNy();
+    int nz = cube.getNz();
+
+    glBindTexture(GL_TEXTURE_2D, tex[slice]);
+    switch( slice ){
+    case Slice::XY:
+        glBegin(GL_QUADS);
+        glTexCoord2i(0, 0); glVertex3i(0, 0, cube_attribute->getCursorZ());
+        glTexCoord2i(0, 1); glVertex3i(0, ny, cube_attribute->getCursorZ());
+        glTexCoord2i(1, 1); glVertex3i(nx, ny, cube_attribute->getCursorZ());
+        glTexCoord2i(1, 0); glVertex3i(nx, 0, cube_attribute->getCursorZ());
+        glEnd();
+        break;
+    case Slice::YZ:
+        glBegin(GL_QUADS);
+        glTexCoord2i(0, 0); glVertex3i(cube_attribute->getCursorX(), 0, 0);
+        glTexCoord2i(0, 1); glVertex3i(cube_attribute->getCursorX(), 0, nz);
+        glTexCoord2i(1, 1); glVertex3i(cube_attribute->getCursorX(), ny, nz);
+        glTexCoord2i(1, 0); glVertex3i(cube_attribute->getCursorX(), ny, 0);
+        glEnd();
+        break;
+    case Slice::XZ:
+        glBegin(GL_QUADS);
+        glTexCoord2i(0, 0); glVertex3i(0, cube_attribute->getCursorY(), 0);
+        glTexCoord2i(0, 1); glVertex3i(0, cube_attribute->getCursorY(), nz);
+        glTexCoord2i(1, 1); glVertex3i(nx, cube_attribute->getCursorY(), nz);
+        glTexCoord2i(1, 0); glVertex3i(nx, cube_attribute->getCursorY(), 0);
+        glEnd();
+        break;
+
+    }
+
+}
+
+void CubeRenderer::createTexture(const Cube& cube, GLuint* tex, int slice){
 
     Slicer2D* slicer = nullptr;
 
@@ -147,25 +160,26 @@ void CubeRenderer::createTexture(const Cube& cube, Slice slice, GLuint tId){
     int nx = slicer->getNx();
     int ny = slicer->getNy();
 
+    GLuint opacity = cube_attribute->opacity() * 255.;
+
     GLuint*  image = new GLuint[nx*ny];
     for( int y=0; y<ny; y++ ){
         for( int x=0; x<nx; x++ ){
             double val = slicer->getValue(x, y);
-            GlColor3uv color;
+            Color4ub color;
             cmap->getGlColor(val, color);
-            image[x+y*nx]   = ((color[0] << 24) | (color[1] << 16) | (color[2] << 8) | (255 << 0));
+            color[3] = qMin<GLuint>(opacity, color[3]);
+            image[x+y*nx]   = ((color[0] << 24) | (color[1] << 16) | (color[2] << 8) | (color[3] << 0));
         }
     }
 
 
-    glBindTexture(GL_TEXTURE_2D, tId);
+    glBindTexture(GL_TEXTURE_2D, tex[slice]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_BASE_LEVEL, 0);  //Always set the base and max mipmap levels of a texture.
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAX_LEVEL, 0);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER,
-                    GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER,
-                    GL_LINEAR);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, nx, ny, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, (GLvoid*)image);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, nx, ny, 0, GL_RGBA, GL_UNSIGNED_INT_8_8_8_8, (GLvoid*)image);
 
     delete [] image;
 }

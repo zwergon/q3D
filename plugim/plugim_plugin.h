@@ -13,6 +13,8 @@ class PlugImActionPlugin : public QObject, public ActionInterface
     Q_INTERFACES(Q3D::ActionInterface)
 
 public:
+    static QStringList getExecutables();
+public:
     explicit PlugImActionPlugin(QObject *parent = nullptr);
     virtual QString name() const { return "PlugIm"; }
     virtual QList<PluginAction*> getActions( QObject* parent ) const;

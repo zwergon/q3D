@@ -46,7 +46,7 @@ ColorRamp::paintEvent( QPaintEvent* pEvent )
 	float value = mpColorMap->mini();
 	for (int i=0; i< h; i++)
 	{
-		GlColor3uv c;
+        Color3ub c;
 		mpColorMap->getGlColor( value, c ) ;
 		p.setPen( QColor(c[0], c[1], c[2]) );
 		p.drawLine(0, h-i, w, h-i );

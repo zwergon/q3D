@@ -34,6 +34,10 @@ private slots:
     void on_dial_x__valueChanged(int);
     void on_dial_y__valueChanged(int);
     void on_dial_z__valueChanged(int);
+    void on_x_edit__textChanged();
+    void on_y_edit__textChanged();
+    void on_z_edit__textChanged();
+    void on_transparency_slider__valueChanged(int);
 
 private:
     Ui::CubeRendererAttributeDlg *ui;

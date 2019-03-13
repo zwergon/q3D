@@ -129,7 +129,7 @@ void MeshRenderer::setColor( const Property& prop, quint64 id, const QColor& def
     QVector<double> value;
     prop.get_value( id, value );
     if ( value[0] != std::numeric_limits<double>::infinity() ){
-        GlColor3uv color;
+        Color3ub color;
         colormap()->getGlColor( value[0], color );
         glColor4ub( color[0], color[1], color[2], opacity*255 );
     }
@@ -312,7 +312,7 @@ void MeshRenderer::drawEdges( MeshModel* mesh_model ){
 
 
 void
-MeshRenderer::buildGlList()
+MeshRenderer::update()
 {
     MeshModel* mmodel = dynamic_cast<MeshModel*>( model() );
     if ( 0 == mmodel ){

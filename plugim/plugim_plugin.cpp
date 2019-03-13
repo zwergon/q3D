@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QDir>
+#include <QSettings>
 
 #include <q3D/plugim/plugim_action.h>
 
@@ -16,17 +17,30 @@ QList<PluginAction*> PlugImActionPlugin::getActions( QObject* parent ) const {
 
 
     QList<PluginAction*> actions;
-    {
-        QDir plugin_dir( QString("%1/plugim/volumeBilateral3DSEP").arg(QDir::currentPath())  );
-        QFileInfo fi( plugin_dir, "volumeBilateral3DSEP.exe");
+    for ( QString exe : getExecutables() ){
+        QFileInfo fi(exe);
         actions.append(new PlugImAction(fi.absoluteFilePath(), parent));
     }
-    {
-        QDir plugin_dir( "D:\\lecomtje\\Projets\\python\\geoanalog"  );
-        QFileInfo fi( plugin_dir, "geoanalog.py");
-        actions.append(new PlugImAction(fi.absoluteFilePath(), parent));
-    }
+
     return actions;
+
+}
+
+QStringList PlugImActionPlugin::getExecutables(){
+
+    QStringList executables;
+    QSettings settings( "ifp", "q3D" );
+
+    settings.beginGroup( "executables" );
+    QStringList keys = settings.childKeys();
+
+    for( int i=0; i< keys.size(); i++ ) {
+        QString lib  = settings.value( keys.at(i) ).toString() ;
+        executables.append( lib );
+    }
+    settings.endGroup();
+
+    return executables;
 }
 
 

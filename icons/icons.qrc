@@ -1515,5 +1515,6 @@
         <file>FlatSVG/scalable/apps/YaST.svg</file>
         <file>FlatSVG/scalable/apps/Ym.svg</file>
         <file>FlatSVG/scalable/apps/zip.svg</file>
+        <file>q3d.png</file>
     </qresource>
 </RCC>

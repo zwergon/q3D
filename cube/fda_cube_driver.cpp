@@ -54,6 +54,10 @@ Model* FdaCubeDriver::open(const ModelOpenInfo& openInfo )
         cube = new CubeUC;
         size_of = sizeof(quint8);
         break;
+    case SAVEF3I:
+        cube = new CubeI32;
+        size_of = sizeof(qint32);
+        break;
     case SAVEF3F:
         cube = new CubeF;
         size_of = sizeof(float);
@@ -94,6 +98,9 @@ void FdaCubeDriver::save( const Model& model, const QString& filename ){
     auto type = SAVEF3UC;
     if ( dynamic_cast<const CubeF*>(&cube) != nullptr ){
         type = SAVEF3F;
+    }
+    else if ( dynamic_cast<const CubeI32*>(&cube) != nullptr ){
+        type = SAVEF3I;
     }
 
     QFile file( filename );

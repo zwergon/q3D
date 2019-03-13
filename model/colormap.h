@@ -25,7 +25,8 @@
 
 namespace Q3D {
 
-typedef unsigned char GlColor3uv[3];
+typedef quint8 Color3ub[3];
+typedef quint8 Color4ub[4];
 
 class StaticPalettes : public QHash<QString, unsigned char*> {
   public:
@@ -61,8 +62,15 @@ public:
     double currentMin() const { return cmin_; }
     double currentMax() const { return cmax_; }
 
+
+    bool hasAlpha() const;
+
+    void setAlphaIdx( int alpha_idx );
+    int  alphaIdx() const;
+
     void  setMinMax ( double min, double max );
-    void  getGlColor(double z, GlColor3uv& color) const;
+    void  getGlColor(double z, Color3ub& color) const;
+    void  getGlColor(double z, Color4ub& color) const;
 
 	int            getNColors() const;
 	QColor         getQColor( int index ) const;
@@ -87,6 +95,8 @@ private:
     double          max_;
     double          cmin_;
     double          cmax_ ;
+    bool            has_alpha_;
+    int             alpha_idx_;
     QVector<unsigned char> colormap_;
 
     static StaticPalettes palettes_;
@@ -107,6 +117,24 @@ inline void ColorMap::setCurrentMin( double min ){
 
 inline void ColorMap::setCurrentMax( double max ){
     cmax_ = max;
+}
+
+inline bool ColorMap::hasAlpha() const {
+    return has_alpha_;
+}
+
+inline void ColorMap::setAlphaIdx(int alpha_idx){
+    if ( alpha_idx == -1 ) {
+        has_alpha_ = false;
+    }
+    else {
+        alpha_idx_ = alpha_idx;
+        has_alpha_ = true;
+    }
+}
+
+inline int ColorMap::alphaIdx() const {
+    return alpha_idx_;
 }
 
 }

@@ -44,17 +44,13 @@ public:
     RendererAttribute* attribute() const;
 
     ColorMap* colormap();
-   
-    quint32 glList() const { return gl_list_; }
 
-
-    void update();
     void notify();
 
     /*virtual functions*/
     virtual void init(){}
-    virtual void buildGlList() = 0;
-    virtual void draw(){}
+    virtual void update() = 0;
+    virtual void draw();
     virtual void pick( Pick& ){}
 
 signals:

@@ -19,14 +19,19 @@ public:
     int getCursorY() const;
     int getCursorZ() const;
 
+    float opacity() const;
+
     void setCursorX( int cursor );
     void setCursorY( int cursor );
     void setCursorZ( int cursor );
+
+    void setOpacity( float opacity );
 
 private:
     int cursor_x_;
     int cursor_y_;
     int cursor_z_;
+    float opacity_;
 };
 
 inline int CubeRendererAttribute::getCursorX() const {
@@ -41,6 +46,9 @@ inline int CubeRendererAttribute::getCursorZ() const {
     return cursor_z_;
 }
 
+inline float CubeRendererAttribute::opacity() const {
+    return opacity_;
+}
 
 
 }

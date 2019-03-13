@@ -51,7 +51,9 @@ private slots:
 	void on_interpolatedRadioButtonW_toggled( bool );
 	void on_randomRadioButtonW_toggled( bool );
     void on_predefinedRadioButtonW_toggled( bool );
-    void on_paletteCombo_currentIndexChanged ( const QString & text );
+    void on_paletteCombo_currentIndexChanged (const QString&);
+    void on_alpha_gb__toggled(bool);
+    void on_alpha_spin__valueChanged(int);
 
     void initUI();
 

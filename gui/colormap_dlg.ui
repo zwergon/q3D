@@ -6,14 +6,14 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>407</width>
-    <height>299</height>
+    <width>391</width>
+    <height>346</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Colormap Editor</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_3">
+  <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0" rowspan="2">
     <widget class="Q3D::ColorRamp" name="colorFrameW">
      <property name="sizePolicy">
@@ -210,37 +210,6 @@
      </layout>
     </widget>
    </item>
-   <item row="2" column="0" colspan="2">
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
-     <item>
-      <widget class="QPushButton" name="applyButtonW">
-       <property name="text">
-        <string>Apply</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="closeButtonW">
-       <property name="text">
-        <string>Close</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="sizeHint" stdset="0">
-        <size>
-         <width>40</width>
-         <height>20</height>
-        </size>
-       </property>
-      </spacer>
-     </item>
-    </layout>
-   </item>
    <item row="1" column="2">
     <widget class="QGroupBox" name="paletteButtonGroupW">
      <property name="enabled">
@@ -273,6 +242,81 @@
      </layout>
     </widget>
    </item>
+   <item row="2" column="0" colspan="2">
+    <widget class="QGroupBox" name="alpha_gb_">
+     <property name="toolTip">
+      <string>specify which index [0..255] should be transparent.</string>
+     </property>
+     <property name="title">
+      <string>Transparency</string>
+     </property>
+     <property name="checkable">
+      <bool>true</bool>
+     </property>
+     <property name="checked">
+      <bool>false</bool>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QSpinBox" name="alpha_spin_">
+        <property name="maximum">
+         <number>255</number>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="Q3D::ColorButton" name="alpha_color_">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>20</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text" stdset="0">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item row="3" column="0" colspan="2">
+    <layout class="QHBoxLayout" name="horizontalLayout_2">
+     <item>
+      <widget class="QPushButton" name="applyButtonW">
+       <property name="text">
+        <string>Apply</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="closeButtonW">
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
   </layout>
  </widget>
  <customwidgets>
@@ -289,6 +333,21 @@
    <container>1</container>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>applyButtonW</tabstop>
+  <tabstop>closeButtonW</tabstop>
+  <tabstop>predefinedRadioButtonW</tabstop>
+  <tabstop>randomRadioButtonW</tabstop>
+  <tabstop>paletteCombo</tabstop>
+  <tabstop>browseButtonW</tabstop>
+  <tabstop>alpha_spin_</tabstop>
+  <tabstop>maxLineEditW</tabstop>
+  <tabstop>minSliderW</tabstop>
+  <tabstop>maxSliderW</tabstop>
+  <tabstop>minLineEditW</tabstop>
+  <tabstop>alpha_gb_</tabstop>
+  <tabstop>interpolatedRadioButtonW</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>

@@ -84,6 +84,7 @@ void ColorMapDlg::initUI(){
     ui_->firstColorButtonW->setColor(  cmap_.getQColor( cmap_.getNColors() - 1 )  ) ;
 
 
+
     float max_slider_range = (float)ui_->maxSliderW->maximum() - (float)ui_->maxSliderW->minimum();
     float min_slider_range = (float)ui_->minSliderW->maximum() - (float)ui_->minSliderW->minimum();
     float data_range = cmap_.maxi() - cmap_.mini();
@@ -95,6 +96,10 @@ void ColorMapDlg::initUI(){
     int min = (float)ui_->minSliderW->maximum() -(cmap_.currentMin() - cmap_.mini())*min_slider_range/data_range;
     ui_->minSliderW->setValue( min);
     ui_->minLineEditW->setText(QString::number(cmap_.currentMin() ));
+
+    ui_->alpha_gb_->setChecked( cmap_.hasAlpha() );
+    ui_->alpha_spin_->setValue( cmap_.alphaIdx() );
+    ui_->alpha_color_->setColor( cmap_.getQColor(cmap_.alphaIdx()));
 }
 
 void ColorMapDlg::initCombo()
@@ -107,9 +112,19 @@ void ColorMapDlg::initCombo()
         ui_->paletteCombo->addItem( itp.next() );
     }
 
+}
 
+void
+ColorMapDlg::on_alpha_gb__toggled(bool on){
+   cmap_.setAlphaIdx( (on) ? ui_->alpha_spin_->value() : -1 );
+}
+
+void ColorMapDlg::on_alpha_spin__valueChanged(int value){
+    cmap_.setAlphaIdx(value);
+    ui_->alpha_color_->setColor( cmap_.getQColor(cmap_.alphaIdx()));
 
 }
+
 
 void 
 ColorMapDlg::on_minSliderW_valueChanged(int value)

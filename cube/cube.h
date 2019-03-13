@@ -112,6 +112,34 @@ inline const quint8* CubeUC::data() const{
 
 /*************************************************/
 
+class CUBESHARED_EXPORT CubeI32 : public Cube
+{
+
+public:
+    CubeI32();
+
+    virtual int sizeOf() const override;
+    virtual double getValue(int idx) const override;
+
+    const qint32* data() const;
+};
+
+inline int CubeI32::sizeOf() const {
+    return sizeof(qint32);
+}
+
+
+
+inline double CubeI32::getValue(int idx) const {
+    return data()[idx];
+}
+
+inline const qint32* CubeI32::data() const{
+    return (qint32*)data_.data();
+}
+
+/*************************************************/
+
 class CUBESHARED_EXPORT CubeF : public Cube
 {
 

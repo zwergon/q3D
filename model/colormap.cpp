@@ -86,7 +86,9 @@ ColorMap::ColorMap( QObject* parent )
       type_( NAMED ),
       name_("Default"),
       cmin_( 0 ),
-      cmax_( 0 )
+      cmax_( 0 ),
+      has_alpha_(false),
+      alpha_idx_(0) //no alpha channel
 {
     createFromName( name_ );
     setMinMax( 0, getNColors() );
@@ -99,6 +101,8 @@ ColorMap::ColorMap( QObject* parent )
      max_ = cmap.max_;
      cmin_ = cmap.cmin_;
      cmax_ = cmap.cmax_;
+     has_alpha_ = cmap.has_alpha_;
+     alpha_idx_ = cmap.alpha_idx_;
      colormap_ = cmap.colormap_;
 
      emit colormapChanged( this );
@@ -106,7 +110,7 @@ ColorMap::ColorMap( QObject* parent )
  }
 
 void
-ColorMap::getGlColor(double z, GlColor3uv& color) const
+ColorMap::getGlColor(double z, Color3ub& color) const
 {
 	int n_colors = getNColors();
 
@@ -116,6 +120,22 @@ ColorMap::getGlColor(double z, GlColor3uv& color) const
     color[0] = colormap_[3*indice];
     color[1] = colormap_[3*indice+1];
     color[2] = colormap_[3*indice+2];
+
+}
+
+void
+ColorMap::getGlColor(double z, Color4ub& color) const
+{
+    int n_colors = getNColors();
+
+    if (z > cmax_) z = cmax_ ;
+    else if (z < cmin_ ) z = cmin_ ;
+    int indice = (int)((double)( n_colors - 1. ) *(z - cmin_)/(cmax_-cmin_));
+    color[0] = colormap_[3*indice];
+    color[1] = colormap_[3*indice+1];
+    color[2] = colormap_[3*indice+2];
+
+    color[3] = ( has_alpha_ && (indice == alpha_idx_) ) ? 0 : 255;
 
 }
 

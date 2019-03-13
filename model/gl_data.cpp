@@ -27,7 +27,8 @@ GLData::GLData()
   color_bg_[0] = color.redF() ;
   color_bg_[1] = color.greenF() ;
   color_bg_[2] = color.blueF() ;
-  color_bg_[3] = color.alphaF() ;
+//color_bg_[3] = color.alphaF() ;
+  color_bg_[3] = 1. ;
 
   ambient_light_[0] = 1.;
   ambient_light_[1] = 1.;

@@ -5,7 +5,8 @@
 namespace Q3D {
 
 CubeRendererAttribute::CubeRendererAttribute(ModelRenderer* renderer)
-    : RendererAttribute(renderer)
+    : RendererAttribute(renderer),
+      opacity_(1.)
 {
 }
 
@@ -28,4 +29,10 @@ void CubeRendererAttribute::setCursorZ(int cursor){
     cursor_z_ = cursor;
     emit attributeChanged(this);
 }
+
+void CubeRendererAttribute::setOpacity(float opacity){
+    opacity_ = opacity;
+    emit attributeChanged(this);
+}
+
 }

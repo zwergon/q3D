@@ -78,7 +78,6 @@ CGlArea::initializeGL()
     glClearColor( bg[0], bg[1], bg[2], bg[3] );    // Background color
     glClearDepth(1.0f);                      // Depth Buffer Setup
     glEnable( GL_DEPTH_TEST );			    // Enables Depth Testing
-
     glDepthFunc(GL_LEQUAL);	            // The Type Of Depth Testing To Do
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);	// Really Nice Perspective Calculations
 
@@ -159,17 +158,18 @@ void CGlArea::paintGL()
 
     glTranslated( -view_control_.centreX(), -view_control_.centreY(), -view_control_.centreZ() );
 
+
     if ( gl_machine_->withAxis() && glIsList(gl_axis_))
         glCallList(gl_axis_);
+
 
     for ( QSet<ModelRenderer*>::iterator itr = model_renderers_.begin();
           itr != model_renderers_.end();
           itr++ ){
         ModelRenderer *model_renderer = *itr;
-        if (glIsList(model_renderer->glList())){
-            glCallList(model_renderer->glList());
-        }
+        model_renderer->draw();
     }
+
 }
 
 void

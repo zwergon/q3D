@@ -56,7 +56,7 @@ CpgMeshRenderer::drawSurface( CpgMesh* cpgmesh )
 
 		glBegin(GL_TRIANGLE_FAN);
 
-        GlColor3uv color;
+        Color3ub color;
         colormap_.getGlColor( v5[2], color );
         glColor3ubv( color );
         glVertex3d( v5[0], v5[1], v5[2] );
@@ -125,7 +125,7 @@ void CpgMeshRenderer::init(){
 }
 
 void
-CpgMeshRenderer::buildGlList()
+CpgMeshRenderer::update()
 {
 	CpgMesh* cpgmesh = dynamic_cast<CpgMesh*>( model() );
 	if ( 0 == cpgmesh ){
