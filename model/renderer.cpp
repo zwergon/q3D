@@ -62,12 +62,10 @@ RendererAttribute* ModelRenderer::createAttribute(){
 }
 
 void ModelRenderer::colormapChangedSlot( ColorMap* ){
-    update();
     notify();
 }
 
 void ModelRenderer::attributeChangedSlot( RendererAttribute* ){
-    update();
     notify();
 }
 
@@ -76,7 +74,7 @@ void ModelRenderer::notify(){
     emit needRedraw( this );
 }
 
-void ModelRenderer::draw(){
+void ModelRenderer::draw( RendererArea* ){
     if (glIsList(gl_list_)){
         glCallList(gl_list_);
     }

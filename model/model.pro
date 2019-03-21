@@ -22,7 +22,6 @@ HEADERS += \
     model_driver_mgr.h \
     model_open_info.h \
     renderer.h \
-    gl_data.h \
     colormap.h \
     renderer_attribute.h \
     renderer_attribute_dialog.h \
@@ -34,14 +33,15 @@ HEADERS += \
     process_info.h \
     process_mgr.h \
     process_.h \
-    process_log.h
+    process_log.h \
+    renderer_area.h \
+    uv_quad.h
 
 SOURCES += \
     model.cpp \
     model_driver.cpp \
     model_driver_mgr.cpp \
     renderer.cpp \
-    gl_data.cpp \
     colormap.cpp \
     renderer_attribute.cpp \
     renderer_attribute_dialog.cpp \
@@ -51,5 +51,7 @@ SOURCES += \
     process_info.cpp \
     process_mgr.cpp \
     process_.cpp \
-    process_log.cpp
+    process_log.cpp \
+    uv_quad.cpp \
+    renderer_area.cpp
 

@@ -14,7 +14,7 @@
 #include <QtOpenGL>
 #include <QMenu>
 
-#include <q3D/model/gl_data.h>
+#include <q3D/gui/gl_data.h>
 #include <q3D/model/model.h>
 #include <q3D/drivers/drivers_renderer_attribute.h>
 
@@ -125,7 +125,7 @@ void CpgMeshRenderer::init(){
 }
 
 void
-CpgMeshRenderer::update()
+CpgMeshRenderer::update( RendererArea* )
 {
 	CpgMesh* cpgmesh = dynamic_cast<CpgMesh*>( model() );
 	if ( 0 == cpgmesh ){

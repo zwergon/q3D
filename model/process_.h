@@ -18,7 +18,7 @@ public:
         STARTING,
         RUNNING,
         FINISHED,
-        ERROR
+        PERROR
     };
 
 public:

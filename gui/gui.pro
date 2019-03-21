@@ -21,7 +21,6 @@ FORMS += main_window.ui \
 HEADERS +=\
     gl_area.h \
     main_window.h \
-    view_control.h \
     level_dlg.h \
     color_ramp.h \
     colormap_dlg.h \
@@ -34,11 +33,12 @@ HEADERS +=\
     tool_manager.h \
     picking_tool.h \
     terminal_log.h \
-    arc_ball.h
+    arc_ball.h \
+    gl_data.h \
+    view_control.h
 SOURCES += \
     gl_area.cpp \
     main_window.cpp \
-    view_control.cpp \
     level_dlg.cpp \
     color_ramp.cpp \
     colormap_dlg.cpp \
@@ -50,4 +50,6 @@ SOURCES += \
     tool_manager.cpp \
     picking_tool.cpp \
     terminal_log.cpp \
-    arc_ball.cpp
+    arc_ball.cpp \
+    gl_data.cpp \
+    view_control.cpp

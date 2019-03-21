@@ -15,6 +15,7 @@
 #define Q3D_UTILS_VIEW_CONTROL_DLG_H_ 1
 
 #include <q3D/gui/gui_global.h>
+
 #include <q3D/model/model.h>
 #include <q3D/gui/arc_ball.h>
 
@@ -32,16 +33,16 @@ public:
     void setBounds( int width, int heigth );
     void getRotation4f( GLfloat* t) { return arc_ball_.getRotation4f(t); }
 
-    double camX() { return cam_x_; }
-    double camY() { return cam_y_; }
-    double camZ() { return cam_z_; }
+    double camX() const { return cam_x_; }
+    double camY() const { return cam_y_; }
+    double camZ() const { return cam_z_; }
 
-    double centreX() { return centre_x_; }
-    double centreY() { return centre_y_; }
-    double centreZ() { return centre_z_; }
+    double centreX() const { return centre_x_; }
+    double centreY() const { return centre_y_; }
+    double centreZ() const { return centre_z_; }
 
-    double zoomFactor() { return zoom_factor_; }
-    double scaleZ() { return scale_z_ / zoom_factor_; }
+    double zoomFactor() const { return zoom_factor_; }
+    double scaleZ() const { return scale_z_ / zoom_factor_; }
 
     double dx(){ return dx_; }
     double dy(){ return dy_; }

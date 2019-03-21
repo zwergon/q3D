@@ -20,9 +20,11 @@
 #include <QGLWidget>
 #include <q3D/model/model.h>
 #include <q3D/model/renderer.h>
+#include <q3D/model/renderer_area.h>
 
 #include <q3D/gui/camera_tool.h>
 #include <q3D/gui/tool_manager.h>
+
 
 
 namespace Q3D {
@@ -167,7 +169,28 @@ void CGlArea::paintGL()
           itr != model_renderers_.end();
           itr++ ){
         ModelRenderer *model_renderer = *itr;
-        model_renderer->draw();
+        model_renderer->draw(this);
+    }
+
+    qDebug() << "draw " << uv_quads_.size() << " patches";
+
+    //second pass to draw textured patches.
+    if ( !uv_quads_.empty() ){
+        glGetFloatv( GL_MODELVIEW_MATRIX, UVQuad::modelview );
+        UVQuad::cam2center[0] = view_control_.camX() - view_control_.centreX();
+        UVQuad::cam2center[1] = view_control_.camY() - view_control_.centreY();
+        UVQuad::cam2center[2] = view_control_.camZ() - view_control_.centreZ();
+
+        qSort(uv_quads_.begin(), uv_quads_.end(), UVQuad::lessThan);
+
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);;
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        for( auto uv_quad : uv_quads_ ){
+            uv_quad.draw();
+        }
+        glDisable(GL_TEXTURE_2D);
+        glDisable(GL_BLEND);
     }
 
 }
@@ -242,12 +265,11 @@ CGlArea::buildAll()
 {
 
     buildAxis();
-
     for ( QSet<ModelRenderer*>::iterator itr = model_renderers_.begin();
           itr != model_renderers_.end();
           itr++ ){
         ModelRenderer *model_renderer = *itr;
-        model_renderer->update();
+        model_renderer->update(this);
     }
 }
 
@@ -355,8 +377,8 @@ CGlArea::addCoreRenderer(ModelRenderer *model_renderer)
     }
 
     model_renderers_.insert(model_renderer);
-    connect( model_renderer, SIGNAL(needRedraw(ModelRenderer*)),
-             this, SLOT(updateGL()));
+    connect( model_renderer, &ModelRenderer::needRedraw,
+             this, &CGlArea::updateRenderer);
     adjustBoundingBox();
     buildAll();
     updateGL();
@@ -368,6 +390,7 @@ CGlArea::removeCoreRenderer(ModelRenderer *model_renderer){
     QSet<ModelRenderer*>::iterator itr = model_renderers_.find( model_renderer );
     if ( itr != model_renderers_.end() ){
         ModelRenderer* model_renderer = *itr;
+        model_renderer->clean(this);
         model_renderer->disconnect(this);
         model_renderers_.erase( itr );
 
@@ -425,6 +448,13 @@ CGlArea::popupMenuExec( QMouseEvent *event )
 
 }
 
+
+void
+CGlArea::updateRenderer(ModelRenderer *renderer ){
+    renderer->update(this);
+    updateGL();
+}
+
 /**
   * When Model is changed, look at ModelRenderer to know whose need to be
   * updated.
@@ -437,7 +467,7 @@ CGlArea::update( Model* model ){
     while( it_m.hasNext() ){
         ModelRenderer *model_renderer = it_m.next();
         if ( model == model_renderer->model() ){
-            model_renderer->update();
+            model_renderer->update(this);
             need_update = true;
         }
     }
@@ -448,7 +478,6 @@ CGlArea::update( Model* model ){
         updateGL();
     }
 }
-
 
 void
 CGlArea::doPickingAt(int x, int y, Pick& pick){

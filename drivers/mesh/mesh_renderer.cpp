@@ -16,7 +16,7 @@
 
 #include "mesh_renderer.h"
 
-#include <q3D/model/gl_data.h>
+#include <q3D/gui/gl_data.h>
 #include <q3D/drivers/mesh/mesh_renderer_attribute.h>
 
 #include "mesh_model.h"
@@ -312,7 +312,7 @@ void MeshRenderer::drawEdges( MeshModel* mesh_model ){
 
 
 void
-MeshRenderer::update()
+MeshRenderer::update(RendererArea*)
 {
     MeshModel* mmodel = dynamic_cast<MeshModel*>( model() );
     if ( 0 == mmodel ){

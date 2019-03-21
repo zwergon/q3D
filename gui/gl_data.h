@@ -14,7 +14,7 @@
 #ifndef Q3D_UTILS_GL_MACHINE_H_
 #define Q3D_UTILS_GL_MACHINE_H_ 1
 
-#include <q3D/model/model_scope.h>
+#include <q3D/gui/gui_global.h>
 
 #include <q3D/model/point3d.h>
 #include <q3D/model/picking.h>
@@ -24,7 +24,7 @@
 
 namespace Q3D {
 
-class MODELSHARED_EXPORT GLData
+class GUISHARED_EXPORT GLData
 {
  public:
   static GLData* instance();

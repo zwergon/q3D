@@ -1,13 +1,15 @@
 #ifndef GLU_H
 #define GLU_H
 
+#include <q3D/gui/gui_global.h>
+
 #include <QtOpenGL>
 
 #include <q3D/model/point3d.h>
 
 namespace Q3D {
 
-class GLu {
+class GUISHARED_EXPORT GLu {
 
 public:
     static void lookAt(

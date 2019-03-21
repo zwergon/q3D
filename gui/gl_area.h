@@ -14,14 +14,17 @@
 #ifndef Q3D_GUI_GLAREA_H_
 #define Q3D_GUI_GLAREA_H_ 1
 
+#include <q3D/gui/gui_global.h>
+
 #include <QSet>
 
 #include <QtOpenGL>
 
 #include <q3D/model/model.h>
 #include <q3D/model/renderer.h>
+#include <q3D/model/renderer_area.h>
 
-#include <q3D/model/gl_data.h>
+#include <q3D/gui/gl_data.h>
 #include <q3D/gui/view_control.h>
 
 #include <QMainWindow>
@@ -30,7 +33,7 @@ namespace Q3D {
 
 class AbstractTool;
 
-class CGlArea : public QGLWidget
+class GUISHARED_EXPORT CGlArea : public QGLWidget, public RendererArea
 {
 	Q_OBJECT
 
@@ -74,6 +77,7 @@ private:
 
 private slots:
     void update( Model* );
+    void updateRenderer( ModelRenderer* );
 	void smoothOptionSlot();
     void lightOptionSlot();
     void axisOptionSlot();

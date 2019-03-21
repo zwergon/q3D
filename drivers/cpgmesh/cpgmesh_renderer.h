@@ -28,7 +28,7 @@ class DRIVERSSHARED_EXPORT CpgMeshRenderer : public ModelRenderer
 public:
     CpgMeshRenderer();
 
-    virtual void update();
+    virtual void update(RendererArea*) override;
     virtual void init();
 
 protected:

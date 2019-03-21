@@ -9,7 +9,7 @@ TEMPLATE = lib
 
 DEFINES += CUBE_LIBRARY
 
-LIBS += -lmodel -lplugins
+LIBS += -lmodel -lplugins -lgui
 
 win32 {
     LIBS += -lopengl32 -lgdi32

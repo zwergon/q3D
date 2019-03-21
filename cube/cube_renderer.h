@@ -30,10 +30,10 @@ public:
     virtual ~CubeRenderer();
 
     virtual void init();
-    virtual void update();
+    virtual void update(RendererArea*) override;
+    virtual void draw(RendererArea*) override;
+    virtual void clean(RendererArea*) override;
 
-
-    virtual void draw() override;
     virtual void pick(Pick& pick) override;
 
 protected:
@@ -41,7 +41,7 @@ protected:
 
 private:
     void createTexture(const Cube& cube, GLuint* tex, int slice);
-    void drawTexturedPlanes(const Cube& cube, GLuint* tex, int slice);
+    void createUVQuad(const Cube& cube, GLuint* tex, RendererArea*);
 
 
 private:

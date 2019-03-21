@@ -19,7 +19,7 @@ public:
     MeshRenderer();
 
     virtual void init();
-    virtual void update();
+    virtual void update( RendererArea* );
     virtual RendererAttribute* createAttribute();
 
 private:

@@ -20,14 +20,16 @@
 
 #include <q3D/model/colormap.h>
 
-class QMenu;
 
+class QMenu;
 namespace Q3D {
 
 class Model;
 class RendererAttribute;
 class Pick;
 class PickInfo;
+class RendererArea;
+
 
 class MODELSHARED_EXPORT ModelRenderer : public QObject
 {
@@ -49,8 +51,9 @@ public:
 
     /*virtual functions*/
     virtual void init(){}
-    virtual void update() = 0;
-    virtual void draw();
+    virtual void update( RendererArea* ) = 0;
+    virtual void draw( RendererArea* );
+    virtual void clean(RendererArea*){}
     virtual void pick( Pick& ){}
 
 signals:

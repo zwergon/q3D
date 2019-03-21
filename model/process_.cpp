@@ -32,7 +32,7 @@ bool Process::launch(){
 
     if (!process_.waitForStarted()){
         emit error(getMessage("unable to start"));
-        setState(Process::ERROR);
+        setState(Process::PERROR);
         return false;
     }
     emit log(getMessage("started"));
@@ -46,7 +46,7 @@ void Process::on_process_finished(int code){
 
     if ( code != 0 ){
         emit error(getMessage(QString("exited with %1 code").arg(code)));
-        setState(Process::ERROR);
+        setState(Process::PERROR);
         return;
     }
 
@@ -59,7 +59,7 @@ void Process::on_process_finished(int code){
 
 void Process::on_error_occured(QProcess::ProcessError error){
     qDebug() << "an error occured";
-    setState(Process::ERROR);
+    setState(Process::PERROR);
 }
 
 void Process::on_standard_output(){
