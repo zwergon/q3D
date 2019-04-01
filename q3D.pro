@@ -8,9 +8,9 @@ SUBDIRS = \
     gui \
 # drivers
     mesh \
+    cube \
     filters \
     drivers \
-    cube \
     plugim \
 # unit tests
     tests

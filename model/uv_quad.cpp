@@ -78,13 +78,18 @@ void UVQuad::center(GLfloat center[]) const{
 }
 
 bool UVQuad::lessThan(const UVQuad &q1, const UVQuad &q2){
-    GLfloat c1[3];
-    q1.center(c1);
 
-    GLfloat c2[3];
-    q2.center(c2);
+    if ( q1.id == q2.id ){
+        GLfloat c1[3];
+        q1.center(c1);
 
-    return scalar(c1, cam2center) < scalar(c2, cam2center);
+        GLfloat c2[3];
+        q2.center(c2);
+        return scalar(c1, cam2center) < scalar(c2, cam2center);
+    }
+
+    return q1.id < q2.id;
+
 
 }
 

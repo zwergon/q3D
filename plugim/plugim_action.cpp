@@ -3,7 +3,7 @@
 #include <QAction>
 #include <QMessageBox>
 
-#include <q3d/cube/cube_model.h>
+#include <q3d/drivers/cube/cube_model.h>
 
 #include <q3D/model/process_mgr.h>
 #include <q3D/plugim/plugim_process.h>

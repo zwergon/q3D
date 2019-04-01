@@ -2,27 +2,24 @@
 
 #include <QDebug>
 #include <QUuid>
-#include <QSharedMemory>
+#include <QSettings>
 
 #include <q3D/cube/cube.h>
-#include <q3D/cube/cube_model.h>
-#include <q3D/cube/cube_renderer.h>
+#include <q3D/drivers/cube/cube_model.h>
+#include <q3D/drivers/cube/cube_renderer.h>
 
 namespace Q3D {
 
-QString MongoCubeOpenInfo::URI("mongodb://IRPCF328421/");
-//QString MongoCubeOpenInfo::URI("mongodb://localhost/");
-QString MongoCubeOpenInfo::DATABASE("tim8");
-
-MongoCubeOpenInfo::MongoCubeOpenInfo(
-        const QString& uri,
-        const QString& database)
-    : uri_(uri),
-      database_(database),
+MongoCubeOpenInfo::MongoCubeOpenInfo()
+    : uri_(QString::null),
+      database_(QString::null),
       experience_("cell1"),
       numero_(24),
       serie_(0)
 {
+    QSettings settings( "ifp", "q3D" );
+    uri_ = settings.value( "mongodb/uri", "mongodb://localhost" ).toString();
+    database_ = settings.value("mongodb/database", "tim8").toString();
 }
 
 QString MongoCubeOpenInfo::getName() const {
@@ -164,13 +161,18 @@ Cube* MongoCubeDriver::getCubeInfo(
     Cube* cube = nullptr;
     if ( strcmp(cube_type, "uint8") == 0){
         cube = new CubeUC;
+        cube->setSize(cube_dim[0], cube_dim[1], cube_dim[2]);
+        cube->setData(new quint8[cube->size()]);
     }
     else if ( strcmp(cube_type, "float32") == 0 ){
         cube = new CubeF;
+        cube->setSize(cube_dim[0], cube_dim[1], cube_dim[2]);
+        cube->setData(new float[cube->size()]);
     }
 
-    if ( nullptr != cube ){
-        cube->setSize(cube_dim[0], cube_dim[1], cube_dim[2]);
+    if ( cube == nullptr ){
+        qDebug() << "unable to allocate cube";
+        return nullptr;
     }
 
     mongoc_cursor_destroy (cursor);
@@ -198,15 +200,9 @@ void MongoCubeDriver::loadCube(
 
 
     long byte_size = cube.byteSize();
-    QSharedMemory sharedMemory(QUuid::createUuid().toString());
-    sharedMemory.create(byte_size);
 
-    sharedMemory.lock();
-    void* buffer = sharedMemory.data();
-    mongoc_stream_read(stream, buffer, byte_size, byte_size, -1 );
-    sharedMemory.unlock();
+    mongoc_stream_read(stream, cube.data(), byte_size, byte_size, -1 );
 
-    cube.attach(sharedMemory);
 
     mongoc_stream_destroy (stream);
     mongoc_gridfs_file_destroy (file);

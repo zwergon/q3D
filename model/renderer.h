@@ -45,7 +45,7 @@ public:
 
     RendererAttribute* attribute() const;
 
-    ColorMap* colormap();
+    ColorMap* colormap() const;
 
     void notify();
 
@@ -71,7 +71,7 @@ protected:
     quint32       gl_list_;
 };
 
-inline ColorMap* ModelRenderer::colormap() {
+inline ColorMap* ModelRenderer::colormap() const {
     return findChild<ColorMap*>();
 }
 

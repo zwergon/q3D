@@ -1,10 +1,11 @@
 #include "cube_renderer_attribute_dlg.h"
 #include "ui_cube_renderer_attribute_dlg.h"
 
-#include <q3D/cube/cube_renderer_attribute.h>
-#include <q3D/cube/cube_renderer.h>
-#include <q3D/cube/cube_model.h>
 #include <q3D/cube/cube.h>
+
+#include <q3D/drivers/cube/cube_renderer_attribute.h>
+#include <q3D/drivers/cube/cube_renderer.h>
+#include <q3D/drivers/cube/cube_model.h>
 
 namespace Q3D {
 

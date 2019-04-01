@@ -1,14 +1,14 @@
 #ifndef CUBE_RENDERER_ATTRIBUTE_H
 #define CUBE_RENDERER_ATTRIBUTE_H
 
-#include <q3D/cube/cube_global.h>
+#include <q3D/drivers/drivers_global.h>
 
 #include <q3D/model/renderer_attribute.h>
 
 namespace Q3D {
 
 
-class CUBESHARED_EXPORT CubeRendererAttribute : public RendererAttribute
+class DRIVERSSHARED_EXPORT CubeRendererAttribute : public RendererAttribute
 {
 public:
     CubeRendererAttribute( ModelRenderer* renderer );

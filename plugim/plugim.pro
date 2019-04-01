@@ -7,7 +7,7 @@ TEMPLATE = lib
 
 DEFINES += PLUGIM_LIBRARY
 
-LIBS += -lmodel -lplugins -lcube
+LIBS += -lmodel -lplugins -lcube -ldrivers
 
 SOURCES += \
     plugim_plugin.cpp \

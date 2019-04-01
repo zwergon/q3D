@@ -1,10 +1,9 @@
 #ifndef SLICER_H
 #define SLICER_H
 
-#include <q3D/cube/cube_global.h>
-#include <q3D/cube/cube.h>
+#include <cube/cube_global.h>
+#include <cube/cube.h>
 
-namespace Q3D {
 
 class CUBESHARED_EXPORT Slicer2D {
 public:
@@ -46,7 +45,5 @@ public:
     virtual int getNy() const;
     virtual double getValue( int i, int j ) const;
 };
-
-}
 
 #endif // SLICER_H

@@ -1,7 +1,5 @@
 #include "slicer.h"
 
-namespace Q3D {
-
 Slicer2D::Slicer2D(const Cube& cube, int cursor) :
     cube_(cube),
     cursor_(cursor)
@@ -57,6 +55,3 @@ double ZSlicer2D::getValue(int i, int j) const {
 XSlicer2D::XSlicer2D(const Cube& cube, int cursor) : Slicer2D(cube, cursor){
 }
 
-
-
-}

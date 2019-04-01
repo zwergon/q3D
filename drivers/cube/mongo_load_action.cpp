@@ -2,7 +2,7 @@
 
 #include <QAction>
 
-#include <q3D/cube/cube_load_mongo_dlg.h>
+#include <q3D/drivers/cube/cube_load_mongo_dlg.h>
 
 namespace Q3D {
 

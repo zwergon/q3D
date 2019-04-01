@@ -1,7 +1,7 @@
 #ifndef CUBE_RENDERER_H
 #define CUBE_RENDERER_H
 
-#include <q3D/cube/cube_global.h>
+#include <q3D/drivers/drivers_global.h>
 
 #include <QtOpenGL>
 
@@ -14,7 +14,7 @@ namespace Q3D {
 
 class CubeRendererAttribute;
 
-class CUBESHARED_EXPORT CubeRenderer : public ModelRenderer
+class DRIVERSSHARED_EXPORT CubeRenderer : public ModelRenderer
 {
     Q_OBJECT
 
@@ -40,6 +40,7 @@ protected:
     virtual RendererAttribute* createAttribute();
 
 private:
+    bool hasTransparency() const;
     void createTexture(const Cube& cube, GLuint* tex, int slice);
     void createUVQuad(const Cube& cube, GLuint* tex, RendererArea*);
 
@@ -48,7 +49,7 @@ private:
     GLuint* texture_;
 };
 
-class CUBESHARED_EXPORT CubePickInfo : public PickInfo {
+class DRIVERSSHARED_EXPORT CubePickInfo : public PickInfo {
 public:
     virtual QString toString(const Pick &) const;
 

@@ -1,7 +1,7 @@
 #ifndef CUBE_MODEL_H
 #define CUBE_MODEL_H
 
-#include <q3D/cube/cube_global.h>
+#include <q3D/drivers/drivers_global.h>
 
 #include <QMenu>
 
@@ -13,7 +13,7 @@ namespace Q3D {
 
 class PluginAction;
 
-class CUBESHARED_EXPORT CubeModel : public Model
+class DRIVERSSHARED_EXPORT CubeModel : public Model
 {
     Q_OBJECT
 

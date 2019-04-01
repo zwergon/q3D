@@ -1,7 +1,7 @@
 #ifndef MONGO_CUBE_DRIVER_H
 #define MONGO_CUBE_DRIVER_H
 
-#include <q3D/cube/cube_global.h>
+#include <q3D/drivers/drivers_global.h>
 
 #include <mongoc.h>
 
@@ -11,15 +11,9 @@
 
 namespace Q3D {
 
-class CUBESHARED_EXPORT MongoCubeOpenInfo : public ModelOpenInfo {
+class DRIVERSSHARED_EXPORT MongoCubeOpenInfo : public ModelOpenInfo {
 public:
-    static QString URI;
-    static QString DATABASE;
-
-public:
-    MongoCubeOpenInfo(
-            const QString& uri = MongoCubeOpenInfo::URI,
-            const QString& database = MongoCubeOpenInfo::DATABASE);
+    MongoCubeOpenInfo();
 
     const QString& getURI() const;
     void setURI( const QString& uri );
@@ -50,7 +44,7 @@ private:
 };
 
 
-class CUBESHARED_EXPORT MongoCubeDriver  : public ModelDriver
+class DRIVERSSHARED_EXPORT MongoCubeDriver  : public ModelDriver
 {
 public:
     MongoCubeDriver();

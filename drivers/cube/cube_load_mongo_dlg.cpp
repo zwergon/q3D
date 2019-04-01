@@ -2,7 +2,7 @@
 #include "ui_cube_load_mongo_dlg.h"
 
 #include <QDebug>
-#include <q3D/cube/mongo_cube_driver.h>
+#include <q3D/drivers/cube/mongo_cube_driver.h>
 #include <q3D/model/model_mgr.h>
 
 namespace Q3D {

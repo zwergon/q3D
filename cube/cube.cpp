@@ -1,11 +1,9 @@
 #include "cube.h"
 
 
-namespace Q3D {
-
-
 /*************************************************/
-Cube::Cube() :
+Cube::Cube(int type) :
+    type_(type),
     nx_(0),
     ny_(0),
     nz_(0),
@@ -13,44 +11,58 @@ Cube::Cube() :
 {
 }
 
+Cube* Cube::create(int type){
+    Cube* cube = nullptr;
+    switch(type){
+    case Cube::SAVEF3UC:
+        cube = new CubeUC;
+        break;
+    case Cube::SAVEF3I:
+        cube = new CubeI32;
+        break;
+    case Cube::SAVEF3F:
+        cube = new CubeF;
+        break;
+    case Cube::SAVEF3D:
+        cube = new CubeD;
+        break;
+    default:
+       break;
+    }
+
+    return cube;
+}
+
 Cube::~Cube(){
-    if (data_.isAttached()){
-        data_.detach();
+    if (data_ != nullptr){
+        delete [] data_;
     }
 }
 
 void Cube::setData(void* data){
-    data_.create(byteSize());
-    data_.lock();
-    memcpy(data_.data(), data, data_.size());
-    data_.unlock();
-}
-
-void Cube::attach(QSharedMemory &sharedMemory){
-    data_.setKey(sharedMemory.key());
-    data_.attach();
-    qDebug() << "create cube " << sharedMemory.key();
+    data_ = data;
 }
 
 /*************************************************/
 
-CubeUC::CubeUC() : Cube(){
+CubeUC::CubeUC() : Cube(SAVEF3UC){
 }
 
 /*************************************************/
 
-CubeI32::CubeI32() : Cube(){
+CubeI32::CubeI32() : Cube(SAVEF3I){
 }
-
-
 
 /*************************************************/
 
-CubeF::CubeF() : Cube(){
+CubeF::CubeF() : Cube(SAVEF3F){
+}
+
+/*************************************************/
+CubeD::CubeD() : Cube(SAVEF3D){
 }
 
 
-}
 
 
 

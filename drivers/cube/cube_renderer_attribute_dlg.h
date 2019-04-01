@@ -1,7 +1,7 @@
 #ifndef CUBE_RENDERER_ATTRIBUTE_DLG_H
 #define CUBE_RENDERER_ATTRIBUTE_DLG_H
 
-#include <q3D/cube/cube_global.h>
+#include <q3D/drivers/drivers_global.h>
 
 #include <QDialog>
 

@@ -1,14 +1,14 @@
 #ifndef FDACUBEDRIVER_H
 #define FDACUBEDRIVER_H
 
-#include <q3D/cube/cube_global.h>
+#include <q3D/drivers/drivers_global.h>
 
 #include <q3D/model/model_driver.h>
 
 namespace Q3D {
 
 
-class CUBESHARED_EXPORT FdaCubeDriver : public ModelDriver
+class DRIVERSSHARED_EXPORT FdaCubeDriver : public ModelDriver
 {
 public:
     enum FDA_TYPE {

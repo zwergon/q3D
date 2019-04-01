@@ -1,11 +1,11 @@
 #ifndef CUBE_LOAD_MONGO_DLG_H
 #define CUBE_LOAD_MONGO_DLG_H
 
-#include <q3D/cube/cube_global.h>
+#include <q3D/drivers/drivers_global.h>.h>
 
 #include <mongoc.h>
 
-#include <q3D/cube/mongo_cube_driver.h>
+#include <q3D/drivers/cube/mongo_cube_driver.h>
 
 #include <QDialog>
 

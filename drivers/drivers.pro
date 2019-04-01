@@ -6,7 +6,7 @@ DEFINES += DRIVERS_LIBRARY
 
 QT += opengl
 
-LIBS += -lmodel -lplugins -lgui -lmesh  -lfilters
+LIBS += -lmodel -lplugins -lgui -lmesh -lcube -lfilters
 
 win32 {
     LIBS += -lopengl32
@@ -27,7 +27,19 @@ HEADERS += \
     drivers_plugin.h \
     drivers_global.h \
     drivers_renderer_attribute.h \
-    drivers_renderer_attribute_dlg.h
+    drivers_renderer_attribute_dlg.h \
+    cube/cube_model.h \
+    cube/cube_renderer.h \
+    cube/cube_renderer_attribute.h \
+    cube/cube_renderer_attribute_dlg.h \
+    cube/fda_cube_driver.h \
+    mesh/mesh_driver.h \
+    mesh/mesh_model.h \
+    mesh/mesh_renderer.h \
+    mesh/mesh_renderer_attribute.h \
+    mesh/mesh_renderer_attribute_dlg.h \
+    mesh/mesh_renderer_menu.h \
+    cube/cube_actions.h
 
 SOURCES += \
     cpgmesh/cpgmesh.cpp \
@@ -42,11 +54,58 @@ SOURCES += \
     mesh/mesh_renderer_attribute_dlg.cpp \
     drivers_plugin.cpp \
     drivers_renderer_attribute.cpp \
-    drivers_renderer_attribute_dlg.cpp
+    drivers_renderer_attribute_dlg.cpp \
+    cube/cube_model.cpp \
+    cube/cube_renderer.cpp \
+    cube/cube_renderer_attribute.cpp \
+    cube/cube_renderer_attribute_dlg.cpp \
+    cube/fda_cube_driver.cpp \
+    mesh/mesh_driver.cpp \
+    mesh/mesh_model.cpp \
+    mesh/mesh_renderer.cpp \
+    mesh/mesh_renderer_attribute.cpp \
+    mesh/mesh_renderer_attribute_dlg.cpp \
+    mesh/mesh_renderer_menu.cpp \
+    cube/cube_actions.cpp
 
 FORMS += \
     mesh/mesh_renderer_attribute_dlg.ui \
-    renderer_attribute_dlg.ui
+    renderer_attribute_dlg.ui \
+    mesh/mesh_renderer_attribute_dlg.ui \
+    cube/cube_renderer_attribute_dlg.ui
+
+
+CONFIG(mongo){
+    DEFINES += WITH_MONGO
+
+    INCLUDEPATH += \
+        $${MONGO_DIR}/include/libbson-1.0 \
+        $${MONGO_DIR}/include/libmongoc-1.0
+
+    DEPENDPATH += \
+        $${MONGO_DIR}/include/libbson-1.0 \
+        $${MONGO_DIR}/include/libmongoc-1.0
+
+    unix:!macx|win32 {
+        LIBS += -L$${MONGO_DIR}/lib/ -lbson-1.0 -lmongoc-1.0
+    }
+
+    HEADERS += \
+        cube/cube_load_mongo_dlg.h \
+        cube/mongo_cube_driver.h\
+        cube/mongo_load_action.h
+
+    SOURCES += cube/mongo_cube_driver.cpp \
+            cube/cube_load_mongo_dlg.cpp \
+            cube/mongo_load_action.cpp
+
+    FORMS += cube/cube_load_mongo_dlg.ui
+}
+
 
 DISTFILES += \
-    driversplugin.json
+    driversplugin.json \
+    mongodb.png
+
+RESOURCES += \
+    drivers_icons.qrc

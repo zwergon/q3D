@@ -6,11 +6,10 @@
 
 #include <q3D/gui/glu.h>
 
-#include <q3D/cube/cube_model.h>
-
-
 #include <q3D/cube/slicer.h>
-#include <q3D/cube/cube_renderer_attribute.h>
+
+#include <q3D/drivers/cube/cube_model.h>
+#include <q3D/drivers/cube/cube_renderer_attribute.h>
 
 
 namespace Q3D {
@@ -70,6 +69,17 @@ void CubeRenderer::clean(RendererArea *area){
     }
 }
 
+bool CubeRenderer::hasTransparency() const{
+
+    CubeRendererAttribute* cube_attribute =
+            static_cast<CubeRendererAttribute*>(attribute());
+    if ( nullptr == cube_attribute ){
+        return false;
+    }
+
+    return (texture_ != nullptr )&& ( (cube_attribute->opacity()<1.) || colormap()->hasAlpha() );
+}
+
 void CubeRenderer::update(RendererArea* area){
 
     CubeModel* cube_model = dynamic_cast<CubeModel*>( model() );
@@ -88,17 +98,62 @@ void CubeRenderer::update(RendererArea* area){
         createTexture(cube_model->cube(), texture_, slice);
     }
 
-    createUVQuad(cube_model->cube(), texture_, area);
+    if ( hasTransparency() ){
+        createUVQuad(cube_model->cube(), texture_, area);
+    }
 
     glDisable(GL_TEXTURE_2D);
 
 }
 
 void CubeRenderer::draw( RendererArea* ){
-    //only textured UVQuad to draw...
+    if ( !hasTransparency() ){
+        CubeRendererAttribute* cube_attribute =
+                static_cast<CubeRendererAttribute*>(attribute());
+
+        CubeModel* cube_model = dynamic_cast<CubeModel*>( model() );
+        if ( nullptr == cube_model ){
+            return;
+        }
+
+        Cube& cube = cube_model->cube();
+        int nx = cube.getNx();
+        int ny = cube.getNy();
+        int nz = cube.getNz();
+
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texture_[Slice::XY]);
+        glBegin(GL_QUADS);
+        glTexCoord2i(0, 0); glVertex3i(0, 0, cube_attribute->getCursorZ());
+        glTexCoord2i(0, 1); glVertex3i(0, ny, cube_attribute->getCursorZ());
+        glTexCoord2i(1, 1); glVertex3i(nx, ny, cube_attribute->getCursorZ());
+        glTexCoord2i(1, 0); glVertex3i(nx, 0, cube_attribute->getCursorZ());
+        glEnd();
+
+        glBindTexture(GL_TEXTURE_2D, texture_[Slice::XZ]);
+        glBegin(GL_QUADS);
+        glTexCoord2i(0, 0); glVertex3i(0, cube_attribute->getCursorY(), 0);
+        glTexCoord2i(0, 1); glVertex3i(0, cube_attribute->getCursorY(), nz);
+        glTexCoord2i(1, 1); glVertex3i(nx, cube_attribute->getCursorY(), nz);
+        glTexCoord2i(1, 0); glVertex3i(nx, cube_attribute->getCursorY(), 0);
+        glEnd();
+
+        glBindTexture(GL_TEXTURE_2D, texture_[Slice::YZ]);
+        glBegin(GL_QUADS);
+        glTexCoord2i(0, 0); glVertex3i(cube_attribute->getCursorX(), 0, 0);
+        glTexCoord2i(0, 1); glVertex3i(cube_attribute->getCursorX(), 0, nz);
+        glTexCoord2i(1, 1); glVertex3i(cube_attribute->getCursorX(), ny, nz);
+        glTexCoord2i(1, 0); glVertex3i(cube_attribute->getCursorX(), ny, 0);
+        glEnd();
+
+        glDisable(GL_TEXTURE_2D);
+
+
+    }
 }
 
 void CubeRenderer::createUVQuad(const Cube& cube, GLuint* tex, RendererArea* area) {
+
 
     CubeRendererAttribute* cube_attribute =
             static_cast<CubeRendererAttribute*>(attribute());
@@ -119,28 +174,25 @@ void CubeRenderer::createUVQuad(const Cube& cube, GLuint* tex, RendererArea* are
 
     //-----------
     q1.tex = tex[Slice::XY];
-    q1.id = 1;
+    q1.id = (int)this;
     q1.pts[0].init(0, 0, iz, 0, 0);
     q1.pts[1].init(ix, 0, iz, ax, 0);
     q1.pts[2].init(ix, iy, iz, ax, ay);
     q1.pts[3].init(0, iy, iz, 0, ay);
     area->addUVQuad(q1);
 
-    q1.id = 2;
     q1.pts[0].init(ix, 0, iz, ax, 0);
     q1.pts[1].init(nx, 0, iz, 1, 0);
     q1.pts[2].init(nx, iy, iz, 1., ay);
     q1.pts[3].init(ix, iy, iz, ax, ay);
     area->addUVQuad(q1);
 
-    q1.id = 3;
     q1.pts[0].init(ix, iy, iz, ax, ay);
     q1.pts[1].init(nx, iy, iz, 1., ay);
     q1.pts[2].init(nx, ny, iz, 1., 1.);
     q1.pts[3].init(ix, ny, iz, ax, 1);
     area->addUVQuad(q1);
 
-    q1.id = 4;
     q1.pts[0].init(0, iy, iz, 0, ay);
     q1.pts[1].init(ix, iy, iz, ax, ay);
     q1.pts[2].init(ix, ny, iz, ax, 1.);
@@ -149,28 +201,24 @@ void CubeRenderer::createUVQuad(const Cube& cube, GLuint* tex, RendererArea* are
 
     //-----------
     q1.tex = tex[Slice::YZ];
-    q1.id = 5;
     q1.pts[0].init(ix, 0, 0, 0, 0);
     q1.pts[1].init(ix, iy, 0, ay, 0);
     q1.pts[2].init(ix, iy, iz, ay, az);
     q1.pts[3].init(ix, 0, iz, 0, az);
     area->addUVQuad(q1);
 
-    q1.id = 6;
     q1.pts[0].init(ix, iy, 0, ay, 0);
     q1.pts[1].init(ix, ny, 0, 1, 0);
     q1.pts[2].init(ix, ny, iz, 1., az);
     q1.pts[3].init(ix, iy, iz, ay, az);
     area->addUVQuad(q1);
 
-    q1.id = 7;
     q1.pts[0].init(ix, iy, iz, ay, az);
     q1.pts[1].init(ix, ny, iz, 1., az);
     q1.pts[2].init(ix, ny, nz, 1., 1.);
     q1.pts[3].init(ix, iy, nz, ay, 1);
     area->addUVQuad(q1);
 
-    q1.id = 8;
     q1.pts[0].init(ix, 0, iz, 0, az);
     q1.pts[1].init(ix, iy, iz, ay, az);
     q1.pts[2].init(ix, iy, nz, ay, 1.);
@@ -180,28 +228,24 @@ void CubeRenderer::createUVQuad(const Cube& cube, GLuint* tex, RendererArea* are
     //-----------
     q1.tex = tex[Slice::XZ];
 
-    q1.id = 9;
     q1.pts[0].init(0, iy, 0, 0, 0);
     q1.pts[1].init(ix, iy, 0, ax, 0);
     q1.pts[2].init(ix, iy, iz, ax, az);
     q1.pts[3].init(0, iy, iz, 0, az);
     area->addUVQuad(q1);
 
-    q1.id = 10;
     q1.pts[0].init(ix, iy, 0, ax, 0);
     q1.pts[1].init(nx, iy, 0, 1, 0);
     q1.pts[2].init(nx, iy, iz, 1., az);
     q1.pts[3].init(ix, iy, iz, ax, az);
     area->addUVQuad(q1);
 
-    q1.id = 11;
     q1.pts[0].init(ix, iy, iz, ax, az);
     q1.pts[1].init(nx, iy, iz, 1., az);
     q1.pts[2].init(nx, iy, nz, 1., 1.);
     q1.pts[3].init(ix, iy, nz, ax, 1);
     area->addUVQuad(q1);
 
-    q1.id = 12;
     q1.pts[0].init(0, iy, iz, 0, az);
     q1.pts[1].init(ix, iy, iz, ax, az);
     q1.pts[2].init(ix, iy, nz, ax, 1.);

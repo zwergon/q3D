@@ -22,6 +22,17 @@ private:
     QList<ModelDriver*> drivers_;
 };
 
+class ActionsPlugin : public QObject, public ActionInterface
+{
+    Q_OBJECT
+    Q_INTERFACES(Q3D::ActionInterface)
+
+public:
+    explicit ActionsPlugin(QObject *parent = nullptr);
+    virtual QList<PluginAction*> getActions( QObject* parent ) const;
+    virtual QString name() const { return "Cube"; }
+};
+
 class DriversPluginCollection : public PluginCollection {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID "fr.org.q3D.DriverInterface" FILE "driversplugin.json")
@@ -29,6 +40,9 @@ class DriversPluginCollection : public PluginCollection {
 
 public:
     explicit DriversPluginCollection( QObject* parent = nullptr );
+
+    virtual void start() override;
+    virtual void end() override;
 };
 
 }
