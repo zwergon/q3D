@@ -17,16 +17,19 @@ public:
         SAVEF3D
     };
 
-    static Cube* create(int type);
+    static Cube* create(int type, bool own_memory = true);
 
 public:
-
     virtual ~Cube();
+
+    void copyTo(Cube* dest) const;
 
     int type() const;
 
     int size() const;
     long byteSize() const;
+
+    void allocate( int nx, int ny, int nz );
 
     void setSize( int nx_, int ny_, int nz_ );
     int getNx() const;
@@ -37,22 +40,27 @@ public:
     const void* data() const;
 
     double getValue(int i, int j, int k) const;
+    void setValue(int i, int j, int k, double value);
+
     virtual int sizeOf() const = 0;
-    virtual double getValue(int idx) const = 0;
+    virtual double getValueIdx(int idx) const = 0;
+    virtual void setValueIdx(int idx, double value) = 0;
 
     void setData(void* data);
 
     int index(int i, int j, int k) const;
 
 protected:
-      Cube(int type);
+      Cube(int type, bool own_memory = true);
+      virtual void* allocate_() = 0;
 
 protected:
-    int type_;
-    int nx_;
-    int ny_;
-    int nz_;
-    void* data_;
+      bool own_memory_;
+      int type_;
+      int nx_;
+      int ny_;
+      int nz_;
+      void* data_;
 };
 
 inline int Cube::type() const {
@@ -90,7 +98,11 @@ inline int Cube::index(int i, int j, int k) const {
 }
 
 inline double Cube::getValue(int i, int j, int k) const {
-    return getValue(index(i, j, k));
+    return getValueIdx(index(i, j, k));
+}
+
+inline void Cube::setValue(int i, int j, int k, double val) {
+    return setValueIdx(index(i, j, k), val);
 }
 
 inline const void* Cube::data() const{
@@ -107,20 +119,24 @@ class CUBESHARED_EXPORT CubeUC : public Cube
 {
 
 public:
-    CubeUC();
+    CubeUC(bool own_memory = true);
 
     virtual int sizeOf() const override;
-    virtual double getValue(int idx) const override;
+    virtual double getValueIdx(int idx) const override;
+    virtual void setValueIdx(int idx, double value) override;
 
     const uint8_t* data() const;
     uint8_t* data();
+
+protected:
+    virtual void* allocate_() override;
 };
 
 inline int CubeUC::sizeOf() const {
     return sizeof(uint8_t);
 }
 
-inline double CubeUC::getValue(int idx) const {
+inline double CubeUC::getValueIdx(int idx) const {
     return data()[idx];
 }
 
@@ -128,9 +144,16 @@ inline const uint8_t* CubeUC::data() const{
     return reinterpret_cast<uint8_t*>(data_);
 }
 
+inline void CubeUC::setValueIdx(int idx, double val ) {
+    data()[idx] = (uint8_t)val;
+}
 
 inline uint8_t* CubeUC::data(){
     return reinterpret_cast<uint8_t*>(data_);
+}
+
+inline void* CubeUC::allocate_() {
+    return new uint8_t[size()];
 }
 
 /*************************************************/
@@ -139,21 +162,30 @@ class CUBESHARED_EXPORT CubeI32 : public Cube
 {
 
 public:
-    CubeI32();
+    CubeI32(bool own_memory = true);
 
     virtual int sizeOf() const override;
-    virtual double getValue(int idx) const override;
+    virtual double getValueIdx(int idx) const override;
+    virtual void setValueIdx(int idx, double value) override;
 
     const int32_t* data() const;
     int32_t* data();
+
+
+protected:
+    virtual void* allocate_() override;
 };
 
 inline int CubeI32::sizeOf() const {
     return sizeof(int32_t);
 }
 
-inline double CubeI32::getValue(int idx) const {
+inline double CubeI32::getValueIdx(int idx) const {
     return data()[idx];
+}
+
+inline void CubeI32::setValueIdx(int idx, double val ) {
+    data()[idx] = (int32_t)val;
 }
 
 inline const int32_t* CubeI32::data() const{
@@ -164,27 +196,40 @@ inline int32_t* CubeI32::data(){
     return reinterpret_cast<int32_t*>(data_);
 }
 
+inline void* CubeI32::allocate_() {
+    return new int32_t[size()];
+}
+
 /*************************************************/
 
 class CUBESHARED_EXPORT CubeF : public Cube
 {
 
 public:
-    CubeF();
+    CubeF(bool own_memory = true);
 
     virtual int sizeOf() const override;
-    virtual double getValue(int idx) const override;
+    virtual double getValueIdx(int idx) const override;
+    virtual void setValueIdx(int idx, double value) override;
 
     const float *data() const;
     float* data();
+
+
+protected:
+    virtual void* allocate_() override;
 };
 
 inline int CubeF::sizeOf() const {
     return sizeof(float);
 }
 
-inline double CubeF::getValue(int idx) const {
+inline double CubeF::getValueIdx(int idx) const {
     return data()[idx];
+}
+
+inline void CubeF::setValueIdx(int idx, double val ) {
+    data()[idx] = (float)val;
 }
 
 inline const float* CubeF::data() const{
@@ -195,27 +240,42 @@ inline float* CubeF::data(){
     return reinterpret_cast<float*>(data_);
 }
 
+
+inline void* CubeF::allocate_() {
+    return new float[size()];
+}
+
+
 /*************************************************/
 
 class CUBESHARED_EXPORT CubeD : public Cube
 {
 
 public:
-    CubeD();
+    CubeD(bool own_memory = true);
 
     virtual int sizeOf() const override;
-    virtual double getValue(int idx) const override;
+    virtual double getValueIdx(int idx) const override;
+    virtual void setValueIdx(int idx, double value) override;
 
     const double* data() const;
     double* data();
+
+
+protected:
+    virtual void* allocate_() override;
 };
 
 inline int CubeD::sizeOf() const {
     return sizeof(double);
 }
 
-inline double CubeD::getValue(int idx) const {
+inline double CubeD::getValueIdx(int idx) const {
     return data()[idx];
+}
+
+inline void CubeD::setValueIdx(int idx, double val ) {
+    data()[idx] = val;
 }
 
 inline const double* CubeD::data() const{
@@ -225,5 +285,11 @@ inline const double* CubeD::data() const{
 inline double* CubeD::data(){
     return reinterpret_cast<double*>(data_);
 }
+
+
+inline void* CubeD::allocate_() {
+    return new double[size()];
+}
+
 
 #endif // CUBE_H

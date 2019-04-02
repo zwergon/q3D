@@ -1,4 +1,5 @@
 CONFIG -= qt
+CONFIG += shared
 QT       -= core gui
 
 TARGET = cube
@@ -26,7 +27,8 @@ SOURCES += \
     algo/wave1d.cpp \
     io/fda.cpp \
     wavelet.cpp \
-    slicer.cpp
+    slicer.cpp \
+    cube_api.cpp
 
 HEADERS += \
         cube.h \
@@ -34,7 +36,8 @@ HEADERS += \
     algo/wave1d.h \
     io/fda.h \
     wavelet.h \
-    slicer.h
+    slicer.h \
+    cube_api.h
 
 unix {
     target.path = /usr/lib

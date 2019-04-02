@@ -47,10 +47,10 @@ void CubeRenderer::init(){
     cube_attribute->setCursorZ(cube.getNz()/2);
     cube_attribute->blockSignals(false);
 
-    double min = cube.getValue(0);
+    double min = cube.getValueIdx(0);
     double max = min;
     for( int i=1; i<cube.size(); i++ ){
-        double val = cube.getValue(i);
+        double val = cube.getValueIdx(i);
         if (val < min) min = val;
         if (val > max) max = val;
     }
