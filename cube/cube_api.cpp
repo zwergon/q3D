@@ -16,21 +16,21 @@ float* extract_approximation( int nx, int ny, int nz, float* data, int& n1, int&
     n2 = .5*( ny + (( ny%2 == 1 )? 1 : 0));
     n3 = .5*( nz + (( nz%2 == 1 )? 1 : 0));
 
-    CubeF cube_src(false);
+    CubeT<float> cube_src(false);
     cube_src.setSize(nx, ny, nz);
     cube_src.setData(data);
 
 
-    CubeF cube(false);
+    CubeT<float> cube(false);
     int idx[] = {0, n1, 0, n2, 0, n3};
     cube.extract(&cube_src, idx);
 
-    return cube.data();
+    return reinterpret_cast<float*>(cube.data());
 }
 
 void wave_transform( int nx, int ny, int nz, float* data, bool forward, int type ){
 
-   CubeF cube(false);
+   CubeT<float> cube(false);
    cube.setSize(nx, ny, nz);
    cube.setData(data);
 

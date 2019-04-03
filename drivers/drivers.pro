@@ -33,12 +33,6 @@ HEADERS += \
     cube/cube_renderer_attribute.h \
     cube/cube_renderer_attribute_dlg.h \
     cube/fda_cube_driver.h \
-    mesh/mesh_driver.h \
-    mesh/mesh_model.h \
-    mesh/mesh_renderer.h \
-    mesh/mesh_renderer_attribute.h \
-    mesh/mesh_renderer_attribute_dlg.h \
-    mesh/mesh_renderer_menu.h \
     cube/cube_actions.h
 
 SOURCES += \
@@ -60,18 +54,11 @@ SOURCES += \
     cube/cube_renderer_attribute.cpp \
     cube/cube_renderer_attribute_dlg.cpp \
     cube/fda_cube_driver.cpp \
-    mesh/mesh_driver.cpp \
-    mesh/mesh_model.cpp \
-    mesh/mesh_renderer.cpp \
-    mesh/mesh_renderer_attribute.cpp \
-    mesh/mesh_renderer_attribute_dlg.cpp \
-    mesh/mesh_renderer_menu.cpp \
     cube/cube_actions.cpp
 
 FORMS += \
     mesh/mesh_renderer_attribute_dlg.ui \
     renderer_attribute_dlg.ui \
-    mesh/mesh_renderer_attribute_dlg.ui \
     cube/cube_renderer_attribute_dlg.ui
 
 

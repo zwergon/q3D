@@ -1,7 +1,7 @@
 #ifndef CUBE_GLOBAL_H
 #define CUBE_GLOBAL_H
 
-#ifdef _WIN32 || _WIN64
+#if defined(_WIN32) || defined(_WIN64)
     #define Q_DECL_EXPORT __declspec(dllexport)
     #define Q_DECL_IMPORT __declspec(dllimport)
 #else

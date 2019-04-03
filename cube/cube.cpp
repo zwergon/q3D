@@ -1,22 +1,23 @@
 #include "cube.h"
 
 #include <iostream>
+#include <type_traits>
 
 
 Cube* Cube::create(int type, bool own_memory){
     Cube* cube = nullptr;
     switch(type){
     case Cube::UINT8:
-        cube = new CubeUC(own_memory);
+        cube = new CubeT<uint8_t>(own_memory);
         break;
     case Cube::UINT32:
-        cube = new CubeI32(own_memory);
+        cube = new CubeT<uint32_t>(own_memory);
         break;
     case Cube::FLOAT:
-        cube = new CubeF(own_memory);
+        cube = new CubeT<float>(own_memory);
         break;
     case Cube::DOUBLE:
-        cube = new CubeD(own_memory);
+        cube = new CubeT<double>(own_memory);
         break;
     default:
        break;
@@ -31,9 +32,7 @@ Cube::Cube(int type, bool own_memory) :
     type_(type),
     nx_(0),
     ny_(0),
-    nz_(0),
-    data_()
-{
+    nz_(0){
 }
 
 Cube::~Cube(){
@@ -56,23 +55,22 @@ void Cube::extract(Cube* src, int idx[]) {
 }
 
 void Cube::clean(){
-    if ( own_memory_&& (data_ != nullptr)){
-        delete [] data_;
-        data_ = nullptr;
+    if ( own_memory_){
+        free_();
     }
 }
 
 void Cube::allocate(int nx, int ny, int nz){
     setSize(nx, ny, nz);
     clean();
-    data_ = allocate_();
+    allocate_();
 }
 
 void Cube::copy(Cube* src) {
     allocate(src->nx(), src->ny(), src->nz());
 
     if ( src->type() == type_ ){
-        memcpy(data_, src->data(), src->byteSize());
+        memcpy(data(), src->data(), src->byteSize());
     }
     else {
         for( int i=0; i<size(); i++ ){
@@ -101,31 +99,24 @@ void Cube::substract(Cube* cube){
     }
 }
 
-
-void Cube::setData(void* data){
-    data_ = data;
+template <class T>
+CubeT<T>::CubeT(bool own_memory )
+    : Cube(own_memory),
+      data_(nullptr)
+{
+    if ( std::is_same<T, uint8_t>::value ){
+        type_ = UINT8;
+    }
+    else if ( std::is_same<T, uint32_t>::value ){
+        type_ = UINT32;
+    }
+    else if ( std::is_same<T, float>::value ){
+        type_ = FLOAT;
+    }
+    else if ( std::is_same<T, double>::value ){
+        type_ = DOUBLE;
+    }
 }
-
-/*************************************************/
-
-CubeUC::CubeUC(bool own_memory) : Cube(UINT8, own_memory){
-}
-
-/*************************************************/
-
-CubeI32::CubeI32(bool own_memory) : Cube(UINT32, own_memory){
-}
-
-/*************************************************/
-
-CubeF::CubeF(bool own_memory) : Cube(FLOAT, own_memory){
-}
-
-/*************************************************/
-CubeD::CubeD(bool own_memory) : Cube(DOUBLE, own_memory){
-}
-
-
 
 
 

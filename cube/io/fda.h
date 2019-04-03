@@ -4,6 +4,7 @@
 #include <cube/cube_global.h>
 
 #include <stdint.h>
+#include <string>
 #include <cube/cube.h>
 
 class CUBESHARED_EXPORT FDA

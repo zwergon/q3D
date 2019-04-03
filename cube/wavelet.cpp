@@ -34,9 +34,9 @@ bool Wavelet::transform( bool forward ){
 
 Cube* Wavelet::approximation() const {
     Cube* approx_cube = Cube::create(cube_->type(), true);
-    int n1 = .5*( cube_->nx() + (( cube_->nx()%2 == 1 )? 1 : 0));
-    int n2 = .5*( cube_->ny() + (( cube_->ny()%2 == 1 )? 1 : 0));
-    int n3 = .5*( cube_->nz() + (( cube_->nz()%2 == 1 )? 1 : 0));
+    int n1 = ( cube_->nx() + (( cube_->nx()%2 == 1 )? 1 : 0)) >> 1;
+    int n2 = ( cube_->ny() + (( cube_->ny()%2 == 1 )? 1 : 0)) >> 1;
+    int n3 = ( cube_->nz() + (( cube_->nz()%2 == 1 )? 1 : 0)) >> 1;
     int idx[] = {0, n1, 0, n2, 0, n3};
 
     approx_cube->extract(cube_, idx);
