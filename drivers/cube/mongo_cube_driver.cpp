@@ -235,7 +235,7 @@ Model* MongoCubeDriver::open(const ModelOpenInfo &openInfo ){
         char oidstr[25];
         bson_oid_to_string (&cube_id, oidstr);
         qDebug() << "cube_id: " << oidstr << " dims: "
-                 << cube->getNx()  << ", " << cube->getNy() << ", " << cube->getNz();
+                 << cube->nx()  << ", " << cube->ny() << ", " << cube->nz();
 
 
 

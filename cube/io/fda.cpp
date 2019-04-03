@@ -59,9 +59,9 @@ void FDA::write( const Cube& cube, const std::string& filename ){
 
     int32_t header[4];
     header[0] = cube.type();
-    header[1] = cube.getNx();
-    header[2] = cube.getNy();
-    header[3] = cube.getNz();
+    header[1] = cube.nx();
+    header[2] = cube.ny();
+    header[3] = cube.nz();
 
     os.write((char*)header, 4*sizeof(int32_t));
     os.write((char*)cube.data(), cube.byteSize());

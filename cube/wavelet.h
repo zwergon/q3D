@@ -22,6 +22,7 @@ public:
 
     bool transform( bool forward );
 
+    Cube* approximation() const;
 
 private:
     void forward_transform();

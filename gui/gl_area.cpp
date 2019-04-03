@@ -172,7 +172,7 @@ void CGlArea::paintGL()
         model_renderer->draw(this);
     }
 
-    qDebug() << "draw " << uv_quads_.size() << " patches";
+    //qDebug() << "draw " << uv_quads_.size() << " patches";
 
     //second pass to draw textured patches.
     if ( !uv_quads_.empty() ){

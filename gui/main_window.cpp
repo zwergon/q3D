@@ -310,7 +310,7 @@ CGlWindow::menuSelection( QAction* action ){
         model_mgr->removeModel( model );
     }
     else if ( action->text() == "Save" ){
-        QString filename = QFileDialog::getSaveFileName(this, tr("Save Topo"), QDir::currentPath(), "*.gmsh" );
+        QString filename = QFileDialog::getSaveFileName(this, tr("Save..."), QDir::currentPath() );
         if ( !filename.isEmpty() ) {
             model->driver()->save( *model, filename );
         }

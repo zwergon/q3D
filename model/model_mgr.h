@@ -21,6 +21,7 @@ public:
     const QList<Model*>& models() const;
 
     Model* loadModel( const ModelOpenInfo&  );
+    void addModel(Model* model);
     void removeModel( Model* model );
 
 signals:

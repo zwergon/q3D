@@ -1,19 +1,7 @@
-#include <QtTest>
+
+#include "tst_geometry.h"
 
 #include <q3D/model/point3d.h>
-
-class TestGeometry : public QObject
-{
-    Q_OBJECT
-
-public:
-    TestGeometry();
-    ~TestGeometry();
-
-private slots:
-    void test_scalar();
-
-};
 
 TestGeometry::TestGeometry()
 {
@@ -21,7 +9,6 @@ TestGeometry::TestGeometry()
 
 TestGeometry::~TestGeometry()
 {
-
 }
 
 void TestGeometry::test_scalar()
@@ -31,7 +18,3 @@ void TestGeometry::test_scalar()
     double s = Q3D::scalar<double>(pt1, pt2);
     QCOMPARE(s, 14.);
 }
-
-QTEST_APPLESS_MAIN(TestGeometry)
-
-#include "tst_geometry.moc"

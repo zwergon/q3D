@@ -23,15 +23,15 @@ CubeRendererAttributeDlg::CubeRendererAttributeDlg(
 
     Cube& cube = cube_model->cube();
 
-    ui->dial_x_->setRange(0, cube.getNx()-1);
+    ui->dial_x_->setRange(0, cube.nx()-1);
     ui->dial_x_->setValue( renderer_attribute->getCursorX() );
     ui->x_edit_->setText( QString::number(renderer_attribute->getCursorX()));
 
-    ui->dial_y_->setRange(0, cube.getNy()-1);
+    ui->dial_y_->setRange(0, cube.ny()-1);
     ui->dial_y_->setValue( renderer_attribute->getCursorY() );
     ui->y_edit_->setText( QString::number(renderer_attribute->getCursorY()));
 
-    ui->dial_z_->setRange(0, cube.getNz()-1);
+    ui->dial_z_->setRange(0, cube.nz()-1);
     ui->dial_z_->setValue( renderer_attribute->getCursorZ() );
     ui->z_edit_->setText( QString::number(renderer_attribute->getCursorZ()));
 

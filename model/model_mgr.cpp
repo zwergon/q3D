@@ -4,6 +4,8 @@
 #include <q3D/model/model_driver_mgr.h>
 #include <q3D/model/model_driver.h>
 
+#include <QDebug>
+
 namespace Q3D {
 
 
@@ -41,6 +43,19 @@ Model* ModelManager::loadModel( const ModelOpenInfo& moi ){
     }
 
     return nullptr;
+}
+
+
+void ModelManager::addModel(Model *model){
+
+    if ( model->driver() == nullptr ){
+        qDebug() << "try to add model without driver";
+        return;
+    }
+
+    models_.append( model );
+    emit modelAdded( model );
+
 }
 
 

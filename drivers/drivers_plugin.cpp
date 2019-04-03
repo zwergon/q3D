@@ -16,12 +16,12 @@ namespace Q3D {
 
 DriversPlugin::DriversPlugin(QObject* parent ) : QObject(parent)
 {
-    drivers_.append( new CpgMeshDriver );
-    drivers_.append( new MeshDriver );
     drivers_.append(new FdaCubeDriver);
-   #ifdef WITH_MONGO
-       drivers_.append(new MongoCubeDriver);
-   #endif
+#ifdef WITH_MONGO
+    drivers_.append(new MongoCubeDriver);
+#endif
+    drivers_.append(new CpgMeshDriver);
+    drivers_.append(new MeshDriver);
 }
 
 QStringList DriversPlugin::drivers() const{

@@ -7,6 +7,7 @@
 #include <q3D/gui/glu.h>
 
 #include <q3D/cube/slicer.h>
+#include <q3D/cube/cube_api.h>
 
 #include <q3D/drivers/cube/cube_model.h>
 #include <q3D/drivers/cube/cube_renderer_attribute.h>
@@ -42,18 +43,13 @@ void CubeRenderer::init(){
     CubeRendererAttribute* cube_attribute =
             static_cast<CubeRendererAttribute*>(attribute());
     cube_attribute->blockSignals(true); //avoid drawing before total init
-    cube_attribute->setCursorX(cube.getNx()/4);
-    cube_attribute->setCursorY(cube.getNy()/3);
-    cube_attribute->setCursorZ(cube.getNz()/2);
+    cube_attribute->setCursorX(cube.nx()/4);
+    cube_attribute->setCursorY(cube.ny()/3);
+    cube_attribute->setCursorZ(cube.nz()/2);
     cube_attribute->blockSignals(false);
 
-    double min = cube.getValueIdx(0);
-    double max = min;
-    for( int i=1; i<cube.size(); i++ ){
-        double val = cube.getValueIdx(i);
-        if (val < min) min = val;
-        if (val > max) max = val;
-    }
+    double min, max;
+    CubeAPI::extrema(&cube, min, max);
 
     colormap()->setMinMax( min, max );
 
@@ -117,9 +113,9 @@ void CubeRenderer::draw( RendererArea* ){
         }
 
         Cube& cube = cube_model->cube();
-        int nx = cube.getNx();
-        int ny = cube.getNy();
-        int nz = cube.getNz();
+        int nx = cube.nx();
+        int ny = cube.ny();
+        int nz = cube.nz();
 
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, texture_[Slice::XY]);
@@ -158,9 +154,9 @@ void CubeRenderer::createUVQuad(const Cube& cube, GLuint* tex, RendererArea* are
     CubeRendererAttribute* cube_attribute =
             static_cast<CubeRendererAttribute*>(attribute());
 
-    int nx = cube.getNx();
-    int ny = cube.getNy();
-    int nz = cube.getNz();
+    int nx = cube.nx();
+    int ny = cube.ny();
+    int nz = cube.nz();
 
     int ix = cube_attribute->getCursorX();
     int iy = cube_attribute->getCursorY();
@@ -320,9 +316,9 @@ CubeRenderer::pick(Pick& pick){
     }
 
     Cube& cube = cube_model->cube();
-    int nx = cube.getNx();
-    int ny = cube.getNy();
-    int nz = cube.getNz();
+    int nx = cube.nx();
+    int ny = cube.ny();
+    int nz = cube.nz();
 
     QList<double> t_list;
     double t;
@@ -378,7 +374,7 @@ CubePickInfo::toString(const Pick& pick) const {
     int j = (int)impact[1];
     int k = (int)impact[2];
 
-    return QString("(%1, %2, %3) : %4").arg(i).arg(j).arg(k).arg(cube.getValue(i, j, k));
+    return QString("(%1, %2, %3) : %4").arg(i).arg(j).arg(k).arg(cube.value(i, j, k));
 }
 
 }

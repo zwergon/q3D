@@ -21,6 +21,7 @@ Wavelet::Wavelet(Cube* cube, int type)
 
 bool Wavelet::transform( bool forward ){
 
+    wave_->forward = forward;
     if ( forward ){
         forward_transform();
     }
@@ -31,18 +32,29 @@ bool Wavelet::transform( bool forward ){
     return true;
 }
 
+Cube* Wavelet::approximation() const {
+    Cube* approx_cube = Cube::create(cube_->type(), true);
+    int n1 = .5*( cube_->nx() + (( cube_->nx()%2 == 1 )? 1 : 0));
+    int n2 = .5*( cube_->ny() + (( cube_->ny()%2 == 1 )? 1 : 0));
+    int n3 = .5*( cube_->nz() + (( cube_->nz()%2 == 1 )? 1 : 0));
+    int idx[] = {0, n1, 0, n2, 0, n3};
+
+    approx_cube->extract(cube_, idx);
+    return approx_cube;
+}
+
 
 void Wavelet::forward_transform(){
 
-    int nx = cube_->getNx();
-    int ny = cube_->getNy();
-    int nz = cube_->getNz();
+    int nx = cube_->nx();
+    int ny = cube_->ny();
+    int nz = cube_->nz();
     {
         std::vector<double> vz(nz);
         for( int i=0; i<nx; i++ ){
             for( int j=0; j<ny; j++){
                 for (int k=0; k<nz; k++){
-                    vz[k] = cube_->getValue(i, j, k);
+                    vz[k] = cube_->value(i, j, k);
                 }
 
                 wave_->step_1D(vz.data(), nz);
@@ -58,7 +70,7 @@ void Wavelet::forward_transform(){
         for( int i=0; i<nx; i++ ){
             for( int k=0; k<nz; k++){
                 for (int j=0; j<ny; j++){
-                    vy[j] = cube_->getValue(i, j, k);
+                    vy[j] = cube_->value(i, j, k);
                 }
                 wave_->step_1D(vy.data(), ny);
                 for (int j=0; j<ny; j++){
@@ -73,7 +85,7 @@ void Wavelet::forward_transform(){
         for( int k=0; k<nz; k++ ){
             for( int j=0; j<ny; j++){
                 for (int i=0; i<nx; i++){
-                    vx[i] = cube_->getValue(i, j, k);
+                    vx[i] = cube_->value(i, j, k);
                 }
                 wave_->step_1D(vx.data(), nx);
                 for (int i=0; i<nx; i++){
@@ -86,15 +98,15 @@ void Wavelet::forward_transform(){
 
 void Wavelet::reverse_transform(){
 
-    int nx = cube_->getNx();
-    int ny = cube_->getNy();
-    int nz = cube_->getNz();
+    int nx = cube_->nx();
+    int ny = cube_->ny();
+    int nz = cube_->nz();
     {
         std::vector<double> vx(nx);
         for( int k=0; k<nz; k++ ){
             for( int j=0; j<ny; j++){
                 for (int i=0; i<nx; i++){
-                    vx[i] = cube_->getValue(i, j, k);
+                    vx[i] = cube_->value(i, j, k);
                 }
                 wave_->step_1D(vx.data(), nx);
                 for (int i=0; i<nx; i++){
@@ -109,7 +121,7 @@ void Wavelet::reverse_transform(){
         for( int i=0; i<nx; i++ ){
             for( int k=0; k<nz; k++){
                 for (int j=0; j<ny; j++){
-                    vy[j] = cube_->getValue(i, j, k);
+                    vy[j] = cube_->value(i, j, k);
                 }
                 wave_->step_1D(vy.data(), ny);
                 for (int j=0; j<ny; j++){
@@ -124,7 +136,7 @@ void Wavelet::reverse_transform(){
         for( int i=0; i<nx; i++ ){
             for( int j=0; j<ny; j++){
                 for (int k=0; k<nz; k++){
-                     vz[k] = cube_->getValue(i, j, k);
+                     vz[k] = cube_->value(i, j, k);
                 }
 
                 wave_->step_1D(vz.data(), nz);
