@@ -27,16 +27,15 @@ Cube* Cube::create(int type, bool own_memory){
 }
 
 /*************************************************/
-Cube::Cube(int type, bool own_memory) :
+Cube::Cube(bool own_memory) :
     own_memory_(own_memory),
-    type_(type),
+    type_(0),
     nx_(0),
     ny_(0),
     nz_(0){
 }
 
 Cube::~Cube(){
-    clean();
 }
 
 void Cube::extract(Cube* src, int idx[]) {
@@ -54,15 +53,9 @@ void Cube::extract(Cube* src, int idx[]) {
     }
 }
 
-void Cube::clean(){
-    if ( own_memory_){
-        free_();
-    }
-}
 
 void Cube::allocate(int nx, int ny, int nz){
     setSize(nx, ny, nz);
-    clean();
     allocate_();
 }
 
@@ -99,24 +92,7 @@ void Cube::substract(Cube* cube){
     }
 }
 
-template <class T>
-CubeT<T>::CubeT(bool own_memory )
-    : Cube(own_memory),
-      data_(nullptr)
-{
-    if ( std::is_same<T, uint8_t>::value ){
-        type_ = UINT8;
-    }
-    else if ( std::is_same<T, uint32_t>::value ){
-        type_ = UINT32;
-    }
-    else if ( std::is_same<T, float>::value ){
-        type_ = FLOAT;
-    }
-    else if ( std::is_same<T, double>::value ){
-        type_ = DOUBLE;
-    }
-}
+
 
 
 

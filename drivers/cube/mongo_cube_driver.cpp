@@ -160,20 +160,18 @@ Cube* MongoCubeDriver::getCubeInfo(
 
     Cube* cube = nullptr;
     if ( strcmp(cube_type, "uint8") == 0){
-        cube = new CubeUC;
-        cube->setSize(cube_dim[0], cube_dim[1], cube_dim[2]);
-        cube->setData(new quint8[cube->size()]);
+        cube = new CubeT<uint8_t>();
     }
     else if ( strcmp(cube_type, "float32") == 0 ){
-        cube = new CubeF;
-        cube->setSize(cube_dim[0], cube_dim[1], cube_dim[2]);
-        cube->setData(new float[cube->size()]);
+        cube = new CubeT<float>();
     }
 
     if ( cube == nullptr ){
         qDebug() << "unable to allocate cube";
         return nullptr;
     }
+
+    cube->allocate(cube_dim[0], cube_dim[1], cube_dim[2]);
 
     mongoc_cursor_destroy (cursor);
     mongoc_collection_destroy (collection);

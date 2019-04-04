@@ -29,19 +29,14 @@ Cube* FDA::read(const std::string& fileName )
         return nullptr;
     }
 
-    cube->setSize(header[1], header[2], header[3]);
+    cube->allocate(header[1], header[2], header[3]);
 
-    char* buffer = new char[cube->byteSize()];
-
-    is.read(buffer, cube->byteSize());
+    is.read(reinterpret_cast<char*>(cube->data()), cube->byteSize());
     if (!is){
         std::cerr << "error: only " << is.gcount() << " could be read";
-        delete [] buffer;
         delete cube;
         return nullptr;
     }
-
-    cube->setData(buffer);
     is.close();
 
 

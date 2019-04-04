@@ -31,6 +31,9 @@ public:
 
     int type() const;
 
+    bool ownMemory() const;
+    void setOwnMemory(bool);
+
     int size() const;
     long byteSize() const;
     void setSize( int nx_, int ny_, int nz_ );
@@ -53,11 +56,9 @@ public:
     void allocate( int nx, int ny, int nz );
 
 protected:
-      Cube(int type, bool own_memory = true);
+      Cube(bool own_memory);
       virtual void allocate_() = 0;
-      virtual void free_() = 0;
 
-      void clean();
 
 protected:
       bool own_memory_;
@@ -70,6 +71,14 @@ protected:
 
 inline int Cube::type() const {
     return type_;
+}
+
+inline bool Cube::ownMemory() const {
+    return own_memory_;
+}
+
+inline void Cube::setOwnMemory(bool own_memory) {
+    own_memory_ = own_memory;
 }
 
 inline int Cube::nx() const {
@@ -110,16 +119,15 @@ inline void Cube::setValue(int i, int j, int k, double val) {
     return setValueIdx(index(i, j, k), val);
 }
 
-
-
 /*************************************************/
 
 template <class T>
-class CUBESHARED_EXPORT CubeT : public Cube
+class CubeT : public Cube
 {
 
 public:
     CubeT(bool own_memory = true);
+    virtual ~CubeT();
 
     virtual int sizeOf() const override;
     virtual double valueIdx(int idx) const override;
@@ -131,7 +139,7 @@ public:
 
 protected:
     virtual void allocate_() override;
-    virtual void free_() override;
+    void free_();
 
 protected:
     T* data_;
@@ -169,6 +177,9 @@ inline void CubeT<T>::setValueIdx(int idx, double val ) {
 
 template <class T>
 inline void CubeT<T>::allocate_() {
+    if (ownMemory()){
+        free_();
+    }
     data_ = new T[size()];
 }
 
@@ -177,6 +188,32 @@ inline void CubeT<T>::free_() {
     if ( data_ != nullptr ){
         delete [] data_;
         data_ = nullptr;
+    }
+}
+
+template <class T>
+CubeT<T>::CubeT(bool own_memory )
+    : Cube(own_memory),
+      data_(nullptr)
+{
+    if ( std::is_same<T, uint8_t>::value ){
+        type_ = UINT8;
+    }
+    else if ( std::is_same<T, uint32_t>::value ){
+        type_ = UINT32;
+    }
+    else if ( std::is_same<T, float>::value ){
+        type_ = FLOAT;
+    }
+    else if ( std::is_same<T, double>::value ){
+        type_ = DOUBLE;
+    }
+}
+
+template <class T>
+CubeT<T>::~CubeT(){
+    if (ownMemory()){
+        free_();
     }
 }
 
