@@ -13,7 +13,8 @@ SUBDIRS = \
     drivers \
     plugim \
 # unit tests
-    tests
+    tests \
+    itk
 
 CONFIG+=ordered
 
