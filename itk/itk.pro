@@ -56,13 +56,6 @@ win32 {
     LIBS += -ladvapi32 -lgdi32 -lshell32 -luser32
 }
 
-}
-
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
-
 HEADERS += \
     itk_mesh_driver.h \
     itk_mesh_model.h \
@@ -72,3 +65,12 @@ SOURCES += \
     itk_mesh_driver.cpp \
     itk_mesh_model.cpp \
     itk_mesh_renderer.cpp
+
+}
+
+unix {
+    target.path = /usr/lib
+    INSTALLS += target
+}
+
+
