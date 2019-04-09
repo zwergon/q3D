@@ -3,6 +3,8 @@ include(../q3d.pri)
 TARGET = itk
 TEMPLATE = lib
 
+QT += opengl
+
 DEFINES += ITK_LIBRARY
 
 # The following define makes your compiler emit warnings if you use
@@ -24,6 +26,7 @@ ITK_LIBS= \
     -lITKIOImageBase-4.13 \
     -lITKIOJPEG-4.13 \
     -lITKIOMesh-4.13 \
+    -lITKIOVTK-4.13 \
     -lITKVNLInstantiation-4.13 \
     -litkvnl-4.13 \
     -litkvnl_algo-4.13 \
@@ -50,10 +53,10 @@ HEADERS += \
 
 LIBS += \
     -L$${ITK_DIR}/lib $${ITK_LIBS} \
-    -lmodel -lplugins
+    -lmodel -lplugins -lgui
 
 win32 {
-    LIBS += -ladvapi32 -lgdi32 -lshell32 -luser32
+    LIBS += -lopengl32 -ladvapi32 -lgdi32 -lshell32 -luser32
 }
 
 }
@@ -66,9 +69,19 @@ unix {
 HEADERS += \
     itk_mesh_driver.h \
     itk_mesh_model.h \
-    itk_mesh_renderer.h
+    itk_mesh_renderer.h \
+    itk_mesh_renderer_attribute.h \
+    itk_mesh_renderer_attribute_dlg.h
 
 SOURCES += \
     itk_mesh_driver.cpp \
     itk_mesh_model.cpp \
-    itk_mesh_renderer.cpp
+    itk_mesh_renderer.cpp \
+    itk_mesh_renderer_attribute.cpp \
+    itk_mesh_renderer_attribute_dlg.cpp
+
+DISTFILES += \
+    itkplugin.json
+
+FORMS += \
+    itk_mesh_renderer_attribute_dlg.ui

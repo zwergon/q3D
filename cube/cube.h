@@ -24,7 +24,7 @@ public:
     virtual ~Cube();
 
     void copy(Cube* src);
-    void extract(Cube* src, int idx[]);
+    void extract(Cube* src, uint32_t idx[]);
 
     void add(Cube* cube);
     void substract(Cube* cube);
@@ -34,26 +34,34 @@ public:
     bool ownMemory() const;
     void setOwnMemory(bool);
 
-    int size() const;
+    void setPixelSize( double px, double py, double pz );
+    const double* pixelSize() const;
+
+    void setOrigin( double ox, double oy, double oz );
+    const double* origin() const;
+
+    uint32_t size() const;
     long byteSize() const;
-    void setSize( int nx_, int ny_, int nz_ );
+    void setSize( uint32_t nx_, uint32_t ny_, uint32_t nz_ );
 
-    int nx() const;
-    int ny() const;
-    int nz() const;
+    const uint32_t* dim() const;
+    uint32_t nx() const;
+    uint32_t ny() const;
+    uint32_t nz() const;
 
-    double value(int i, int j, int k) const;
-    void setValue(int i, int j, int k, double value);
+    double value(uint32_t i, uint32_t j, uint32_t k) const;
+    void setValue(uint32_t i, uint32_t j, uint32_t k, double value);
 
     virtual void* data() = 0;
     virtual const void* data() const = 0;
     virtual void setData(void* data) = 0;
     virtual int sizeOf() const = 0;
-    virtual double valueIdx(int idx) const = 0;
-    virtual void setValueIdx(int idx, double value) = 0;
+    virtual double valueIdx(uint32_t idx) const = 0;
+    virtual void setValueIdx(uint32_t idx, double value) = 0;
 
-    int index(int i, int j, int k) const;
-    void allocate( int nx, int ny, int nz );
+    double position(uint32_t idx, int i) const;
+    uint32_t index(uint32_t i, uint32_t j, uint32_t k) const;
+    void allocate( uint32_t nx, uint32_t ny, uint32_t nz );
 
 protected:
       Cube(bool own_memory);
@@ -63,10 +71,9 @@ protected:
 protected:
       bool own_memory_;
       int type_;
-      int nx_;
-      int ny_;
-      int nz_;
-
+      uint32_t dim_[3];
+      double pixel_[3];
+      double origin_[3];
 };
 
 inline int Cube::type() const {
@@ -81,42 +88,71 @@ inline void Cube::setOwnMemory(bool own_memory) {
     own_memory_ = own_memory;
 }
 
-inline int Cube::nx() const {
-    return nx_;
+inline void Cube::setPixelSize( double px, double py, double pz ){
+    pixel_[0] = px;
+    pixel_[1] = py;
+    pixel_[2] = pz;
 }
 
-inline int Cube::ny() const {
-    return ny_;
+inline const double* Cube::pixelSize() const {
+    return pixel_;
 }
 
-inline int Cube::nz() const {
-    return nz_;
+inline void Cube::setOrigin( double ox, double oy, double oz ){
+    origin_[0] = ox;
+    origin_[1] = oy;
+    origin_[2] = oz;
 }
 
-inline int Cube::size() const {
-    return nx_*ny_*nz_;
+inline const double* Cube::origin() const{
+    return origin_;
+}
+
+
+inline const uint32_t* Cube::dim() const {
+    return dim_;
+}
+
+inline uint32_t Cube::nx() const {
+    return dim_[0];
+}
+
+inline uint32_t Cube::ny() const {
+    return dim_[1];
+}
+
+inline uint32_t Cube::nz() const {
+    return dim_[2];
+}
+
+inline uint32_t Cube::size() const {
+    return dim_[0]*dim_[1]*dim_[2];
 }
 
 inline long Cube::byteSize() const {
     return size()*sizeOf();
 }
 
-inline void Cube::setSize(int nx, int ny, int nz){
-    this->nx_ = nx;
-    this->ny_ = ny;
-    this->nz_ = nz;
+inline void Cube::setSize(uint32_t nx, uint32_t ny, uint32_t nz){
+    this->dim_[0] = nx;
+    this->dim_[1] = ny;
+    this->dim_[2] = nz;
 }
 
-inline int Cube::index(int i, int j, int k) const {
-    return k + j*nz_ + i*nz_*ny_;
+inline uint32_t Cube::index(uint32_t i, uint32_t j, uint32_t k) const {
+    return k + dim_[2]*(j+i*dim_[1]);
 }
 
-inline double Cube::value(int i, int j, int k) const {
+inline double Cube::value(uint32_t i, uint32_t j, uint32_t k) const {
     return valueIdx(index(i, j, k));
 }
 
-inline void Cube::setValue(int i, int j, int k, double val) {
+inline void Cube::setValue(uint32_t i, uint32_t j, uint32_t k, double val) {
     return setValueIdx(index(i, j, k), val);
+}
+
+inline double Cube::position(uint32_t idx, int i) const {
+    return idx*pixel_[i] + origin_[i];
 }
 
 /*************************************************/
@@ -130,8 +166,8 @@ public:
     virtual ~CubeT();
 
     virtual int sizeOf() const override;
-    virtual double valueIdx(int idx) const override;
-    virtual void setValueIdx(int idx, double value) override;
+    virtual double valueIdx(uint32_t idx) const override;
+    virtual void setValueIdx(uint32_t idx, double value) override;
 
     virtual const void* data() const override;
     virtual void* data() override;
@@ -151,7 +187,7 @@ inline int CubeT<T>::sizeOf() const {
 }
 
 template <class T>
-inline double CubeT<T>::valueIdx(int idx) const {
+inline double CubeT<T>::valueIdx(uint32_t idx) const {
     return static_cast<double>(data_[idx]);
 }
 
@@ -171,7 +207,7 @@ void CubeT<T>::setData(void* data) {
 }
 
 template <class T>
-inline void CubeT<T>::setValueIdx(int idx, double val ) {
+inline void CubeT<T>::setValueIdx(uint32_t idx, double val ) {
     data_[idx] = static_cast<T>(val);
 }
 

@@ -2,14 +2,24 @@
 #define CUBE_API_H
 
 #include <cube/cube_global.h>
+#include <stdint.h>
 
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-CUBESHARED_EXPORT float* extract_approximation( int nx, int ny, int nz, float* data, int& n1, int& n2, int& n3);
-CUBESHARED_EXPORT void wave_transform( int nx, int ny, int nz, float* data, bool forward, int type );
+CUBESHARED_EXPORT float* extract_approximation(
+        uint32_t nx, uint32_t ny, uint32_t nz,
+        float* data,
+        uint32_t& n1, uint32_t& n2, uint32_t& n3
+        );
+CUBESHARED_EXPORT void wave_transform(
+        uint32_t nx, uint32_t ny, uint32_t nz,
+        float* data,
+        bool forward,
+        int type
+        );
 CUBESHARED_EXPORT void cdf97_step_1D(double* input, int length, bool forward);
 CUBESHARED_EXPORT void haar_step_1D(double* input, int length, bool forward);
 

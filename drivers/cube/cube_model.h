@@ -25,7 +25,7 @@ public:
     const Cube& cube() const;
     void setCube( Cube* cube );
 
-    virtual void update();
+    virtual void update() override;
 
     virtual void popupMenu(QMenu* );
 

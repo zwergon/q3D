@@ -16,10 +16,7 @@
 namespace Q3D {
 
 
-
 /*----------------------------------------------*/
-
-
 
 CubeRenderer::CubeRenderer() : texture_(nullptr)
 {
@@ -113,33 +110,44 @@ void CubeRenderer::draw( RendererArea* ){
         }
 
         Cube& cube = cube_model->cube();
-        int nx = cube.nx();
-        int ny = cube.ny();
-        int nz = cube.nz();
+
+        const double* ord = cube.origin();
+
+        double idd[3];
+        idd[0] = cube.position(cube_attribute->getCursorX(), 0);
+        idd[1] = cube.position(cube_attribute->getCursorY(), 1);
+        idd[2] = cube.position(cube_attribute->getCursorZ(), 2);
+
+        double mad[3];
+        mad[0] = cube.position( cube.nx(), 0 );
+        mad[1] = cube.position( cube.ny(), 1 );
+        mad[2] = cube.position( cube.nz(), 2 );
+
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
         glEnable(GL_TEXTURE_2D);
         glBindTexture(GL_TEXTURE_2D, texture_[Slice::XY]);
         glBegin(GL_QUADS);
-        glTexCoord2i(0, 0); glVertex3i(0, 0, cube_attribute->getCursorZ());
-        glTexCoord2i(0, 1); glVertex3i(0, ny, cube_attribute->getCursorZ());
-        glTexCoord2i(1, 1); glVertex3i(nx, ny, cube_attribute->getCursorZ());
-        glTexCoord2i(1, 0); glVertex3i(nx, 0, cube_attribute->getCursorZ());
+        glTexCoord2i(0, 0); glVertex3d(ord[0], ord[1], idd[2]);
+        glTexCoord2i(0, 1); glVertex3d(ord[0], mad[1], idd[2]);
+        glTexCoord2i(1, 1); glVertex3d(mad[0], mad[1], idd[2]);
+        glTexCoord2i(1, 0); glVertex3d(mad[0], ord[1], idd[2]);
         glEnd();
 
         glBindTexture(GL_TEXTURE_2D, texture_[Slice::XZ]);
         glBegin(GL_QUADS);
-        glTexCoord2i(0, 0); glVertex3i(0, cube_attribute->getCursorY(), 0);
-        glTexCoord2i(0, 1); glVertex3i(0, cube_attribute->getCursorY(), nz);
-        glTexCoord2i(1, 1); glVertex3i(nx, cube_attribute->getCursorY(), nz);
-        glTexCoord2i(1, 0); glVertex3i(nx, cube_attribute->getCursorY(), 0);
+        glTexCoord2i(0, 0); glVertex3d(ord[0], idd[1], ord[2]);
+        glTexCoord2i(0, 1); glVertex3d(ord[0], idd[1], mad[2]);
+        glTexCoord2i(1, 1); glVertex3d(mad[0], idd[1], mad[2]);
+        glTexCoord2i(1, 0); glVertex3d(mad[0], idd[1], ord[2]);
         glEnd();
 
         glBindTexture(GL_TEXTURE_2D, texture_[Slice::YZ]);
         glBegin(GL_QUADS);
-        glTexCoord2i(0, 0); glVertex3i(cube_attribute->getCursorX(), 0, 0);
-        glTexCoord2i(0, 1); glVertex3i(cube_attribute->getCursorX(), 0, nz);
-        glTexCoord2i(1, 1); glVertex3i(cube_attribute->getCursorX(), ny, nz);
-        glTexCoord2i(1, 0); glVertex3i(cube_attribute->getCursorX(), ny, 0);
+        glTexCoord2i(0, 0); glVertex3d(idd[0], ord[1], ord[2]);
+        glTexCoord2i(0, 1); glVertex3d(idd[0], ord[1], mad[2]);
+        glTexCoord2i(1, 1); glVertex3d(idd[0], mad[1], mad[2]);
+        glTexCoord2i(1, 0); glVertex3d(idd[0], mad[1], ord[2]);
         glEnd();
 
         glDisable(GL_TEXTURE_2D);
@@ -149,7 +157,6 @@ void CubeRenderer::draw( RendererArea* ){
 }
 
 void CubeRenderer::createUVQuad(const Cube& cube, GLuint* tex, RendererArea* area) {
-
 
     CubeRendererAttribute* cube_attribute =
             static_cast<CubeRendererAttribute*>(attribute());
@@ -162,6 +169,18 @@ void CubeRenderer::createUVQuad(const Cube& cube, GLuint* tex, RendererArea* are
     int iy = cube_attribute->getCursorY();
     int iz = cube_attribute->getCursorZ();
 
+    const double* ord = cube.origin();
+
+    double idd[3];
+    idd[0] = cube.position(ix, 0);
+    idd[1] = cube.position(iy, 1);
+    idd[2] = cube.position(iz, 2);
+
+    double mad[3];
+    mad[0] = cube.position( nx, 0 );
+    mad[1] = cube.position( ny, 1 );
+    mad[2] = cube.position( nz, 2 );
+
     float ax = (float)ix /(float)nx;
     float ay = (float)iy /(float)ny;
     float az = (float)iz /(float)nz;
@@ -170,82 +189,82 @@ void CubeRenderer::createUVQuad(const Cube& cube, GLuint* tex, RendererArea* are
 
     //-----------
     q1.tex = tex[Slice::XY];
-    q1.id = (int)this;
-    q1.pts[0].init(0, 0, iz, 0, 0);
-    q1.pts[1].init(ix, 0, iz, ax, 0);
-    q1.pts[2].init(ix, iy, iz, ax, ay);
-    q1.pts[3].init(0, iy, iz, 0, ay);
+    q1.id = reinterpret_cast<int>(this);
+    q1.pts[0].init(ord[0], ord[1], idd[2], 0, 0);
+    q1.pts[1].init(idd[0], ord[1], idd[2], ax, 0);
+    q1.pts[2].init(idd[0], idd[1], idd[2], ax, ay);
+    q1.pts[3].init(ord[0], idd[1], idd[2], 0, ay);
     area->addUVQuad(q1);
 
-    q1.pts[0].init(ix, 0, iz, ax, 0);
-    q1.pts[1].init(nx, 0, iz, 1, 0);
-    q1.pts[2].init(nx, iy, iz, 1., ay);
-    q1.pts[3].init(ix, iy, iz, ax, ay);
+    q1.pts[0].init(idd[0], ord[1], idd[2], ax, 0);
+    q1.pts[1].init(mad[0], ord[1], idd[2], 1, 0);
+    q1.pts[2].init(mad[0], idd[1], idd[2], 1., ay);
+    q1.pts[3].init(idd[0], idd[1], idd[2], ax, ay);
     area->addUVQuad(q1);
 
-    q1.pts[0].init(ix, iy, iz, ax, ay);
-    q1.pts[1].init(nx, iy, iz, 1., ay);
-    q1.pts[2].init(nx, ny, iz, 1., 1.);
-    q1.pts[3].init(ix, ny, iz, ax, 1);
+    q1.pts[0].init(idd[0], idd[1], idd[2], ax, ay);
+    q1.pts[1].init(mad[0], idd[1], idd[2], 1., ay);
+    q1.pts[2].init(mad[0], mad[1], idd[2], 1., 1.);
+    q1.pts[3].init(idd[0], mad[1], idd[2], ax, 1);
     area->addUVQuad(q1);
 
-    q1.pts[0].init(0, iy, iz, 0, ay);
-    q1.pts[1].init(ix, iy, iz, ax, ay);
-    q1.pts[2].init(ix, ny, iz, ax, 1.);
-    q1.pts[3].init(0, ny, iz, 0, 1.);
+    q1.pts[0].init(ord[0], idd[1], idd[2], 0, ay);
+    q1.pts[1].init(idd[0], idd[1], idd[2], ax, ay);
+    q1.pts[2].init(idd[0], mad[1], idd[2], ax, 1.);
+    q1.pts[3].init(ord[0], mad[1], idd[2], 0, 1.);
     area->addUVQuad(q1);
 
     //-----------
     q1.tex = tex[Slice::YZ];
-    q1.pts[0].init(ix, 0, 0, 0, 0);
-    q1.pts[1].init(ix, iy, 0, ay, 0);
-    q1.pts[2].init(ix, iy, iz, ay, az);
-    q1.pts[3].init(ix, 0, iz, 0, az);
+    q1.pts[0].init(idd[0], ord[1], ord[2], 0, 0);
+    q1.pts[1].init(idd[0], idd[1], ord[2], ay, 0);
+    q1.pts[2].init(idd[0], idd[1], idd[2], ay, az);
+    q1.pts[3].init(idd[0], ord[1], idd[2], 0, az);
     area->addUVQuad(q1);
 
-    q1.pts[0].init(ix, iy, 0, ay, 0);
-    q1.pts[1].init(ix, ny, 0, 1, 0);
-    q1.pts[2].init(ix, ny, iz, 1., az);
-    q1.pts[3].init(ix, iy, iz, ay, az);
+    q1.pts[0].init(idd[0], idd[1], ord[2], ay, 0);
+    q1.pts[1].init(idd[0], mad[1], ord[2], 1, 0);
+    q1.pts[2].init(idd[0], mad[1], idd[2], 1., az);
+    q1.pts[3].init(idd[0], idd[1], idd[2], ay, az);
     area->addUVQuad(q1);
 
-    q1.pts[0].init(ix, iy, iz, ay, az);
-    q1.pts[1].init(ix, ny, iz, 1., az);
-    q1.pts[2].init(ix, ny, nz, 1., 1.);
-    q1.pts[3].init(ix, iy, nz, ay, 1);
+    q1.pts[0].init(idd[0], idd[1], idd[2], ay, az);
+    q1.pts[1].init(idd[0], mad[1], idd[2], 1., az);
+    q1.pts[2].init(idd[0], mad[1], mad[2], 1., 1.);
+    q1.pts[3].init(idd[0], idd[1], mad[2], ay, 1);
     area->addUVQuad(q1);
 
-    q1.pts[0].init(ix, 0, iz, 0, az);
-    q1.pts[1].init(ix, iy, iz, ay, az);
-    q1.pts[2].init(ix, iy, nz, ay, 1.);
-    q1.pts[3].init(ix, 0, nz, 0, 1.);
+    q1.pts[0].init(idd[0], ord[1], idd[2], 0, az);
+    q1.pts[1].init(idd[0], idd[1], idd[2], ay, az);
+    q1.pts[2].init(idd[0], idd[1], mad[2], ay, 1.);
+    q1.pts[3].init(idd[0], ord[1], mad[2], 0, 1.);
     area->addUVQuad(q1);
 
     //-----------
     q1.tex = tex[Slice::XZ];
 
-    q1.pts[0].init(0, iy, 0, 0, 0);
-    q1.pts[1].init(ix, iy, 0, ax, 0);
-    q1.pts[2].init(ix, iy, iz, ax, az);
-    q1.pts[3].init(0, iy, iz, 0, az);
+    q1.pts[0].init(ord[0], idd[1], ord[2], 0, 0);
+    q1.pts[1].init(idd[0], idd[1], ord[2], ax, 0);
+    q1.pts[2].init(idd[0], idd[1], idd[2], ax, az);
+    q1.pts[3].init(ord[0], idd[1], idd[2], 0, az);
     area->addUVQuad(q1);
 
-    q1.pts[0].init(ix, iy, 0, ax, 0);
-    q1.pts[1].init(nx, iy, 0, 1, 0);
-    q1.pts[2].init(nx, iy, iz, 1., az);
-    q1.pts[3].init(ix, iy, iz, ax, az);
+    q1.pts[0].init(idd[0], idd[1], ord[2], ax, 0);
+    q1.pts[1].init(mad[0], idd[1], ord[2], 1, 0);
+    q1.pts[2].init(mad[0], idd[1], idd[2], 1., az);
+    q1.pts[3].init(idd[0], idd[1], idd[2], ax, az);
     area->addUVQuad(q1);
 
-    q1.pts[0].init(ix, iy, iz, ax, az);
-    q1.pts[1].init(nx, iy, iz, 1., az);
-    q1.pts[2].init(nx, iy, nz, 1., 1.);
-    q1.pts[3].init(ix, iy, nz, ax, 1);
+    q1.pts[0].init(idd[0], idd[1], idd[2], ax, az);
+    q1.pts[1].init(mad[0], idd[1], idd[2], 1., az);
+    q1.pts[2].init(mad[0], idd[1], mad[2], 1., 1.);
+    q1.pts[3].init(idd[0], idd[1], mad[2], ax, 1);
     area->addUVQuad(q1);
 
-    q1.pts[0].init(0, iy, iz, 0, az);
-    q1.pts[1].init(ix, iy, iz, ax, az);
-    q1.pts[2].init(ix, iy, nz, ax, 1.);
-    q1.pts[3].init(0, iy, nz, 0, 1.);
+    q1.pts[0].init(ord[0], idd[1], idd[2], 0, az);
+    q1.pts[1].init(idd[0], idd[1], idd[2], ax, az);
+    q1.pts[2].init(idd[0], idd[1], mad[2], ax, 1.);
+    q1.pts[3].init(ord[0], idd[1], mad[2], 0, 1.);
     area->addUVQuad(q1);
 
 
@@ -316,35 +335,44 @@ CubeRenderer::pick(Pick& pick){
     }
 
     Cube& cube = cube_model->cube();
-    int nx = cube.nx();
-    int ny = cube.ny();
-    int nz = cube.nz();
+
+    const double* ord = cube.origin();
+
+    double idd[3];
+    idd[0] = cube.position(cube_attribute->getCursorX(), 0);
+    idd[1] = cube.position(cube_attribute->getCursorY(), 1);
+    idd[2] = cube.position(cube_attribute->getCursorZ(), 2);
+
+    double mad[3];
+    mad[0] = cube.position( cube.nx(), 0 );
+    mad[1] = cube.position( cube.ny(), 1 );
+    mad[2] = cube.position( cube.nz(), 2 );
 
     QList<double> t_list;
     double t;
     {
-        Point3d v0 = {0, 0, cube_attribute->getCursorZ()};
-        Point3d v1 = {0, ny, cube_attribute->getCursorZ()};
-        Point3d v2 = {nx, ny, cube_attribute->getCursorZ()};
-        Point3d v3 = {nx, 0, cube_attribute->getCursorZ()};
+        Point3d v0 = {ord[0], ord[1], idd[2]};
+        Point3d v1 = {ord[0], mad[1], idd[2]};
+        Point3d v2 = {mad[0], mad[1], idd[2]};
+        Point3d v3 = {mad[0], ord[1], idd[2]};
         if ( pick.is_quad_picked(v0, v1, v2, v3, t) ){
             t_list.append(t);
         }
     }
     {
-        Point3d v0 = {0, cube_attribute->getCursorY(), 0};
-        Point3d v1 = {0, cube_attribute->getCursorY(), nz};
-        Point3d v2 = {nx, cube_attribute->getCursorY(), nz};
-        Point3d v3 = {nx, cube_attribute->getCursorY(), 0};
+        Point3d v0 = {ord[0], idd[1], ord[2]};
+        Point3d v1 = {ord[0], idd[1], mad[2]};
+        Point3d v2 = {mad[0], idd[1], mad[2]};
+        Point3d v3 = {mad[0], idd[1], ord[2]};
         if ( pick.is_quad_picked(v0, v1, v2, v3, t) ){
             t_list.append(t);
         }
     }
     {
-        Point3d v0 = {cube_attribute->getCursorX(), 0, 0};
-        Point3d v1 = {cube_attribute->getCursorX(), 0, nz};
-        Point3d v2 = {cube_attribute->getCursorX(), ny, nz};
-        Point3d v3 = {cube_attribute->getCursorX(), ny, 0};
+        Point3d v0 = {idd[0], ord[1], ord[2]};
+        Point3d v1 = {idd[0], ord[1], mad[2]};
+        Point3d v2 = {idd[0], mad[1], mad[2]};
+        Point3d v3 = {idd[0], mad[1], ord[2]};
         if ( pick.is_quad_picked(v0, v1, v2, v3, t) ){
             t_list.append(t);
         }

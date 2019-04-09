@@ -5,11 +5,18 @@
 
 #include <q3D/model/model_driver.h>
 
-class ITKSHARED_EXPORT ItkMeshDriver : public Q3D::ModelDriver
+namespace Q3D {
+
+class ITKSHARED_EXPORT ItkMeshDriver : public ModelDriver
 {
     Q_OBJECT
 public:
     ItkMeshDriver();
+
+    virtual Q3D::Model*  open( const ModelOpenInfo& ) override;
+    virtual void         save( const Model& model, const QString& filename  ) override;
 };
+
+}
 
 #endif // ITK_MESH_DRIVER_H

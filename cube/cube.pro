@@ -28,7 +28,9 @@ SOURCES += \
     io/fda.cpp \
     wavelet.cpp \
     slicer.cpp \
-    cube_api.cpp
+    cube_api.cpp \
+    nifti/nifti1_io.c \
+    nifti/znzlib.c
 
 HEADERS += \
         cube.h \
@@ -37,7 +39,10 @@ HEADERS += \
     io/fda.h \
     wavelet.h \
     slicer.h \
-    cube_api.h
+    cube_api.h \
+    nifti/nifti1.h \
+    nifti/nifti1_io.h \
+    nifti/znzlib.h
 
 unix {
     target.path = /usr/lib

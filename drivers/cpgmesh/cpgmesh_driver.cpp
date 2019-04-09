@@ -54,11 +54,11 @@ CpgMeshDriver::open( const ModelOpenInfo& openInfo )
 
 	in >> descr ;
 
-	if ( descr != description() )
-	{
-		qDebug() << description() << " is not the good driver\n";
-		return 0;
-	}
+    if (( in.status() != QTextStream::Ok ) || ( descr != description() ))
+    {
+        qDebug() << description() << " is not the good driver\n";
+        return 0;
+    }
 
 	qDebug() << description() << " is the good driver\n";
 

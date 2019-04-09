@@ -30,15 +30,16 @@ Cube* Cube::create(int type, bool own_memory){
 Cube::Cube(bool own_memory) :
     own_memory_(own_memory),
     type_(0),
-    nx_(0),
-    ny_(0),
-    nz_(0){
+    dim_{0, 0, 0},
+    pixel_{1., 1., 1.},
+    origin_{0., 0., 0.}
+{
 }
 
 Cube::~Cube(){
 }
 
-void Cube::extract(Cube* src, int idx[]) {
+void Cube::extract(Cube* src, uint32_t idx[]) {
     int n1 = idx[1] - idx[0];
     int n2 = idx[3] - idx[2];
     int n3 = idx[5] - idx[4];
@@ -54,7 +55,7 @@ void Cube::extract(Cube* src, int idx[]) {
 }
 
 
-void Cube::allocate(int nx, int ny, int nz){
+void Cube::allocate(uint32_t nx, uint32_t ny, uint32_t nz){
     setSize(nx, ny, nz);
     allocate_();
 }
@@ -66,28 +67,28 @@ void Cube::copy(Cube* src) {
         memcpy(data(), src->data(), src->byteSize());
     }
     else {
-        for( int i=0; i<size(); i++ ){
+        for( uint32_t i=0; i<size(); i++ ){
             setValueIdx(i, src->valueIdx(i));
         }
     }
 }
 
 void Cube::add(Cube* cube){
-    if (( cube->nx() != nx_ ) || (cube->ny() != ny_ ) || ( cube->nz() != nz_ )){
+    if (( cube->nx() != nx() ) || (cube->ny() != ny() ) || ( cube->nz() != ny() )){
         std::cerr << "unable to add two cube with different dimensions" << std::endl;
         return;
     }
-    for( int i=0; i<size(); i++ ){
+    for( uint32_t i=0; i<size(); i++ ){
         setValueIdx(i, valueIdx(i) + cube->valueIdx(i));
     }
 }
 
 void Cube::substract(Cube* cube){
-    if (( cube->nx() != nx_ ) || (cube->ny() != ny_ ) || ( cube->nz() != nz_ )){
+    if (( cube->nx() != nx() ) || (cube->ny() != ny() ) || ( cube->nz() != ny() )){
         std::cerr << "unable to add two cube with different dimensions" << std::endl;
         return;
     }
-    for( int i=0; i<size(); i++ ){
+    for( uint32_t i=0; i<size(); i++ ){
         setValueIdx(i, valueIdx(i) - cube->valueIdx(i));
     }
 }

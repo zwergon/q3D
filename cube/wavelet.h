@@ -19,6 +19,7 @@ public:
 
 public:
     Wavelet(Cube* cube, int type);
+    virtual ~Wavelet();
 
     bool transform( bool forward );
 
@@ -30,7 +31,7 @@ private:
 
 private:
     Cube* cube_;
-    std::unique_ptr<Wave1D> wave_;
+    Wave1D* wave_;
 };
 
 #endif // WAVE97_H

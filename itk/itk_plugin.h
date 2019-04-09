@@ -1,13 +1,41 @@
 #ifndef ITK_PLUGIN_H
 #define ITK_PLUGIN_H
 
-#include "itk_global.h"
+#include <q3D/itk/itk_global.h>
 
-class ITKSHARED_EXPORT ItkPlugin
+
+#include <q3D/plugins/plugin_collection.h>
+
+namespace Q3D {
+
+class ITKSHARED_EXPORT ItkDriversPlugin : public QObject, public DriverInterface
 {
+    Q_OBJECT
+    Q_INTERFACES(Q3D::DriverInterface)
 
 public:
-    ItkPlugin();
+    explicit ItkDriversPlugin(QObject* parent = nullptr);
+
+    virtual QStringList drivers() const;
+    virtual ModelDriver* driver( const QString& key );
+
+private:
+    QList<ModelDriver*> drivers_;
 };
+
+
+class ITKSHARED_EXPORT ItkPluginCollection : public PluginCollection {
+    Q_OBJECT
+    Q_PLUGIN_METADATA(IID "fr.org.q3D.DriverInterface" FILE "itkplugin.json")
+    Q_INTERFACES(Q3D::CollectionInterface)
+
+public:
+    explicit ItkPluginCollection( QObject* parent = nullptr );
+
+    virtual void start() override;
+
+};
+
+}
 
 #endif // ITK_PLUGIN_H
