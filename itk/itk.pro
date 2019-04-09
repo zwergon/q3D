@@ -59,13 +59,6 @@ win32 {
     LIBS += -lopengl32 -ladvapi32 -lgdi32 -lshell32 -luser32
 }
 
-}
-
-unix {
-    target.path = /usr/lib
-    INSTALLS += target
-}
-
 HEADERS += \
     itk_mesh_driver.h \
     itk_mesh_model.h \
@@ -85,3 +78,10 @@ DISTFILES += \
 
 FORMS += \
     itk_mesh_renderer_attribute_dlg.ui
+}
+
+unix {
+    target.path = /usr/lib
+    INSTALLS += target
+}
+
