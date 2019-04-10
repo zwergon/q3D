@@ -35,14 +35,24 @@ Model* ItkMeshDriver::open( const ModelOpenInfo& openInfo){
     QFileInfo fi(fileName);
     ReaderType::Pointer reader = ReaderType::New();
     reader->SetFileName( fi.absoluteFilePath().toStdString() );
-    reader->Update();
 
+    try {
+        reader->Update();
+    }
+    catch(itk::ExceptionObject & exp )
+    {
+        std::cerr << "ItkMeshDriver is not the good driver " << std::endl;
+        std::cerr << exp << std::endl;
+        return nullptr;
+    }
 
     MeshType::Pointer mesh = reader->GetOutput();
     ItkMeshModel* mesh_model = new ItkMeshModel();
     mesh_model->setMesh(mesh);
     mesh_model->setObjectName(fi.baseName());
     mesh_model->setDriver(this);
+
+
     mesh_model->update();
 
     return mesh_model;

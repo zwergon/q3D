@@ -33,7 +33,8 @@ HEADERS += \
     cube/cube_renderer_attribute.h \
     cube/cube_renderer_attribute_dlg.h \
     cube/fda_cube_driver.h \
-    cube/cube_actions.h
+    cube/cube_actions.h \
+    cube/nifti_cube_driver.h
 
 SOURCES += \
     cpgmesh/cpgmesh.cpp \
@@ -54,7 +55,8 @@ SOURCES += \
     cube/cube_renderer_attribute.cpp \
     cube/cube_renderer_attribute_dlg.cpp \
     cube/fda_cube_driver.cpp \
-    cube/cube_actions.cpp
+    cube/cube_actions.cpp \
+    cube/nifti_cube_driver.cpp
 
 FORMS += \
     mesh/mesh_renderer_attribute_dlg.ui \

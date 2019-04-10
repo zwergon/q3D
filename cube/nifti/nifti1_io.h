@@ -6,6 +6,8 @@
 #ifndef _NIFTI_IO_HEADER_
 #define _NIFTI_IO_HEADER_
 
+#include <cube/cube_global.h>
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -286,10 +288,10 @@ int          nifti_image_load_bricks(nifti_image *nim , int nbricks,
                                      const int *blist, nifti_brick_list * NBL);
 void         nifti_free_NBL( nifti_brick_list * NBL );
 
-nifti_image *nifti_image_read    ( const char *hname , int read_data ) ;
+CUBESHARED_EXPORT nifti_image *nifti_image_read    ( const char *hname , int read_data ) ;
 int          nifti_image_load    ( nifti_image *nim ) ;
 void         nifti_image_unload  ( nifti_image *nim ) ;
-void         nifti_image_free    ( nifti_image *nim ) ;
+CUBESHARED_EXPORT void         nifti_image_free    ( nifti_image *nim ) ;
 
 int          nifti_read_collapsed_image( nifti_image * nim, const int dims [8],
                                          void ** data );
@@ -298,7 +300,7 @@ int          nifti_read_subregion_image( nifti_image * nim,
                                          int *start_index, int *region_size,
                                          void ** data );
 
-void         nifti_image_write   ( nifti_image * nim ) ;
+CUBESHARED_EXPORT void         nifti_image_write   ( nifti_image * nim ) ;
 void         nifti_image_write_bricks(nifti_image * nim, 
                                       const nifti_brick_list * NBL);
 void         nifti_image_infodump( const nifti_image * nim ) ;
@@ -315,7 +317,7 @@ nifti_image *nifti_image_from_ascii( const char * str, int * bytes_read ) ;
 size_t       nifti_get_volsize(const nifti_image *nim) ;
 
 /* basic file operations */
-int    nifti_set_filenames(nifti_image * nim, const char * prefix, int check,
+CUBESHARED_EXPORT int    nifti_set_filenames(nifti_image * nim, const char * prefix, int check,
                            int set_byte_order);
 char * nifti_makehdrname  (const char * prefix, int nifti_type, int check,
                            int comp);
@@ -351,7 +353,7 @@ znzFile nifti_write_ascii_image(nifti_image *nim, const nifti_brick_list * NBL,
                          const char * opts, int write_data, int leave_open);
 
 
-void nifti_datatype_sizes( int datatype , int *nbyper, int *swapsize ) ;
+CUBESHARED_EXPORT void nifti_datatype_sizes( int datatype , int *nbyper, int *swapsize ) ;
 
 void nifti_mat44_to_quatern( mat44 R ,
                              float *qb, float *qc, float *qd,
@@ -390,14 +392,14 @@ char * nifti_makebasename(const char* fname);
 
 
 /* other routines */
-struct nifti_1_header   nifti_convert_nim2nhdr(const nifti_image* nim);
-nifti_1_header * nifti_make_new_header(const int arg_dims[], int arg_dtype);
-nifti_1_header * nifti_read_header(const char *hname, int *swapped, int check);
-nifti_image    * nifti_copy_nim_info(const nifti_image * src);
-nifti_image    * nifti_make_new_nim(const int dims[], int datatype,
+CUBESHARED_EXPORT struct nifti_1_header   nifti_convert_nim2nhdr(const nifti_image* nim);
+CUBESHARED_EXPORT nifti_1_header * nifti_make_new_header(const int arg_dims[], int arg_dtype);
+CUBESHARED_EXPORT nifti_1_header * nifti_read_header(const char *hname, int *swapped, int check);
+CUBESHARED_EXPORT nifti_image    * nifti_copy_nim_info(const nifti_image * src);
+CUBESHARED_EXPORT nifti_image    * nifti_make_new_nim(const int dims[], int datatype,
                                                       int data_fill);
-nifti_image    * nifti_simple_init_nim(void);
-nifti_image    * nifti_convert_nhdr2nim(struct nifti_1_header nhdr,
+CUBESHARED_EXPORT nifti_image    * nifti_simple_init_nim(void);
+CUBESHARED_EXPORT nifti_image    * nifti_convert_nhdr2nim(struct nifti_1_header nhdr,
                                         const char * fname);
 
 int    nifti_hdr_looks_good        (const nifti_1_header * hdr);

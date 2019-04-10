@@ -3,6 +3,8 @@
 #include "cpgmesh/cpgmesh_driver.h"
 #include "mesh/mesh_driver.h"
 #include "cube/fda_cube_driver.h"
+#include "cube/nifti_cube_driver.h"
+
 #ifdef WITH_MONGO
 #include <mongoc/mongoc.h>
 #include "cube/mongo_cube_driver.h"
@@ -17,6 +19,7 @@ namespace Q3D {
 DriversPlugin::DriversPlugin(QObject* parent ) : QObject(parent)
 {
     drivers_.append(new FdaCubeDriver);
+    drivers_.append(new NiftiCubeDriver);
 #ifdef WITH_MONGO
     drivers_.append(new MongoCubeDriver);
 #endif

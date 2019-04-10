@@ -19,13 +19,14 @@ CubeModel::~CubeModel(){
 
 void CubeModel::update(){
 
+    const double* ord = cube_->origin();
     for( int i=0; i<3; i++ ){
-        min_[i] = 0;
+        min_[i] = ord[i];
     }
 
-    max_[0] = cube_->nx();
-    max_[1] = cube_->ny();
-    max_[2] = cube_->nz();
+    max_[0] = cube_->position( cube_->nx(), 0 );
+    max_[1] = cube_->position( cube_->ny(), 1 );
+    max_[2] = cube_->position( cube_->nz(), 2 );
 
     Model::update();
 
