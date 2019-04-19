@@ -16,6 +16,7 @@
 #include <QString>
 #include <QLayout>
 #include <QFileDialog>
+#include <QScopedPointer>
 
 
 #include <q3D/model/model.h>
@@ -38,6 +39,7 @@
 #include <q3D/gui/picking_tool.h>
 #include <q3D/gui/tool_manager.h>
 #include <q3D/gui/terminal_log.h>
+#include <q3D/gui/driver_dialog.h>
 
 Q_DECLARE_METATYPE( Q3D::Model* );
 
@@ -189,6 +191,10 @@ CGlWindow::CGlWindow(QWidget *parent)
     connect( model_mgr, &ModelManager::modelAdded, this, &CGlWindow::modelAddedSlot );
     connect( model_mgr, &ModelManager::modelRemoved, this, &CGlWindow::modelRemovedSlot );
 
+    connect(ui_->actionModelDelete, &QAction::triggered, this, &CGlWindow::onModelDeleteTriggered);
+    connect(ui_->actionModelSave, &QAction::triggered, this, &CGlWindow::onModelSaveTriggered);
+    connect(ui_->actionModelDriver, &QAction::triggered, this, &CGlWindow::onModelDriverTriggered);
+
     populateMenus();
 
     tool_manager_->registerTool(ui_->actionMoveTool, new CameraTool(tool_manager_));
@@ -299,23 +305,52 @@ CGlWindow::on_mpCoreTreeView_itemChanged ( QTreeWidgetItem* item, int )
 }
 
 void
-CGlWindow::menuSelection( QAction* action ){
-    if ( nullptr == action ){
+CGlWindow::onModelSaveTriggered( ){
+
+    Model* model = ui_->actionModelSave->data().value<Model*>();
+
+    ModelDriver* driver = model->driver();
+    QScopedPointer<ModelOpenInfo> moi(driver->openInfo());
+
+    FileModelOpenInfo* fmoi = dynamic_cast<FileModelOpenInfo*>(moi.get());
+    if (fmoi == nullptr){
+        qDebug() << "can only save model on file, not for " << driver->description();
         return;
     }
 
-    Model* model = action->data().value<Model*>();
-    if ( action->text() == "Delete" ){
-        ModelManager* model_mgr = ModelManager::instance();
-        model_mgr->removeModel( model );
+    QString fileType = QString("%1 (*.%2)").arg(driver->description()).arg(fmoi->extension());
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save..."), QDir::currentPath(), fileType );
+    if ( !filename.isEmpty() ) {
+        fmoi->setFilename(filename);
+        driver->save( *model, *moi );
     }
-    else if ( action->text() == "Save" ){
-        QString filename = QFileDialog::getSaveFileName(this, tr("Save..."), QDir::currentPath() );
-        if ( !filename.isEmpty() ) {
-            model->driver()->save( *model, filename );
-        }
 
+
+}
+
+void
+CGlWindow::onModelDeleteTriggered(){
+
+    Model* model = ui_->actionModelDelete->data().value<Model*>();
+
+    ModelManager* model_mgr = ModelManager::instance();
+    model_mgr->removeModel( model );
+
+}
+
+
+void
+CGlWindow::onModelDriverTriggered(){
+
+    Model* model = ui_->actionModelDelete->data().value<Model*>();
+
+    DriverDialog dlg(model, this);
+    if (dlg.exec() == QDialog::Accepted){
+        if ( model->driver() != dlg.selectedDriver() ){
+            model->setDriver(dlg.selectedDriver());
+        }
     }
+
 
 }
 
@@ -336,15 +371,17 @@ CGlWindow::handleContextMenuRequest( QPoint point ){
     if ( nullptr != model_item ){
         QMenu menu(this);
 
-        QAction* action = new QAction("Delete", this);
-        action->setData( qVariantFromValue(model_item->model()));
-        menu.addAction( action );
+        QVariant modelVariant = qVariantFromValue(model_item->model());
 
-        action = new QAction("Save", this);
-        action->setData( qVariantFromValue(model_item->model()));
-        menu.addAction( action );
+        ui_->actionModelDelete->setData(modelVariant);
+        menu.addAction( ui_->actionModelDelete );
 
-        connect(&menu, SIGNAL(triggered(QAction*)), this, SLOT(menuSelection(QAction*)));
+        ui_->actionModelDriver->setData(modelVariant);
+        menu.addAction(ui_->actionModelDriver);
+
+        ui_->actionModelSave->setData(modelVariant);
+        menu.addAction( ui_->actionModelSave );
+
         menu.exec( treeWidget()->mapToGlobal(point) );
     }
 }

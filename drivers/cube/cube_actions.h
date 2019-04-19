@@ -18,6 +18,17 @@ public:
 
 };
 
+class CubeResampleAction : public PluginAction
+{
+    Q_OBJECT
+public:
+    CubeResampleAction(QObject* parent);
+
+    virtual bool canWorkOn(Model*) const override;
+    virtual bool execute(Model*) override;
+
+};
+
 }
 
 #endif // CUBE_ACTIONS_H

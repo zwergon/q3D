@@ -4,6 +4,17 @@ namespace Q3D {
 
 ItkMeshModel::ItkMeshModel()
 {
+     matrix_[0][0] = 0;
+     matrix_[0][1] = 0;
+     matrix_[0][2] = -1;
+
+     matrix_[1][0] = 0;
+     matrix_[1][1] = -1;
+     matrix_[1][2] = 0;
+
+     matrix_[2][0] = -1;
+     matrix_[2][1] = 0;
+     matrix_[2][2] = 0;
 
 }
 
@@ -16,8 +27,8 @@ void ItkMeshModel::update(){
     boundingBox->SetPoints(mesh_->GetPoints());
     boundingBox->ComputeBoundingBox();
 
-    PointType min = boundingBox->GetMinimum();
-    PointType max = boundingBox->GetMaximum();
+    PointType min = transformed(boundingBox->GetMinimum());
+    PointType max = transformed(boundingBox->GetMaximum());
 
     for( int i = 0; i<3; i++ ){
         min_[i] = min[i];

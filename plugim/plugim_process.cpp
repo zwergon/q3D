@@ -27,9 +27,8 @@ bool PlugImProcess::prepare() {
     // 1. Create a copy of the data in IN directory
     ProcessParam inParam;
     process_info_.getParam("IN", inParam);
-    ModelDriver* driver =
-            ModelDriverManager::instance()->getDriverByName("FdaCubeDriver");
-    driver->save(*model, inParam.value());
+    FileModelOpenInfo fmoi(inParam.value());
+    model->driver()->save(*model, fmoi);
 
     // 2. Create the PAR xml file
     QDomDocument xml("Root");

@@ -9,6 +9,7 @@
 #include <q3D/itk/itk_mesh_renderer.h>
 
 #include <QFileInfo>
+#include <QDebug>
 
 namespace Q3D {
 
@@ -21,6 +22,15 @@ ItkMeshDriver::ItkMeshDriver()
     renderer_factory_.registerFactory<ItkMeshRenderer>( "ItkMesh" );
 }
 
+bool ItkMeshDriver::canHandle(Model* model) const {
+    return dynamic_cast<ItkMeshModel*>(model) != nullptr;
+}
+
+ModelOpenInfo* ItkMeshDriver::openInfo() const {
+    FileModelOpenInfo* fmoi = new FileModelOpenInfo();
+    fmoi->setExtension("vtk");
+    return fmoi;
+}
 
 Model* ItkMeshDriver::open( const ModelOpenInfo& openInfo){
     QString fileName;
@@ -59,8 +69,8 @@ Model* ItkMeshDriver::open( const ModelOpenInfo& openInfo){
 
 }
 
-void ItkMeshDriver::save( const Model& model, const QString& filename  ){
-
+void ItkMeshDriver::save( const Model&, const ModelOpenInfo&  ){
+    qDebug() << "Save for " << description() << " is not yet implemented";
 }
 
 }

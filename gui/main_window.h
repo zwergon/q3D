@@ -54,7 +54,9 @@ private slots:
 
 
 	void handleContextMenuRequest( QPoint point );
-    void menuSelection( QAction* );
+    void onModelSaveTriggered();
+    void onModelDeleteTriggered();
+    void onModelDriverTriggered();
 
 private:
     void populateMenus();

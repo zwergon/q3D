@@ -79,3 +79,23 @@ void CubeAPI::extrema(Cube* cube, double& min, double& max){
     }
 
 }
+
+bool CubeAPI::resample(Cube *src, int sx, int sy, int sz, Cube *dest){
+    uint32_t nx = src->nx() / sx;
+    uint32_t ny = src->ny() / sy;
+    uint32_t nz = src->nz() / sz;
+
+    dest->allocate(nx, ny, nz);
+    const double* pixSize = src->pixelSize();
+    dest->setPixelSize(pixSize[0]*sx, pixSize[1]*sy, pixSize[2]*sz);
+
+    for( int k=0; k<nz; k++ ){
+        for( int j=0; j< ny; j++ ){
+            for( int i=0; i<nx; i++ ){
+                dest->setValue(i,j,k, src->value(i*sx, j*sy, k*sz) );
+            }
+        }
+    }
+
+    return true;
+}

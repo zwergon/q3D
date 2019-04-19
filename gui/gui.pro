@@ -35,7 +35,8 @@ HEADERS +=\
     terminal_log.h \
     arc_ball.h \
     gl_data.h \
-    view_control.h
+    view_control.h \
+    driver_dialog.h
 SOURCES += \
     gl_area.cpp \
     main_window.cpp \
@@ -52,4 +53,5 @@ SOURCES += \
     terminal_log.cpp \
     arc_ball.cpp \
     gl_data.cpp \
-    view_control.cpp
+    view_control.cpp \
+    driver_dialog.cpp

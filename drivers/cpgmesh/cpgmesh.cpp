@@ -19,11 +19,11 @@
 
 namespace Q3D {
 
-CpgMesh::CpgMesh(){
+CpgMeshModel::CpgMeshModel(){
 }
 
 void 
-CpgMesh::update(){
+CpgMeshModel::update(){
 
 	bool first = true;
 	for (int i=0; i< mTopo.nCells() ; i++)

@@ -49,8 +49,10 @@ class DRIVERSSHARED_EXPORT MongoCubeDriver  : public ModelDriver
 public:
     MongoCubeDriver();
 
-    virtual Model* open( const ModelOpenInfo& );
-    virtual void save( const Model& model, const QString& fileName  );
+    virtual ModelOpenInfo* openInfo() const override;
+    virtual bool canHandle(Model *) const override;
+    virtual Model* open( const ModelOpenInfo& ) override;
+    virtual void save( const Model& model, const ModelOpenInfo&  ) override;
 
 private:
     Cube* getCubeInfo(

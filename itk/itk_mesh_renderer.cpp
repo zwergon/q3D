@@ -48,8 +48,8 @@ void ItkMeshRenderer::drawEdges( ItkMeshModel* mesh_model ) const {
 
             MeshType::PointIdentifier current = *it_point;
 
-            MeshType::PointType pt1 = mesh->GetPoint( previous );
-            MeshType::PointType pt2 = mesh->GetPoint( current );
+            MeshType::PointType pt1 = mesh_model->transformed(mesh->GetPoint( previous ));
+            MeshType::PointType pt2 = mesh_model->transformed(mesh->GetPoint( current ));
 
             glBegin(GL_LINES);
             glVertex3d(pt1[0], pt1[1], pt1[2]);
@@ -90,7 +90,7 @@ void ItkMeshRenderer::drawSurface( ItkMeshModel* mesh_model ) const{
 
             MeshType::PointType pts[3];
             for( int i=0; i<3; i ++ ){
-                pts[i] = mesh->GetPoint(id_container[i]);
+                pts[i] = mesh_model->transformed(mesh->GetPoint(id_container[i]));
             }
             Point3d u = { pts[1][0] - pts[0][0], pts[1][1] - pts[0][1], pts[1][2] - pts[0][2] };
             Point3d v = { pts[2][0] - pts[0][0], pts[2][1] - pts[0][1], pts[2][2] - pts[0][2] };

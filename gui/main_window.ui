@@ -164,6 +164,42 @@
     <string>Pick</string>
    </property>
   </action>
+  <action name="actionModelSave">
+   <property name="icon">
+    <iconset resource="../icons/icons.qrc">
+     <normaloff>:/FlatSVG/scalable/actions/save.svg</normaloff>:/FlatSVG/scalable/actions/save.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Save</string>
+   </property>
+   <property name="toolTip">
+    <string>save model using its current driver</string>
+   </property>
+  </action>
+  <action name="actionModelDelete">
+   <property name="icon">
+    <iconset resource="../icons/icons.qrc">
+     <normaloff>:/FlatSVG/scalable/actions/removecomment.svg</normaloff>:/FlatSVG/scalable/actions/removecomment.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Delete</string>
+   </property>
+   <property name="toolTip">
+    <string>remove this model</string>
+   </property>
+  </action>
+  <action name="actionModelDriver">
+   <property name="icon">
+    <iconset resource="../icons/icons.qrc">
+     <normaloff>:/FlatSVG/scalable/actions/tool_disconnect.svg</normaloff>:/FlatSVG/scalable/actions/tool_disconnect.svg</iconset>
+   </property>
+   <property name="text">
+    <string>Driver</string>
+   </property>
+   <property name="toolTip">
+    <string>Select driver used for this model</string>
+   </property>
+  </action>
  </widget>
  <resources>
   <include location="../icons/icons.qrc"/>

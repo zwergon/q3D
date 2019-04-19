@@ -6,6 +6,9 @@
 #include <q3d/drivers/cube/cube_model.h>
 
 #include <q3D/model/process_mgr.h>
+#include <q3D/model/model_open_info.h>
+#include <q3D/model/model_driver.h>
+
 #include <q3D/plugim/plugim_process.h>
 #include <q3D/plugim/plugim_dialog.h>
 
@@ -58,10 +61,18 @@ bool PlugImAction::execute(Model* model){
         pi.setModel(model);
         pi.setProcessExe( exe_ );
 
-        QFileInfo file_in(QDir::temp(), "In.fda");
+        ModelDriver* driver = model->driver();
+        QScopedPointer<ModelOpenInfo> moi(driver->openInfo());
+        QString suffix = static_cast<FileModelOpenInfo*>(moi.get())->extension();
+
+
+        QFileInfo file_in(QDir::temp(), QString("In.%1").arg(suffix));
         pi.addParam("IN", file_in.absoluteFilePath());
 
-        QFileInfo file_out(QDir::temp(), QString("%1_%2.fda").arg(model->objectName()).arg(pi.name()));
+        QFileInfo file_out(QDir::temp(), QString("%1_%2.%3")
+                           .arg(model->objectName())
+                           .arg(pi.name())
+                           .arg(suffix));
         pi.addParam("OUT", file_out.absoluteFilePath() );
         for( auto p : dlg.getParams() ){
             pi.addParam( p.name(), p.value() );

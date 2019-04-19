@@ -17,7 +17,7 @@
 #include <q3D/drivers/drivers_global.h>
 #include <q3D/model/renderer.h>
 
-class CpgMesh;
+class CpgMeshModel;
 
 namespace Q3D {
 
@@ -35,8 +35,8 @@ protected:
     virtual RendererAttribute* createAttribute();
    
 private:
-    void drawSurface ( CpgMesh* cpgmesh );
-    void drawLines ( CpgMesh* cpgmesh );
+    void drawSurface ( CpgMeshModel* cpgmesh );
+    void drawLines ( CpgMeshModel* cpgmesh );
 };
 
 }

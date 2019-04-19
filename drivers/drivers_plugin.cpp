@@ -62,6 +62,7 @@ QList<PluginAction*> ActionsPlugin::getActions(QObject* parent) const {
     actions.append(new MongoLoadAction(parent));
 #endif
     actions.append(new CubeWaveAction(parent));
+    actions.append(new CubeResampleAction(parent));
     return actions;
 }
 

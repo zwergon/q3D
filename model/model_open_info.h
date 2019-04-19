@@ -29,16 +29,35 @@ public:
 
 class MODELSHARED_EXPORT FileModelOpenInfo : public ModelOpenInfo {
 public:
-    FileModelOpenInfo( const QString& pfilename) : filename_(pfilename) {}
+    FileModelOpenInfo():filename_(QString::null) {}
+    FileModelOpenInfo(const QString& pfilename) : filename_(pfilename) {}
     const QString& fileName() const;
+    void setFilename( const QString& filename );
+
+    void setExtension( const QString& extension );
+    const QString& extension() const;
 
 protected:
     QString filename_;
+    QString extension_;
 
 };
 
 inline const QString& FileModelOpenInfo::fileName() const {
 	return filename_;
+}
+
+inline void FileModelOpenInfo::setFilename(const QString &filename){
+    filename_ = filename;
+}
+
+inline void FileModelOpenInfo::setExtension(const QString &extension){
+    extension_ = extension;
+}
+
+
+inline const QString& FileModelOpenInfo::extension() const {
+    return extension_;
 }
 
 }

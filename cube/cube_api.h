@@ -31,6 +31,7 @@ class Cube;
 
 class CUBESHARED_EXPORT CubeAPI {
 public:
+    static bool resample(Cube* src, int sx, int sy, int sz, Cube* dest);
     static double norm(Cube* cube);
     static void extrema(Cube* cube, double& min, double& max);
 };

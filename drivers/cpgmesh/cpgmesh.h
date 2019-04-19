@@ -22,12 +22,12 @@
 namespace Q3D {
 
 
-class DRIVERSSHARED_EXPORT CpgMesh : public Model
+class DRIVERSSHARED_EXPORT CpgMeshModel : public Model
 {
   Q_OBJECT
 
 public:
-  CpgMesh();
+  CpgMeshModel();
 
   CpgTopo* topo();
  
@@ -37,7 +37,7 @@ private:
   CpgTopo  mTopo;
 };
 
-inline CpgTopo* CpgMesh::topo() {
+inline CpgTopo* CpgMeshModel::topo() {
 	return &mTopo; 
 }
 

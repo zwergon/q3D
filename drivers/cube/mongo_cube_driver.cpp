@@ -96,6 +96,14 @@ MongoCubeDriver::MongoCubeDriver()
     renderer_factory_.registerFactory<CubeRenderer>( "Cube" );
 }
 
+bool MongoCubeDriver::canHandle(Model* model) const {
+    return dynamic_cast<CubeModel*>(model) != nullptr;
+}
+
+ModelOpenInfo* MongoCubeDriver::openInfo() const {
+    return new MongoCubeOpenInfo();
+}
+
 Cube* MongoCubeDriver::getCubeInfo(
         mongoc_client_t* client,
         const MongoCubeOpenInfo& moi,
@@ -254,8 +262,9 @@ Model* MongoCubeDriver::open(const ModelOpenInfo &openInfo ){
     return cube_model;
 }
 
-void MongoCubeDriver::save(const Model &, const QString &)
-{
+void MongoCubeDriver::save(const Model &, const ModelOpenInfo& ){
+    qDebug() << "Save for " << description() << " is not yet implemented";
+
 }
 
 }

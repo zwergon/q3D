@@ -27,6 +27,16 @@ CpgMeshDriver::CpgMeshDriver(){
     renderer_factory_.registerFactory<CpgMeshRenderer>( "CpgMesh" );
 }
 
+bool CpgMeshDriver::canHandle(Model* model) const{
+    return dynamic_cast<CpgMeshModel*>(model) != nullptr;
+}
+
+ModelOpenInfo* CpgMeshDriver::openInfo() const {
+    FileModelOpenInfo* fmoi = new FileModelOpenInfo();
+    fmoi->setExtension("stra");
+    return fmoi;
+}
+
 Model *
 CpgMeshDriver::open( const ModelOpenInfo& openInfo )
 {
@@ -63,7 +73,7 @@ CpgMeshDriver::open( const ModelOpenInfo& openInfo )
 	qDebug() << description() << " is the good driver\n";
 
 	//create Core data
-	CpgMesh* cpgmesh  = new CpgMesh;
+    CpgMeshModel* cpgmesh  = new CpgMeshModel;
 	cpgmesh->setObjectName( fileName );
 	cpgmesh->setDriver( this );
 
@@ -98,7 +108,7 @@ CpgMeshDriver::open( const ModelOpenInfo& openInfo )
 	return cpgmesh;
 }
 
-void CpgMeshDriver::save( const Model& , const QString& ){
+void CpgMeshDriver::save( const Model& , const ModelOpenInfo& ){
     qDebug() << "Save for " << description() << " is not yet implemented";
 }
 

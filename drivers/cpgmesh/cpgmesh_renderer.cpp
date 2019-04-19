@@ -35,7 +35,7 @@ RendererAttribute* CpgMeshRenderer::createAttribute(){
 }
 
 void
-CpgMeshRenderer::drawSurface( CpgMesh* cpgmesh )
+CpgMeshRenderer::drawSurface( CpgMeshModel* cpgmesh )
 {
 	CpgTopo* topo = cpgmesh->topo();
     Q_ASSERT( colormap() != nullptr );
@@ -89,7 +89,7 @@ CpgMeshRenderer::drawSurface( CpgMesh* cpgmesh )
 }
 
 void
-CpgMeshRenderer::drawLines( CpgMesh* cpgmesh )
+CpgMeshRenderer::drawLines( CpgMeshModel* cpgmesh )
 {
     CpgTopo* topo = cpgmesh->topo();
 
@@ -116,7 +116,7 @@ CpgMeshRenderer::drawLines( CpgMesh* cpgmesh )
 }
 
 void CpgMeshRenderer::init(){
-    CpgMesh* cpgmesh = dynamic_cast<CpgMesh*>( model() );
+    CpgMeshModel* cpgmesh = dynamic_cast<CpgMeshModel*>( model() );
     if ( 0 == cpgmesh ){
         return;
     }
@@ -127,7 +127,7 @@ void CpgMeshRenderer::init(){
 void
 CpgMeshRenderer::update( RendererArea* )
 {
-	CpgMesh* cpgmesh = dynamic_cast<CpgMesh*>( model() );
+	CpgMeshModel* cpgmesh = dynamic_cast<CpgMeshModel*>( model() );
 	if ( 0 == cpgmesh ){
 		return;
 	}

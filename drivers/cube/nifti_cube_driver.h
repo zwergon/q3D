@@ -13,8 +13,10 @@ class DRIVERSSHARED_EXPORT NiftiCubeDriver : public ModelDriver
 public:
     NiftiCubeDriver();
 
-    virtual Model* open( const ModelOpenInfo& );
-    virtual void save( const Model& model, const QString& filename );
+    virtual ModelOpenInfo* openInfo() const override;
+    virtual bool canHandle(Model *) const override;
+    virtual Model* open( const ModelOpenInfo& ) override;
+    virtual void save( const Model& model, const ModelOpenInfo& ) override;
 };
 
 }

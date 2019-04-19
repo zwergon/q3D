@@ -17,6 +17,16 @@ FdaCubeDriver::FdaCubeDriver()
     renderer_factory_.registerFactory<CubeRenderer>( "Cube" );
 }
 
+bool FdaCubeDriver::canHandle(Model* model) const{
+    return dynamic_cast<CubeModel*>(model) != nullptr;
+}
+
+ModelOpenInfo* FdaCubeDriver::openInfo() const {
+    FileModelOpenInfo* fmoi = new FileModelOpenInfo();
+    fmoi->setExtension("fda");
+    return fmoi;
+}
+
 
 Model* FdaCubeDriver::open(const ModelOpenInfo& openInfo )
 {
@@ -49,11 +59,13 @@ Model* FdaCubeDriver::open(const ModelOpenInfo& openInfo )
     return cube_model;
 }
 
-void FdaCubeDriver::save( const Model& model, const QString& filename ){
+void FdaCubeDriver::save( const Model& model, const ModelOpenInfo& moi ){
 
     const CubeModel* cube_model = dynamic_cast<const CubeModel*>(&model);
 
-    FDA::write(cube_model->cube(), filename.toStdString());
+    const FileModelOpenInfo* fmoi = static_cast<const FileModelOpenInfo*>(&moi);
+
+    FDA::write(cube_model->cube(), fmoi->fileName().toStdString());
 
 }
 

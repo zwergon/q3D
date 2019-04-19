@@ -11,6 +11,8 @@
 #include <q3D/drivers/cube/cube_model.h>
 #include <q3D/drivers/cube/cube_renderer.h>
 
+
+
 namespace Q3D {
 
 
@@ -19,6 +21,17 @@ NiftiCubeDriver::NiftiCubeDriver()
 {
     setDescription("NiftiCubeDriver");
     renderer_factory_.registerFactory<CubeRenderer>( "Cube" );
+}
+
+bool NiftiCubeDriver::canHandle(Model *model) const {
+    return dynamic_cast<CubeModel*>(model) != nullptr;
+}
+
+
+ModelOpenInfo* NiftiCubeDriver::openInfo() const {
+    FileModelOpenInfo* fmoi = new FileModelOpenInfo();
+    fmoi->setExtension("nii");
+    return fmoi;
 }
 
 
@@ -90,13 +103,15 @@ Model* NiftiCubeDriver::open(const ModelOpenInfo& openInfo )
 
 }
 
-void NiftiCubeDriver::save( const Model& model, const QString& filename ){
+void NiftiCubeDriver::save( const Model& model, const ModelOpenInfo& moi ){
 
 
     const CubeModel* cube_model = dynamic_cast<const CubeModel*>(&model);
     if ( cube_model == nullptr ){
         return;
     }
+
+    const FileModelOpenInfo* fmoi = static_cast<const FileModelOpenInfo*>(&moi);
 
     const Cube& cube = cube_model->cube();
 
@@ -127,13 +142,13 @@ void NiftiCubeDriver::save( const Model& model, const QString& filename ){
      * https://brainder.org/2012/09/23/the-nifti-file-format
      * */
     const double* pixdim = cube.pixelSize();
-    nhdr->pixdim[0] = 1.; // will be nim->qfac for quaternion transformation.
+    nhdr->pixdim[0] = -1.; // will be nim->qfac for quaternion transformation.
     nhdr->pixdim[1] = pixdim[2];
     nhdr->pixdim[2] = pixdim[1];
     nhdr->pixdim[3] = pixdim[0];
 
 
-    nhdr->qform_code = NIFTI_XFORM_SCANNER_ANAT;
+    nhdr->qform_code = NIFTI_XFORM_ALIGNED_ANAT;
     const double* ori = cube.origin();
     nhdr->quatern_b = 0; //no rotation
     nhdr->quatern_c = 0; //no rotation
@@ -142,9 +157,11 @@ void NiftiCubeDriver::save( const Model& model, const QString& filename ){
     nhdr->qoffset_y = ori[1];
     nhdr->qoffset_z = ori[0];
 
-    nifti_image* nim = nifti_convert_nhdr2nim(*nhdr, filename.toLatin1());
+    nifti_image* nim = nifti_convert_nhdr2nim(*nhdr, fmoi->fileName().toLatin1());
 
     nim->data = (void*)cube.data();
+
+    nifti_image_infodump(nim);
 
     nifti_image_write(nim);
 

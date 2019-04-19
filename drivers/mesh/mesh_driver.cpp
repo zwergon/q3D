@@ -33,6 +33,16 @@ MeshDriver::MeshDriver(){
     RendererMenu::factory().registerFactory<MeshRendererMenu>( MeshRenderer::staticMetaObject.className() );
 }
 
+bool MeshDriver::canHandle(Model* model) const {
+    return dynamic_cast<MeshModel*>(model) != nullptr;
+}
+
+ModelOpenInfo* MeshDriver::openInfo() const {
+    FileModelOpenInfo* fmoi = new FileModelOpenInfo();
+    fmoi->setExtension("gmsh");
+    return fmoi;
+}
+
 Model *
 MeshDriver::open( const ModelOpenInfo& openInfo )
 {
@@ -67,13 +77,15 @@ MeshDriver::open( const ModelOpenInfo& openInfo )
 }
 
 void
-MeshDriver::save( const Model& model, const QString& filename ){
+MeshDriver::save( const Model& model, const ModelOpenInfo& moi ){
 
     const MeshModel* mesh_model = static_cast<const MeshModel*>( &model );
     Mesh& mesh = const_cast<MeshModel*>(mesh_model)->mesh();
 
+    const FileModelOpenInfo* fmoi = static_cast<const FileModelOpenInfo*>(&moi);
+
     GmshMeshExporter exporter;
-    exporter.set_filename( filename );
+    exporter.set_filename( fmoi->fileName() );
     exporter.to_file( &mesh );
 
 }

@@ -303,7 +303,7 @@ int          nifti_read_subregion_image( nifti_image * nim,
 CUBESHARED_EXPORT void         nifti_image_write   ( nifti_image * nim ) ;
 void         nifti_image_write_bricks(nifti_image * nim, 
                                       const nifti_brick_list * NBL);
-void         nifti_image_infodump( const nifti_image * nim ) ;
+CUBESHARED_EXPORT void         nifti_image_infodump( const nifti_image * nim ) ;
 
 void         nifti_disp_lib_hist( void ) ;     /* to display library history */
 void         nifti_disp_lib_version( void ) ;  /* to display library version */

@@ -13,8 +13,10 @@ class ITKSHARED_EXPORT ItkMeshDriver : public ModelDriver
 public:
     ItkMeshDriver();
 
+    virtual ModelOpenInfo* openInfo() const override;
+    virtual bool canHandle(Model *) const override;
     virtual Q3D::Model*  open( const ModelOpenInfo& ) override;
-    virtual void         save( const Model& model, const QString& filename  ) override;
+    virtual void         save( const Model& model, const ModelOpenInfo&) override;
 };
 
 }

@@ -41,8 +41,10 @@ public:
 
     ModelRendererFactory& rendererFactory();
 
+    virtual ModelOpenInfo* openInfo() const = 0;
+    virtual bool         canHandle( Model* ) const = 0;
     virtual Model*       open( const ModelOpenInfo& ) = 0;
-    virtual void         save( const Model& model, const QString& filename  ) = 0;
+    virtual void         save( const Model& model, const ModelOpenInfo&  ) = 0;
 
     void                 rendererKeys( QList<QString>& keys ) const;
 	int                  getRendererCount() const;
