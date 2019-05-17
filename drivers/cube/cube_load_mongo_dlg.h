@@ -42,7 +42,7 @@ private slots:
 
 private:
     Ui::CubeLoadMongoDlg* ui_;
-    MongoCubeOpenInfo moi_;
+    MongoFoamOpenInfo moi_;
     mongoc_client_t* client_;
 };
 

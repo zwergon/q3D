@@ -20,5 +20,18 @@ private slots:
 };
 
 
+class DRIVERSSHARED_EXPORT GeoanalogAction : public PluginAction
+{
+    Q_OBJECT
+public:
+    explicit GeoanalogAction(QObject* parent=nullptr);
+
+private slots:
+    void onActionTriggered();
+
+};
+
+
+
 }
 #endif // MONGO_LOAD_ACTION_H

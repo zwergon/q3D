@@ -11,6 +11,9 @@
 
 namespace Q3D {
 
+
+/*************************************************/
+
 class DRIVERSSHARED_EXPORT MongoCubeOpenInfo : public ModelOpenInfo {
 public:
     MongoCubeOpenInfo();
@@ -21,6 +24,22 @@ public:
     const QString& getDatabase() const;
     void setDatabase(const QString& database);
 
+    virtual QString getName() const = 0;
+    virtual bson_t* getQuery() const = 0;
+
+    mongoc_client_t* createClient() const;
+
+protected:
+    QString uri_;
+    QString database_;
+};
+
+
+/*************************************************/
+class DRIVERSSHARED_EXPORT MongoFoamOpenInfo : public MongoCubeOpenInfo {
+public:
+    MongoFoamOpenInfo();
+
     const QString& getExperience() const;
     void setExperience(const QString& experience);
 
@@ -30,32 +49,52 @@ public:
     int getSerie() const;
     void setSerie( int serie );
 
-    QString getName() const;
-
-    mongoc_client_t* createClient() const;
-
+    virtual QString getName() const override;
+    virtual bson_t* getQuery() const override;
 
 private:
-    QString uri_;
-    QString database_;
     QString experience_;
     int numero_;
     int serie_;
 };
 
 
+
+/*************************************************/
+class DRIVERSSHARED_EXPORT GeoAnalogOpenInfo : public MongoCubeOpenInfo {
+public:
+    GeoAnalogOpenInfo();
+
+    const QString& getStudy() const;
+    void setStudy(const QString& study);
+
+    float getFov() const;
+    void setFov(float fov);
+
+    int getIndex() const;
+    void setIndex( int index );
+
+    virtual QString getName() const override;
+    virtual bson_t* getQuery() const override;
+
+private:
+    QString study_;
+    float fov_;
+    int index_;
+};
+
+/*************************************************/
 class DRIVERSSHARED_EXPORT MongoCubeDriver  : public ModelDriver
 {
 public:
-    MongoCubeDriver();
-
-    virtual ModelOpenInfo* openInfo() const override;
+    virtual ModelOpenInfo* openInfo() const = 0;
     virtual bool canHandle(Model *) const override;
     virtual Model* open( const ModelOpenInfo& ) override;
     virtual void save( const Model& model, const ModelOpenInfo&  ) override;
 
-private:
-    Cube* getCubeInfo(
+
+protected:
+    Cube* createCube(
             mongoc_client_t* client,
             const MongoCubeOpenInfo& moi,
             bson_oid_t& cube_id);
@@ -64,6 +103,20 @@ private:
             const MongoCubeOpenInfo& moi,
             const bson_oid_t& cube_id,
             Cube& cube);
+};
+
+class DRIVERSSHARED_EXPORT MongoFoamDriver  : public MongoCubeDriver
+{
+public:
+    MongoFoamDriver();
+    virtual ModelOpenInfo* openInfo() const override;
+};
+
+class DRIVERSSHARED_EXPORT GeoAnalogDriver  : public MongoCubeDriver
+{
+public:
+    GeoAnalogDriver();
+    virtual ModelOpenInfo* openInfo() const override;
 };
 
 }

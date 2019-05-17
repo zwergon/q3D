@@ -21,7 +21,8 @@ DriversPlugin::DriversPlugin(QObject* parent ) : QObject(parent)
     drivers_.append(new FdaCubeDriver);
     drivers_.append(new NiftiCubeDriver);
 #ifdef WITH_MONGO
-    drivers_.append(new MongoCubeDriver);
+    drivers_.append(new MongoFoamDriver);
+    drivers_.append(new GeoAnalogDriver);
 #endif
     drivers_.append(new CpgMeshDriver);
     drivers_.append(new MeshDriver);
@@ -60,6 +61,7 @@ QList<PluginAction*> ActionsPlugin::getActions(QObject* parent) const {
     QList<PluginAction*> actions;
 #ifdef WITH_MONGO
     actions.append(new MongoLoadAction(parent));
+    actions.append(new GeoanalogAction(parent));
 #endif
     actions.append(new CubeWaveAction(parent));
     actions.append(new CubeResampleAction(parent));

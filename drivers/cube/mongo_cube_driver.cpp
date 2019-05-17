@@ -12,19 +12,8 @@ namespace Q3D {
 
 MongoCubeOpenInfo::MongoCubeOpenInfo()
     : uri_(QString::null),
-      database_(QString::null),
-      experience_("cell1"),
-      numero_(24),
-      serie_(0)
-{
-    QSettings settings( "ifp", "q3D" );
-    uri_ = settings.value( "mongodb/uri", "mongodb://localhost" ).toString();
-    database_ = settings.value("mongodb/database", "tim8").toString();
-}
-
-QString MongoCubeOpenInfo::getName() const {
-    return QString("%1_%2_%3").arg(experience_).arg(numero_).arg(serie_);
-}
+      database_(QString::null)
+{}
 
 const QString& MongoCubeOpenInfo::getURI() const{
     return uri_;
@@ -42,29 +31,6 @@ void MongoCubeOpenInfo::setDatabase(const QString &database){
     database_ = database;
 }
 
-const QString& MongoCubeOpenInfo::getExperience() const{
-    return experience_;
-}
-
-void MongoCubeOpenInfo::setExperience(const QString &experience){
-    experience_ = experience;
-}
-
-int MongoCubeOpenInfo::getNumero() const {
-    return numero_;
-}
-
-void MongoCubeOpenInfo::setNumero(int numero){
-    numero_ = numero;
-}
-
-int MongoCubeOpenInfo::getSerie() const {
-    return serie_;
-}
-
-void MongoCubeOpenInfo::setSerie(int serie){
-    serie_ = serie;
-}
 
 mongoc_client_t* MongoCubeOpenInfo::createClient() const {
     bson_error_t error;
@@ -90,31 +56,119 @@ mongoc_client_t* MongoCubeOpenInfo::createClient() const {
 
 /*************************************************/
 
-MongoCubeDriver::MongoCubeDriver()
+MongoFoamOpenInfo::MongoFoamOpenInfo()
+    :  MongoCubeOpenInfo(),
+      experience_("cell1"),
+      numero_(24),
+      serie_(0)
 {
-    setDescription("MongoCubeDriver");
-    renderer_factory_.registerFactory<CubeRenderer>( "Cube" );
+    QSettings settings( "ifp", "q3D" );
+    uri_ = settings.value( "mongodb/uri", "mongodb://localhost" ).toString();
+    database_ = settings.value("mongodb/database", "tim8").toString();
 }
+
+QString MongoFoamOpenInfo::getName() const {
+    return QString("%1_%2_%3").arg(experience_).arg(numero_).arg(serie_);
+}
+
+const QString& MongoFoamOpenInfo::getExperience() const{
+    return experience_;
+}
+
+void MongoFoamOpenInfo::setExperience(const QString &experience){
+    experience_ = experience;
+}
+
+int MongoFoamOpenInfo::getNumero() const {
+    return numero_;
+}
+
+void MongoFoamOpenInfo::setNumero(int numero){
+    numero_ = numero;
+}
+
+int MongoFoamOpenInfo::getSerie() const {
+    return serie_;
+}
+
+void MongoFoamOpenInfo::setSerie(int serie){
+    serie_ = serie;
+}
+
+bson_t* MongoFoamOpenInfo::getQuery() const {
+    return BCON_NEW(
+                    "experience", BCON_UTF8(experience_.toUtf8()),
+                    "numero", BCON_INT32(numero_),
+                    "serie", BCON_INT32(serie_)
+                );
+}
+
+
+
+/*************************************************/
+
+GeoAnalogOpenInfo::GeoAnalogOpenInfo()
+    :  MongoCubeOpenInfo(),
+      study_("03397"),
+      fov_(420.),
+      index_(46)
+{
+    QSettings settings( "ifp", "q3D" );
+    uri_ = settings.value( "geoanalog/uri", "mongodb://localhost" ).toString();
+    database_ = settings.value("geonalog/database", "geoanalog").toString();
+}
+
+QString GeoAnalogOpenInfo::getName() const {
+    return QString("geoanalog_%1_%2_%3").arg(study_).arg(fov_).arg(index_);
+}
+
+const QString& GeoAnalogOpenInfo::getStudy() const{
+    return study_;
+}
+
+void GeoAnalogOpenInfo::setStudy(const QString &study){
+    study_ = study;
+}
+
+float GeoAnalogOpenInfo::getFov() const {
+    return fov_;
+}
+
+void GeoAnalogOpenInfo::setFov(float fov){
+    fov_ = fov;
+}
+
+int GeoAnalogOpenInfo::getIndex() const {
+    return index_;
+}
+
+void GeoAnalogOpenInfo::setIndex(int index){
+    index_ = index;
+}
+
+bson_t* GeoAnalogOpenInfo::getQuery() const {
+    return BCON_NEW(
+                    "experience", BCON_UTF8(study_.toUtf8()),
+                    "numero", BCON_DOUBLE(fov_),
+                    "serie", BCON_INT32(index_)
+                );
+}
+
+
+/*************************************************/
 
 bool MongoCubeDriver::canHandle(Model* model) const {
     return dynamic_cast<CubeModel*>(model) != nullptr;
 }
 
-ModelOpenInfo* MongoCubeDriver::openInfo() const {
-    return new MongoCubeOpenInfo();
-}
 
-Cube* MongoCubeDriver::getCubeInfo(
+Cube* MongoCubeDriver::createCube(
         mongoc_client_t* client,
         const MongoCubeOpenInfo& moi,
         bson_oid_t& cube_id)
 {
 
-    bson_t* query = BCON_NEW(
-                "experience", BCON_UTF8(moi.getExperience().toUtf8()),
-                "numero", BCON_INT32(moi.getNumero()),
-                "serie", BCON_INT32(moi.getSerie()));
-
+    bson_t* query = moi.getQuery();
     mongoc_collection_t *collection =
             mongoc_client_get_collection (client, moi.getDatabase().toUtf8(), "headers");
     mongoc_cursor_t *cursor = mongoc_collection_find_with_opts (
@@ -227,7 +281,7 @@ Model* MongoCubeDriver::open(const ModelOpenInfo &openInfo ){
         };
 
         bson_oid_t cube_id;
-        Cube* cube = getCubeInfo(client, moi, cube_id);
+        Cube* cube = createCube(client, moi, cube_id);
         if ( cube == nullptr ){
             return nullptr;
         }
@@ -266,5 +320,33 @@ void MongoCubeDriver::save(const Model &, const ModelOpenInfo& ){
     qDebug() << "Save for " << description() << " is not yet implemented";
 
 }
+
+/*************************************************/
+
+
+MongoFoamDriver::MongoFoamDriver()
+{
+    setDescription("MongoFoamDriver");
+    renderer_factory_.registerFactory<CubeRenderer>( "Cube" );
+}
+
+ModelOpenInfo* MongoFoamDriver::openInfo() const {
+    return new MongoFoamOpenInfo();
+}
+
+/*************************************************/
+
+
+GeoAnalogDriver::GeoAnalogDriver()
+{
+    setDescription("GeoAnalogDriver");
+    renderer_factory_.registerFactory<CubeRenderer>( "Cube" );
+}
+
+ModelOpenInfo* GeoAnalogDriver::openInfo() const {
+    return new GeoAnalogOpenInfo();
+}
+
+
 
 }
