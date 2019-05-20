@@ -59,7 +59,9 @@ public:
     virtual double valueIdx(uint32_t idx) const = 0;
     virtual void setValueIdx(uint32_t idx, double value) = 0;
 
-    double position(uint32_t idx, int i) const;
+    double ijk2xyz(uint32_t idx, int i) const;
+    uint32_t xyz2ijk(double pos, int i) const;
+
     uint32_t index(uint32_t i, uint32_t j, uint32_t k) const;
     void allocate( uint32_t nx, uint32_t ny, uint32_t nz );
 
@@ -151,8 +153,12 @@ inline void Cube::setValue(uint32_t i, uint32_t j, uint32_t k, double val) {
     return setValueIdx(index(i, j, k), val);
 }
 
-inline double Cube::position(uint32_t idx, int i) const {
+inline double Cube::ijk2xyz(uint32_t idx, int i) const {
     return idx*pixel_[i] + origin_[i];
+}
+
+inline uint32_t Cube::xyz2ijk( double pos, int i ) const {
+    return (uint32_t)((pos - origin_[i])/pixel_[i]);
 }
 
 /*************************************************/

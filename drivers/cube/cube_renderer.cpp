@@ -114,14 +114,14 @@ void CubeRenderer::draw( RendererArea* ){
         const double* ord = cube.origin();
 
         double idd[3];
-        idd[0] = cube.position(cube_attribute->getCursorX(), 0);
-        idd[1] = cube.position(cube_attribute->getCursorY(), 1);
-        idd[2] = cube.position(cube_attribute->getCursorZ(), 2);
+        idd[0] = cube.ijk2xyz(cube_attribute->getCursorX(), 0);
+        idd[1] = cube.ijk2xyz(cube_attribute->getCursorY(), 1);
+        idd[2] = cube.ijk2xyz(cube_attribute->getCursorZ(), 2);
 
         double mad[3];
-        mad[0] = cube.position( cube.nx(), 0 );
-        mad[1] = cube.position( cube.ny(), 1 );
-        mad[2] = cube.position( cube.nz(), 2 );
+        mad[0] = cube.ijk2xyz( cube.nx(), 0 );
+        mad[1] = cube.ijk2xyz( cube.ny(), 1 );
+        mad[2] = cube.ijk2xyz( cube.nz(), 2 );
 
         glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
@@ -172,14 +172,14 @@ void CubeRenderer::createUVQuad(const Cube& cube, GLuint* tex, RendererArea* are
     const double* ord = cube.origin();
 
     double idd[3];
-    idd[0] = cube.position(ix, 0);
-    idd[1] = cube.position(iy, 1);
-    idd[2] = cube.position(iz, 2);
+    idd[0] = cube.ijk2xyz(ix, 0);
+    idd[1] = cube.ijk2xyz(iy, 1);
+    idd[2] = cube.ijk2xyz(iz, 2);
 
     double mad[3];
-    mad[0] = cube.position( nx, 0 );
-    mad[1] = cube.position( ny, 1 );
-    mad[2] = cube.position( nz, 2 );
+    mad[0] = cube.ijk2xyz( nx, 0 );
+    mad[1] = cube.ijk2xyz( ny, 1 );
+    mad[2] = cube.ijk2xyz( nz, 2 );
 
     float ax = (float)ix /(float)nx;
     float ay = (float)iy /(float)ny;
@@ -339,14 +339,14 @@ CubeRenderer::pick(Pick& pick){
     const double* ord = cube.origin();
 
     double idd[3];
-    idd[0] = cube.position(cube_attribute->getCursorX(), 0);
-    idd[1] = cube.position(cube_attribute->getCursorY(), 1);
-    idd[2] = cube.position(cube_attribute->getCursorZ(), 2);
+    idd[0] = cube.ijk2xyz(cube_attribute->getCursorX(), 0);
+    idd[1] = cube.ijk2xyz(cube_attribute->getCursorY(), 1);
+    idd[2] = cube.ijk2xyz(cube_attribute->getCursorZ(), 2);
 
     double mad[3];
-    mad[0] = cube.position( cube.nx(), 0 );
-    mad[1] = cube.position( cube.ny(), 1 );
-    mad[2] = cube.position( cube.nz(), 2 );
+    mad[0] = cube.ijk2xyz( cube.nx(), 0 );
+    mad[1] = cube.ijk2xyz( cube.ny(), 1 );
+    mad[2] = cube.ijk2xyz( cube.nz(), 2 );
 
     QList<double> t_list;
     double t;
@@ -398,9 +398,9 @@ CubePickInfo::toString(const Pick& pick) const {
     Cube& cube = cube_model->cube();
 
     Point3d impact = pick.impact(this);
-    int i = (int)impact[0];
-    int j = (int)impact[1];
-    int k = (int)impact[2];
+    int i = cube.xyz2ijk(impact[0], 0);
+    int j = cube.xyz2ijk(impact[1], 1);
+    int k = cube.xyz2ijk(impact[2], 2);
 
     return QString("(%1, %2, %3) : %4").arg(i).arg(j).arg(k).arg(cube.value(i, j, k));
 }

@@ -87,6 +87,7 @@ private:
 class DRIVERSSHARED_EXPORT MongoCubeDriver  : public ModelDriver
 {
 public:
+    virtual bool isValid( const ModelOpenInfo* ) const = 0;
     virtual ModelOpenInfo* openInfo() const = 0;
     virtual bool canHandle(Model *) const override;
     virtual Model* open( const ModelOpenInfo& ) override;
@@ -97,12 +98,23 @@ protected:
     Cube* createCube(
             mongoc_client_t* client,
             const MongoCubeOpenInfo& moi,
-            bson_oid_t& cube_id);
+            bson_oid_t& cube_id) const;
     void loadCube(
             mongoc_client_t* client,
             const MongoCubeOpenInfo& moi,
             const bson_oid_t& cube_id,
-            Cube& cube);
+            Cube& cube) const;
+    void readCubeDescription(
+            mongoc_cursor_t *cursor,
+            const char*& cube_type,
+            bson_oid_t& cube_id,
+            int* cube_dim) const;
+    virtual bool readAffine(
+            mongoc_cursor_t *cursor,
+            float* orig,
+            float* pixdim) const = 0;
+
+
 };
 
 class DRIVERSSHARED_EXPORT MongoFoamDriver  : public MongoCubeDriver
@@ -110,6 +122,13 @@ class DRIVERSSHARED_EXPORT MongoFoamDriver  : public MongoCubeDriver
 public:
     MongoFoamDriver();
     virtual ModelOpenInfo* openInfo() const override;
+    virtual bool isValid( const ModelOpenInfo* ) const override;
+
+protected:
+    virtual bool readAffine(
+            mongoc_cursor_t *cursor,
+            float* orig,
+            float* pixdim) const;
 };
 
 class DRIVERSSHARED_EXPORT GeoAnalogDriver  : public MongoCubeDriver
@@ -117,6 +136,15 @@ class DRIVERSSHARED_EXPORT GeoAnalogDriver  : public MongoCubeDriver
 public:
     GeoAnalogDriver();
     virtual ModelOpenInfo* openInfo() const override;
+    virtual bool isValid( const ModelOpenInfo* ) const override;
+
+
+protected:
+    virtual bool readAffine(
+            mongoc_cursor_t *cursor,
+            float* orig,
+            float* pixdim) const override;
+
 };
 
 }

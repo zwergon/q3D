@@ -24,9 +24,9 @@ void CubeModel::update(){
         min_[i] = ord[i];
     }
 
-    max_[0] = cube_->position( cube_->nx(), 0 );
-    max_[1] = cube_->position( cube_->ny(), 1 );
-    max_[2] = cube_->position( cube_->nz(), 2 );
+    max_[0] = cube_->ijk2xyz( cube_->nx(), 0 );
+    max_[1] = cube_->ijk2xyz( cube_->ny(), 1 );
+    max_[2] = cube_->ijk2xyz( cube_->nz(), 2 );
 
     Model::update();
 

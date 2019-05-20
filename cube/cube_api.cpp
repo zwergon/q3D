@@ -87,11 +87,13 @@ bool CubeAPI::resample(Cube *src, int sx, int sy, int sz, Cube *dest){
 
     dest->allocate(nx, ny, nz);
     const double* pixSize = src->pixelSize();
+    const double* orig = src->origin();
+    dest->setOrigin(orig[0], orig[1], orig[2]);
     dest->setPixelSize(pixSize[0]*sx, pixSize[1]*sy, pixSize[2]*sz);
 
-    for( int k=0; k<nz; k++ ){
-        for( int j=0; j< ny; j++ ){
-            for( int i=0; i<nx; i++ ){
+    for( uint32_t k=0; k<nz; k++ ){
+        for( uint32_t j=0; j< ny; j++ ){
+            for( uint32_t i=0; i<nx; i++ ){
                 dest->setValue(i,j,k, src->value(i*sx, j*sy, k*sz) );
             }
         }

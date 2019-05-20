@@ -148,9 +148,9 @@ void GeoAnalogOpenInfo::setIndex(int index){
 
 bson_t* GeoAnalogOpenInfo::getQuery() const {
     return BCON_NEW(
-                    "experience", BCON_UTF8(study_.toUtf8()),
-                    "numero", BCON_DOUBLE(fov_),
-                    "serie", BCON_INT32(index_)
+                    "study", BCON_UTF8(study_.toUtf8()),
+                    "fov", BCON_DOUBLE(fov_),
+                    "index", BCON_INT32(index_)
                 );
 }
 
@@ -162,27 +162,15 @@ bool MongoCubeDriver::canHandle(Model* model) const {
 }
 
 
-Cube* MongoCubeDriver::createCube(
-        mongoc_client_t* client,
-        const MongoCubeOpenInfo& moi,
-        bson_oid_t& cube_id)
+void MongoCubeDriver::readCubeDescription(
+        mongoc_cursor_t *cursor,
+        const char*& cube_type,
+        bson_oid_t& cube_id,
+        int* cube_dim) const
 {
-
-    bson_t* query = moi.getQuery();
-    mongoc_collection_t *collection =
-            mongoc_client_get_collection (client, moi.getDatabase().toUtf8(), "headers");
-    mongoc_cursor_t *cursor = mongoc_collection_find_with_opts (
-                collection,
-                query,
-                nullptr,  /* additional options */
-                nullptr); /* read prefs, NULL for default */
-    bson_destroy (query);
-
-    const char* cube_type;
-    int   cube_dim[3];
-
     const bson_t *doc;
-    while (mongoc_cursor_next (cursor, &doc)) {
+    mongoc_cursor_t* local_cur = mongoc_cursor_clone(cursor);
+    while (mongoc_cursor_next (local_cur, &doc)) {
         bson_iter_t iter;
         if ( bson_iter_init (&iter, doc)){
             while (bson_iter_next (&iter)){
@@ -208,9 +196,9 @@ Cube* MongoCubeDriver::createCube(
                         bson_t* bson_array = bson_new_from_data(data, len);
                         bson_iter_init(&array_itr, bson_array);
 
-                        for(auto& v : cube_dim){
+                        for(int i=0; i<3; i++){
                             bson_iter_next(&array_itr);
-                            v = bson_iter_int32(&array_itr);
+                            cube_dim[i] = bson_iter_int32(&array_itr);
                         }
 
                     }
@@ -219,6 +207,36 @@ Cube* MongoCubeDriver::createCube(
             }
         }
     }
+}
+
+Cube* MongoCubeDriver::createCube(
+        mongoc_client_t* client,
+        const MongoCubeOpenInfo& moi,
+        bson_oid_t& cube_id) const
+{
+
+    bson_t* query = moi.getQuery();
+    mongoc_collection_t *collection =
+            mongoc_client_get_collection (client, moi.getDatabase().toUtf8(), "headers");
+    mongoc_cursor_t *cursor = mongoc_collection_find_with_opts (
+                collection,
+                query,
+                nullptr,  /* additional options */
+                nullptr); /* read prefs, NULL for default */
+    bson_destroy (query);
+
+
+    float orig[3] = {0., 0.,  0.};
+    float pixdim[3] = {1., 1., 1.};
+    if (!readAffine(cursor, orig, pixdim)){
+        mongoc_cursor_destroy (cursor);
+        return nullptr;
+    }
+
+    const char* cube_type;
+    int   cube_dim[3];
+    readCubeDescription(cursor, cube_type, cube_id, cube_dim);
+
 
     Cube* cube = nullptr;
     if ( strcmp(cube_type, "uint8") == 0){
@@ -234,6 +252,8 @@ Cube* MongoCubeDriver::createCube(
     }
 
     cube->allocate(cube_dim[0], cube_dim[1], cube_dim[2]);
+    cube->setPixelSize(pixdim[0], pixdim[1], pixdim[2]);
+    cube->setOrigin(orig[0], orig[1], orig[2]);
 
     mongoc_cursor_destroy (cursor);
     mongoc_collection_destroy (collection);
@@ -246,7 +266,8 @@ void MongoCubeDriver::loadCube(
         mongoc_client_t* client,
         const MongoCubeOpenInfo& moi,
         const bson_oid_t& cube_id,
-        Cube& cube){
+        Cube& cube) const
+{
 
     bson_error_t error;
     mongoc_gridfs_t* gridfs =
@@ -269,20 +290,29 @@ void MongoCubeDriver::loadCube(
     mongoc_gridfs_destroy (gridfs);
 }
 
+
+
+
 Model* MongoCubeDriver::open(const ModelOpenInfo &openInfo ){
 
-    CubeModel* cube_model = nullptr;
+    if (!isValid(&openInfo)){
+        return nullptr;
+    }
+
+     CubeModel* cube_model = nullptr;
     try {
         const MongoCubeOpenInfo& moi = dynamic_cast<const MongoCubeOpenInfo&>(openInfo);
 
         mongoc_client_t* client = moi.createClient();
         if (client == nullptr) {
+            mongoc_client_destroy (client);
             return nullptr;
         };
 
         bson_oid_t cube_id;
         Cube* cube = createCube(client, moi, cube_id);
         if ( cube == nullptr ){
+            mongoc_client_destroy (client);
             return nullptr;
         }
 
@@ -334,6 +364,17 @@ ModelOpenInfo* MongoFoamDriver::openInfo() const {
     return new MongoFoamOpenInfo();
 }
 
+bool MongoFoamDriver::isValid( const ModelOpenInfo* moi ) const {
+    return dynamic_cast<const MongoFoamOpenInfo*>(moi) != nullptr;
+}
+
+bool MongoFoamDriver::readAffine(
+        mongoc_cursor_t *cursor,
+        float* orig,
+        float* pixdim) const {
+    return true;
+}
+
 /*************************************************/
 
 
@@ -345,6 +386,66 @@ GeoAnalogDriver::GeoAnalogDriver()
 
 ModelOpenInfo* GeoAnalogDriver::openInfo() const {
     return new GeoAnalogOpenInfo();
+}
+
+bool GeoAnalogDriver::isValid( const ModelOpenInfo* moi ) const {
+    return dynamic_cast<const GeoAnalogOpenInfo*>(moi) != nullptr;
+}
+
+bool GeoAnalogDriver::readAffine(
+        mongoc_cursor_t *cursor,
+        float* orig,
+        float* pixdim) const
+{
+    bool valid = false;
+    const bson_t *doc;
+
+    mongoc_cursor_t* local_cur = mongoc_cursor_clone(cursor);
+    while (mongoc_cursor_next (local_cur, &doc)) {
+        bson_iter_t iter;
+        if ( bson_iter_init (&iter, doc)){
+            while (bson_iter_next (&iter)){
+                if (BSON_ITER_IS_KEY(&iter, "delta_y") &&
+                    BSON_ITER_HOLDS_DOUBLE (&iter)) {
+                    pixdim[1] = bson_iter_double(&iter);
+                    valid = true;
+                }
+                else if (BSON_ITER_IS_KEY(&iter, "orig") &&
+                         BSON_ITER_HOLDS_ARRAY(&iter)){
+                    const uint8_t * data = nullptr;
+                    uint32_t len = 0;
+                    bson_iter_array(&iter, &len, &data);
+
+                    bson_iter_t array_itr;
+                    bson_t* bson_array = bson_new_from_data(data, len);
+                    bson_iter_init(&array_itr, bson_array);
+
+                    for(int i=0; i<3; i++){
+                        bson_iter_next(&array_itr);
+                        orig[i] = bson_iter_double(&array_itr);
+                    }
+                }
+                else if (BSON_ITER_IS_KEY(&iter, "xz_dim") &&
+                         BSON_ITER_HOLDS_ARRAY(&iter)){
+                    const uint8_t * data = nullptr;
+                    uint32_t len = 0;
+                    bson_iter_array(&iter, &len, &data);
+                    bson_iter_t array_itr;
+                    bson_t* bson_array = bson_new_from_data(data, len);
+                    bson_iter_init(&array_itr, bson_array);
+
+                    bson_iter_next(&array_itr);
+                    pixdim[0] = bson_iter_double(&array_itr);
+
+                    bson_iter_next(&array_itr);
+                    pixdim[2] = bson_iter_double(&array_itr);
+
+                }
+            }
+        }
+    }
+
+    return valid;
 }
 
 
