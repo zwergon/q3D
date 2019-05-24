@@ -66,49 +66,9 @@ void RendererMenu::init(CGlWindow* window, ModelRenderer* renderer){
     }
 
     Model* model = renderer_->model();
-
-    QStringList fileNames = Plugins::instance()->get_plugins();
-    foreach (QString fileName, fileNames) {
-        QPluginLoader loader(fileName);
-        QObject *plugin = loader.instance();
-        PluginCollection* plugin_collection =  qobject_cast<PluginCollection*>(plugin);
-        if (plugin_collection != nullptr) {
-            ActionInterface* action_interface = plugin_collection->getActionPlugin();
-            if ( nullptr != action_interface ){
-                QMenu* submenu = new QMenu(action_interface->name(), menu);
-                bool is_empty = true;
-                foreach( auto action, action_interface->getActions(submenu)){
-                    if ( ( action->getType() == PluginAction::MENU_ACTION ) &&
-                         action->canWorkOn(model) ){
-                        is_empty = false;
-                        submenu->addAction(action->getAction());
-                        connect( action,  &PluginAction::activated, this, &RendererMenu::onActionActivated );
-                    }
-                }
-
-                if ( is_empty ){
-                    delete submenu;
-                }
-                else {
-                    menu->addMenu(submenu);
-                }
-            }
-        }
-    }
-
-
-
     model->popupMenu(menu);
 
 }
-
-void RendererMenu::onActionActivated(PluginAction* plugin_action){
-    if ( nullptr != renderer_ ){
-        plugin_action->execute(renderer_->model());
-    }
-}
-
-
 
 void
 RendererMenu::onEditColorMapAction(){
@@ -137,11 +97,6 @@ RendererMenu::onDeleteAction(){
         emit requestDelete( renderer_->model() );
 }
 
-
-void
-RendererMenu::onSaveAction(){
-    //do nothing by default
-}
 
 }
 

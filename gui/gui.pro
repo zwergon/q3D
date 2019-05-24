@@ -5,7 +5,7 @@ TEMPLATE = lib
 
 DEFINES += GUI_LIBRARY
 
-QT += opengl
+QT += opengl xml
 
 LIBS += -lmodel -lplugins
 
@@ -36,7 +36,9 @@ HEADERS +=\
     arc_ball.h \
     gl_data.h \
     view_control.h \
-    driver_dialog.h
+    driver_dialog.h \
+    widget_creator.h \
+    params_dialog.h
 SOURCES += \
     gl_area.cpp \
     main_window.cpp \
@@ -54,4 +56,6 @@ SOURCES += \
     arc_ball.cpp \
     gl_data.cpp \
     view_control.cpp \
-    driver_dialog.cpp
+    driver_dialog.cpp \
+    widget_creator.cpp \
+    params_dialog.cpp

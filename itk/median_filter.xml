@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Root>
+   <Param Type="Double" Id="x_radius" Name="X Radius" Value="3" Desc="X Radius" />
+   <Param Type="Double" Id="y_radius" Name="Y Radius" Value="3" Desc="Y Radius" />
+   <Param Type="Double" Id="z_radius" Name="Z Radius" Value="3" Desc="Z Radius" />
+</Root>

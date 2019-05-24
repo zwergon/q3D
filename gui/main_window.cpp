@@ -236,9 +236,15 @@ void CGlWindow::populateMenus(){
 void
 CGlWindow::on_actionOpen_triggered()
 {
+
+    QSettings settings( "ifp", "q3D" );
+    QString last_path = settings.value( "last_path", QDir::currentPath() ).toString();
+
     QString filename = QFileDialog::getOpenFileName(this,
-		tr("Open Topo"), QDir::currentPath(), tr("all topo files (*.*)") );
+        tr("Open Topo"), last_path, tr("all topo files (*.*)") );
     if ( !filename.isEmpty() ) {
+
+        settings.setValue("last_path", filename);
         ModelManager* model_mgr = ModelManager::instance();
         FileModelOpenInfo fmoi(filename);
         model_mgr->loadModel( fmoi );
@@ -350,8 +356,15 @@ CGlWindow::onModelDriverTriggered(){
             model->setDriver(dlg.selectedDriver());
         }
     }
+}
 
+void
+CGlWindow::onActionActivated(PluginAction* plugin_action){
 
+    Model* model = plugin_action->getAction()->data().value<Model*>();
+    if ( nullptr != model ){
+        plugin_action->execute(model);
+    }
 }
 
 void 
@@ -382,7 +395,46 @@ CGlWindow::handleContextMenuRequest( QPoint point ){
         ui_->actionModelSave->setData(modelVariant);
         menu.addAction( ui_->actionModelSave );
 
+        createPluginActions(modelVariant, &menu);
+
         menu.exec( treeWidget()->mapToGlobal(point) );
+    }
+}
+
+void
+CGlWindow::createPluginActions(QVariant& modelVariant, QMenu* menu){
+
+    Model* model = modelVariant.value<Model*>();
+
+    QStringList fileNames = Plugins::instance()->get_plugins();
+    foreach (QString fileName, fileNames) {
+        QPluginLoader loader(fileName);
+        QObject *plugin = loader.instance();
+        PluginCollection* plugin_collection =  qobject_cast<PluginCollection*>(plugin);
+        if (plugin_collection != nullptr) {
+            ActionInterface* action_interface = plugin_collection->getActionPlugin();
+            if ( nullptr != action_interface ){
+                QMenu* submenu = new QMenu(action_interface->name(), menu);
+                bool is_empty = true;
+                foreach( auto action, action_interface->getActions(submenu)){
+                    if ( ( action->getType() == PluginAction::MENU_ACTION ) &&
+                         action->canWorkOn(model) ){
+                        is_empty = false;
+                        QAction* qaction = action->getAction();
+                        submenu->addAction(qaction);
+                        qaction->setData(modelVariant);
+                        connect( action,  &PluginAction::activated, this, &CGlWindow::onActionActivated );
+                    }
+                }
+
+                if ( is_empty ){
+                    delete submenu;
+                }
+                else {
+                    menu->addMenu(submenu);
+                }
+            }
+        }
     }
 }
 

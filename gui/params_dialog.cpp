@@ -1,4 +1,4 @@
-#include "plugim_dialog.h"
+#include "params_dialog.h"
 
 #include <QDebug>
 #include <QVBoxLayout>
@@ -7,7 +7,7 @@
 
 namespace Q3D {
 
-PlugImDialog::PlugImDialog(const QDomDocument& document, QWidget *parent)
+ParamsDialog::ParamsDialog(const QDomDocument& document, QWidget *parent)
     : QDialog(parent), document_(document), has_param_(false)
 {
 
@@ -32,17 +32,17 @@ PlugImDialog::PlugImDialog(const QDomDocument& document, QWidget *parent)
                                                        | QDialogButtonBox::Cancel);
     main_layout->addWidget(button_box);
 
-    connect(button_box, &QDialogButtonBox::accepted, this, &PlugImDialog::accept);
-    connect(button_box, &QDialogButtonBox::rejected, this, &PlugImDialog::reject);
+    connect(button_box, &QDialogButtonBox::accepted, this, &ParamsDialog::accept);
+    connect(button_box, &QDialogButtonBox::rejected, this, &ParamsDialog::reject);
 
     setLayout(main_layout);
     setWindowTitle("Parameters");
 
 }
 
-QList<ProcessParam> PlugImDialog::getParams() const {
+QList<ParamsElement> ParamsDialog::getParams() const {
 
-    QList<ProcessParam> param_list;
+    QList<ParamsElement> param_list;
     QDomElement doc_elt = document_.documentElement();
 
     for(
@@ -55,7 +55,10 @@ QList<ProcessParam> PlugImDialog::getParams() const {
         if ( w != nullptr ){
 
             QString value = widget_creator_.getValue(param_elt, w);
-            param_list.append(ProcessParam(id, value));
+            ParamsElement p_elt;
+            p_elt.setId(id);
+            p_elt.setValue(value);
+            param_list.append(p_elt);
         }
     }
     return param_list;

@@ -3,7 +3,7 @@ include(../q3d.pri)
 TARGET = itk
 TEMPLATE = lib
 
-QT += opengl
+QT += opengl xml
 
 DEFINES += ITK_LIBRARY
 
@@ -53,7 +53,7 @@ HEADERS += \
 
 LIBS += \
     -L$${ITK_DIR}/lib $${ITK_LIBS} \
-    -lmodel -lplugins -lgui
+    -lcube -lmodel -lplugins -ldrivers -lgui
 
 win32 {
     LIBS += -lopengl32 -ladvapi32 -lgdi32 -lshell32 -luser32
@@ -84,4 +84,17 @@ unix {
     target.path = /usr/lib
     INSTALLS += target
 }
+
+HEADERS += \
+    itk_cube_actions.h \
+    itk_cube_2_image.h
+
+SOURCES += \
+    itk_cube_actions.cpp
+
+RESOURCES += \
+    itk_icons.qrc
+
+DISTFILES += \
+    median_filter.xml
 

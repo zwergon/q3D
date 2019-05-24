@@ -25,7 +25,7 @@ bool PlugImProcess::prepare() {
     }
 
     // 1. Create a copy of the data in IN directory
-    ProcessParam inParam;
+    ParamsElement inParam;
     process_info_.getParam("IN", inParam);
     FileModelOpenInfo fmoi(inParam.value());
     model->driver()->save(*model, fmoi);
@@ -35,7 +35,7 @@ bool PlugImProcess::prepare() {
     QDomElement root = xml.createElement("Root");
     xml.appendChild(root);
 
-    for( ProcessParam param : process_info_.getParams().values() ){
+    for( ParamsElement param : process_info_.getParams().values() ){
         QDomElement tag = xml.createElement(param.name());
         root.appendChild(tag);
         tag.setAttribute("Value", param.value());
@@ -62,7 +62,7 @@ bool PlugImProcess::prepare() {
 
 bool PlugImProcess::validate(){
 
-    ProcessParam outParam;
+    ParamsElement outParam;
     if ( process_info_.getParam("OUT", outParam) ){
         FileModelOpenInfo fmoi(outParam.value());
         ModelManager::instance()->loadModel(fmoi);
@@ -71,7 +71,7 @@ bool PlugImProcess::validate(){
         fiOut.remove();
     }
 
-    ProcessParam inParam;
+    ParamsElement inParam;
     process_info_.getParam("IN", inParam);
     QFile fiIn(inParam.value());
     fiIn.remove();

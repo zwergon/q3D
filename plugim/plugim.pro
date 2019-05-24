@@ -7,22 +7,18 @@ TEMPLATE = lib
 
 DEFINES += PLUGIM_LIBRARY
 
-LIBS += -lmodel -lplugins -lcube -ldrivers
+LIBS += -lmodel -lplugins -lcube -ldrivers -lgui
 
 SOURCES += \
     plugim_plugin.cpp \
     plugim_action.cpp \
-    plugim_process.cpp \
-    plugim_dialog.cpp \
-    widget_creator.cpp
+    plugim_process.cpp
 
 HEADERS += \
         plugim_global.h \ 
     plugim_plugin.h \
     plugim_action.h \
-    plugim_process.h \
-    plugim_dialog.h \
-    widget_creator.h
+    plugim_process.h
 
 unix {
     target.path = /usr/lib

@@ -3,6 +3,7 @@
 #include "itkVTKPolyDataMeshIOFactory.h"
 
 #include <q3D/itk/itk_mesh_driver.h>
+#include <q3D/itk/itk_cube_actions.h>
 
 namespace Q3D {
 
@@ -37,17 +38,34 @@ ModelDriver* ItkDriversPlugin::driver( const QString& key ){
     return 0;
 }
 
+/**********************************************/
+
+ItkActionPlugin::ItkActionPlugin(QObject *parent) : QObject(parent)
+{
+}
+
+QList<PluginAction*> ItkActionPlugin::getActions( QObject* parent ) const {
+
+    QList<PluginAction*> actions;
+    actions.append(new MedianFilterAction(parent));
+    return actions;
+
+}
+
 
 
 /**********************************************/
 
 ItkPluginCollection::ItkPluginCollection(QObject *parent) : PluginCollection(parent){
     driver_interface_ = new ItkDriversPlugin(this);
-    action_interface_ = nullptr;
+    action_interface_ = new ItkActionPlugin(this);
 }
 
 void ItkPluginCollection::start() {
     itk::VTKPolyDataMeshIOFactory::RegisterOneFactory();
 }
+
+
+
 
 }

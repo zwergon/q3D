@@ -33,6 +33,7 @@ class ModelRenderer;
 class ActionInterface;
 class ModelManager;
 class ToolManager;
+class PluginAction;
 
 class GUISHARED_EXPORT CGlWindow : public QMainWindow
 {
@@ -57,9 +58,11 @@ private slots:
     void onModelSaveTriggered();
     void onModelDeleteTriggered();
     void onModelDriverTriggered();
+    void onActionActivated(PluginAction* );
 
 private:
     void populateMenus();
+    void createPluginActions(QVariant& model, QMenu* menu);
 
 private:
     CGlArea* gl_area_;

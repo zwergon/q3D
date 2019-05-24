@@ -5,7 +5,7 @@ TEMPLATE = lib
 CONFIG += shared 
 
 QT -= gui
-QT += opengl
+QT += opengl xml
 
 win32 {
     LIBS += -lopengl32
@@ -35,7 +35,8 @@ HEADERS += \
     process_.h \
     process_log.h \
     renderer_area.h \
-    uv_quad.h
+    uv_quad.h \
+    params_info.h
 
 SOURCES += \
     model.cpp \
@@ -53,5 +54,6 @@ SOURCES += \
     process_.cpp \
     process_log.cpp \
     uv_quad.cpp \
-    renderer_area.cpp
+    renderer_area.cpp \
+    params_info.cpp
 

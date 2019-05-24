@@ -23,6 +23,17 @@ private:
     QList<ModelDriver*> drivers_;
 };
 
+class ItkActionPlugin : public QObject, public ActionInterface
+{
+    Q_OBJECT
+    Q_INTERFACES(Q3D::ActionInterface)
+
+public:
+    explicit ItkActionPlugin(QObject *parent = nullptr);
+    virtual QString name() const { return "ITK"; }
+    virtual QList<PluginAction*> getActions( QObject* parent ) const;
+};
+
 
 class ITKSHARED_EXPORT ItkPluginCollection : public PluginCollection {
     Q_OBJECT

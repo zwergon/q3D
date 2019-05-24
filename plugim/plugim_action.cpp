@@ -9,8 +9,10 @@
 #include <q3D/model/model_open_info.h>
 #include <q3D/model/model_driver.h>
 
+#include <q3D/gui/params_dialog.h>
+
 #include <q3D/plugim/plugim_process.h>
-#include <q3D/plugim/plugim_dialog.h>
+
 
 #include <QDebug>
 
@@ -54,7 +56,7 @@ bool PlugImAction::execute(Model* model){
 
     file.close();
 
-    PlugImDialog dlg(doc);
+    ParamsDialog dlg(doc);
     if ( !dlg.hasParam() || (dlg.exec()  == QDialog::Accepted) ){
 
         ProcessInfo pi( description_ );

@@ -44,9 +44,7 @@ protected:
 protected slots:
     virtual void onEditColorMapAction();
     virtual void onEditAttributesAction();
-    virtual void onSaveAction();
     virtual void onDeleteAction();
-    virtual void onActionActivated(PluginAction*);
 
 protected:
     ModelRenderer* renderer_;

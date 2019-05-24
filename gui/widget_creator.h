@@ -1,7 +1,7 @@
 #ifndef WIDGET_CREATOR_H
 #define WIDGET_CREATOR_H
 
-#include <q3D/plugim/plugim_global.h>
+#include <q3D/gui/gui_global.h>
 
 #include <QWidget>
 #include <QDomElement>
@@ -10,29 +10,27 @@
 
 namespace Q3D {
 
-
-
 /**************************************/
-class WidgetBuilder {
+class GUISHARED_EXPORT WidgetBuilder {
 public:
     virtual QWidget* create( const QDomElement& element, QWidget* parent ) = 0;
     virtual QString getValue( QWidget* ) const = 0;
 };
 
-class BoolBuilder : public WidgetBuilder {
+class GUISHARED_EXPORT BoolBuilder : public WidgetBuilder {
 public:
     virtual QWidget* create( const QDomElement& element, QWidget* parent ) override;
     virtual QString getValue( QWidget* ) const override;
 };
 
-class DoubleBuilder : public WidgetBuilder {
+class GUISHARED_EXPORT DoubleBuilder : public WidgetBuilder {
 public:
     virtual QWidget* create( const QDomElement& element, QWidget* parent ) override;
     virtual QString getValue( QWidget* ) const override;
 };
 
 /***************************************/
-class WidgetCreator
+class GUISHARED_EXPORT WidgetCreator
 {
 public:
     WidgetCreator();
