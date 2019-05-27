@@ -4,7 +4,7 @@ TEMPLATE = lib
 
 DEFINES += DRIVERS_LIBRARY
 
-QT += opengl
+QT += opengl xml
 
 LIBS += -lmodel -lplugins -lgui -lmesh -lcube -lfilters
 

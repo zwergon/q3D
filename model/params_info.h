@@ -21,6 +21,9 @@ public:
 
     QDomElement getDomElement(QDomDocument& doc);
 
+    void addKeyValue( const QString& key, const QString& value );
+    QString value() const;
+
     void setId( const QString& id );
     QString id() const;
 
@@ -28,11 +31,19 @@ public:
     QString name() const;
 
     void setValue( const QString& value );
-    QString value() const;
+    QString value( const QString& key ) const;
 
 private:
     QHash<QString, QString> keyValue_;
 };
+
+inline void ParamsElement::addKeyValue( const QString& key, const QString& value ){
+    keyValue_[key] = value;
+}
+
+inline QString ParamsElement::value(const QString& key) const {
+    return keyValue_[key];
+}
 
 inline void ParamsElement::setId(const QString& id ){
     keyValue_["Id"] = id;

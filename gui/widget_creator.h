@@ -23,6 +23,13 @@ public:
     virtual QString getValue( QWidget* ) const override;
 };
 
+class GUISHARED_EXPORT IntegerBuilder : public WidgetBuilder {
+public:
+    virtual QWidget* create( const QDomElement& element, QWidget* parent ) override;
+    virtual QString getValue( QWidget* ) const override;
+};
+
+
 class GUISHARED_EXPORT DoubleBuilder : public WidgetBuilder {
 public:
     virtual QWidget* create( const QDomElement& element, QWidget* parent ) override;

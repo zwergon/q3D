@@ -5,11 +5,6 @@
 #include <q3D/drivers/cube/cube_model.h>
 #include <q3D/gui/params_dialog.h>
 
-#include <q3D/itk/itk_cube_2_image.h>
-
-#include <itkImage.h>
-#include <itkImportImageFilter.h>
-#include "itkMeanImageFilter.h"
 
 
 
@@ -52,8 +47,21 @@ bool MedianFilterAction::execute(Model* model){
 
     if ( !dlg.hasParam() || (dlg.exec()  == QDialog::Accepted) ){
 
+        double x_radius = 3.;
+        double y_radius = 3.;
+        double z_radius = 3.;
         foreach( ParamsElement param, dlg.getParams()) {
+            if ( param.id() == "x_radius"){
+                x_radius = param.value().toDouble();
+            }
+            else if ( param.id() == "y_radius"){
+                y_radius = param.value().toDouble();
+            }
+            else if ( param.id() == "z_radius"){
+                z_radius = param.value().toDouble();
+            }
         }
+        qDebug() << QString("%1 %2 %3").arg(x_radius).arg(y_radius).arg(z_radius);
 
         CubeModel* cube_model = dynamic_cast<CubeModel*>(model);
         if ( nullptr == cube_model ){
@@ -61,32 +69,23 @@ bool MedianFilterAction::execute(Model* model){
         }
 
         Cube& src = cube_model->cube();
-
-        if (src.type() != Cube::FLOAT ){
+        switch(src.type()){
+        case Cube::FLOAT:
+            filter<float>(src, x_radius, y_radius, z_radius);
+            break;
+        case Cube::UINT8:
+            filter<uint8_t>(src, x_radius, y_radius, z_radius);
+            break;
+        case Cube::UINT32:
+            filter<uint32_t>(src, x_radius, y_radius, z_radius);
+            break;
+        case Cube::DOUBLE:
+            filter<double>(src, x_radius, y_radius, z_radius);
+            break;
+        default:
             qDebug() << "unable to process ";
             return false;
         }
-
-        using ImageType = itk::Image<float, 3>;
-        using ImportFilterType = itk::ImportImageFilter< float, 3 >;
-
-        ImageType::Pointer image = cube_2_image<float>(src);
-
-        using FilterType = itk::MeanImageFilter<
-        ImageType, ImageType >;
-        FilterType::Pointer filter = FilterType::New();
-
-        ImageType::SizeType indexRadius;
-        indexRadius[0] = 3; // radius along x
-        indexRadius[1] = 3; // radius along y
-        indexRadius[2] = 3;
-        filter->SetRadius( indexRadius );
-
-        filter->SetInput( image );
-        filter->Update();
-
-        ImageType* output = filter->GetOutput();
-        memcpy( src.data(), output->GetBufferPointer(), src.byteSize());
 
         model->update();
     }

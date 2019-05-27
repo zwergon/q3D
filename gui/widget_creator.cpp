@@ -5,10 +5,11 @@
 #include <QGroupBox>
 #include <QCheckBox>
 #include <QDoubleSpinBox>
+#include <QSpinBox>
 
 namespace Q3D {
 
-
+/*****************************************************/
 
 QWidget* BoolBuilder::create(const QDomElement &element, QWidget* parent){
     QCheckBox* cb = new QCheckBox(parent);
@@ -27,8 +28,40 @@ QString BoolBuilder::getValue(QWidget* widget) const{
     }
     return QString::null;
 }
+/*****************************************************/
+
+QWidget* IntegerBuilder::create(const QDomElement &element, QWidget* parent){
+
+    QGroupBox* group = new QGroupBox(parent);
+    QHBoxLayout* layout = new QHBoxLayout;
+
+    QLabel* label = new QLabel(group);
+    label->setText(element.attribute("Name"));
+    layout->addWidget(label);
+
+    QSpinBox* sb = new QSpinBox(group);
+    sb->setValue(element.attribute("Value", "0").toInt());
+    sb->setMaximum(element.attribute("Max", "100").toInt());
+    sb->setMinimum(element.attribute("Min", "0").toInt());
+    sb->setSingleStep(element.attribute("Incr", "1").toInt());
+    sb->setObjectName(element.attribute("Id"));
+    layout->addWidget(sb);
+
+    group->setLayout(layout);
+
+    return group;
+}
+
+QString IntegerBuilder::getValue(QWidget* widget) const{
+    QSpinBox* sb = qobject_cast<QSpinBox*>(widget);
+    if ( sb != nullptr ){
+        return QString::number(sb->value());
+    }
+    return QString::null;
+}
 
 
+/*****************************************************/
 
 QWidget* DoubleBuilder::create(const QDomElement &element, QWidget* parent){
 
@@ -61,6 +94,8 @@ QString DoubleBuilder::getValue(QWidget* widget) const{
 }
 
 
+/*****************************************************/
+
 QWidget* WidgetCreator::create(const QDomElement &element, QWidget* parent){
 
     QString type = element.attribute("Type");
@@ -82,6 +117,7 @@ QString WidgetCreator::getValue(const QDomElement &element, QWidget* w) const {
 WidgetCreator::WidgetCreator(){
     builders_.insert("Bool", new BoolBuilder);
     builders_.insert("Double", new DoubleBuilder);
+    builders_.insert("Integer", new IntegerBuilder);
 }
 
 WidgetCreator::~WidgetCreator(){
