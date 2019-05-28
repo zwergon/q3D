@@ -6,6 +6,8 @@
 #include <vector>
 #include <stdint.h>
 
+#include <cube/cube_api.h>
+
 /*************************************************/
 
 class CUBESHARED_EXPORT Cube
@@ -22,6 +24,8 @@ public:
 
 public:
     virtual ~Cube();
+
+    void invalidate();
 
     void copy(Cube* src);
     void extract(Cube* src, uint32_t idx[]);
@@ -49,6 +53,9 @@ public:
     uint32_t ny() const;
     uint32_t nz() const;
 
+    double min();
+    double max();
+
     double value(uint32_t i, uint32_t j, uint32_t k) const;
     void setValue(uint32_t i, uint32_t j, uint32_t k, double value);
 
@@ -69,17 +76,23 @@ protected:
       Cube(bool own_memory);
       virtual void allocate_() = 0;
 
-
 protected:
+      bool dirty_;
       bool own_memory_;
       int type_;
       uint32_t dim_[3];
       double pixel_[3];
       double origin_[3];
+
+      double extrema_[2];
 };
 
 inline int Cube::type() const {
     return type_;
+}
+
+inline void Cube::invalidate(){
+    dirty_ = true;
 }
 
 inline bool Cube::ownMemory() const {
@@ -160,6 +173,23 @@ inline double Cube::ijk2xyz(uint32_t idx, int i) const {
 inline uint32_t Cube::xyz2ijk( double pos, int i ) const {
     return (uint32_t)((pos - origin_[i])/pixel_[i]);
 }
+
+inline double Cube::min() {
+    if ( dirty_ ){
+        CubeAPI::extrema(this, extrema_[0], extrema_[1]);
+        dirty_ = false;
+    }
+    return extrema_[0];
+}
+
+inline double Cube::max() {
+    if ( dirty_ ){
+        CubeAPI::extrema(this, extrema_[0], extrema_[1]);
+        dirty_ = false;
+    }
+    return extrema_[1];
+}
+
 
 /*************************************************/
 

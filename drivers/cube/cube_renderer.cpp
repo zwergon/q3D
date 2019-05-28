@@ -45,10 +45,7 @@ void CubeRenderer::init(){
     cube_attribute->setCursorZ(cube.nz()/2);
     cube_attribute->blockSignals(false);
 
-    double min, max;
-    CubeAPI::extrema(&cube, min, max);
-
-    colormap()->setMinMax( min, max );
+    colormap()->setMinMax( cube.min(), cube.max() );
 
 }
 

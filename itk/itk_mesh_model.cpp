@@ -6,13 +6,13 @@ ItkMeshModel::ItkMeshModel()
 {
      matrix_[0][0] = 0;
      matrix_[0][1] = 0;
-     matrix_[0][2] = -1;
+     matrix_[0][2] = 1;
 
      matrix_[1][0] = 0;
-     matrix_[1][1] = -1;
+     matrix_[1][1] = 1;
      matrix_[1][2] = 0;
 
-     matrix_[2][0] = -1;
+     matrix_[2][0] = 1;
      matrix_[2][1] = 0;
      matrix_[2][2] = 0;
 
@@ -36,6 +36,20 @@ void ItkMeshModel::update(){
     }
 
     Model::update();
+
+}
+
+QString ItkMeshModel::tooltip() const {
+
+    MeshType::Pointer mesh = getMesh();
+
+    char tooltip[] = "<html><head/><body>" \
+                "<p><b>Nodes:</b> %1</p>" \
+                "<p><b>Cells:</b> %2 </p>" \
+                "</body></html>";
+
+    return QString(tooltip)
+            .arg(mesh->GetNumberOfPoints()).arg(mesh->GetNumberOfCells());
 
 }
 

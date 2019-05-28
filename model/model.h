@@ -54,6 +54,8 @@ public:
     virtual void update();
     virtual void popupMenu( QMenu* );
 
+    virtual QString tooltip() const;
+
 signals:
     void modelUpdated( Model* );
 
@@ -69,6 +71,10 @@ inline const Point3d& Model::mini() const {
 
 inline const Point3d& Model::maxi() const {
 	return max_; 
+}
+
+inline QString Model::tooltip() const {
+    return objectName();
 }
 
 

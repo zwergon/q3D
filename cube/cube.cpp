@@ -28,11 +28,13 @@ Cube* Cube::create(int type, bool own_memory){
 
 /*************************************************/
 Cube::Cube(bool own_memory) :
+    dirty_(true),
     own_memory_(own_memory),
     type_(0),
     dim_{0, 0, 0},
     pixel_{1., 1., 1.},
-    origin_{0., 0., 0.}
+    origin_{0., 0., 0.},
+    extrema_{0., 1.}
 {
 }
 
@@ -71,6 +73,8 @@ void Cube::copy(Cube* src) {
             setValueIdx(i, src->valueIdx(i));
         }
     }
+
+    dirty_ = true;
 }
 
 void Cube::add(Cube* cube){
@@ -81,6 +85,8 @@ void Cube::add(Cube* cube){
     for( uint32_t i=0; i<size(); i++ ){
         setValueIdx(i, valueIdx(i) + cube->valueIdx(i));
     }
+
+    dirty_ = true;
 }
 
 void Cube::substract(Cube* cube){
@@ -91,6 +97,8 @@ void Cube::substract(Cube* cube){
     for( uint32_t i=0; i<size(); i++ ){
         setValueIdx(i, valueIdx(i) - cube->valueIdx(i));
     }
+
+    dirty_ = true;
 }
 
 

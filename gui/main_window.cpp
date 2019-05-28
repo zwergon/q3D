@@ -108,6 +108,7 @@ ModelRendererTreeViewItem::ModelRendererTreeViewItem( ModelTreeViewItem* itemPar
     setText( 0, renderer_name );
     setFlags( Qt::ItemIsUserCheckable|Qt::ItemIsEnabled );
     setCheckState( 0, Qt::Unchecked );
+
 }
 
 ModelRendererTreeViewItem::~ModelRendererTreeViewItem() {
@@ -136,9 +137,10 @@ ModelTreeViewItem::ModelTreeViewItem( Model* model, QTreeWidget* parent )
 :	CTreeViewItem(parent),
     model_(model)
 {
+
 	setText( 0, model->objectName() );
 	setExpanded( true );
-	
+    setToolTip(0,  model->tooltip());
     ModelDriver* driver = model_->driver();
 	
 	QList<QString> keys;

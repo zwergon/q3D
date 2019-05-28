@@ -26,8 +26,7 @@ public:
     void setCube( Cube* cube );
 
     virtual void update() override;
-
-    virtual void popupMenu(QMenu* );
+    virtual QString tooltip() const override;
 
 private:
     Cube*  cube_;

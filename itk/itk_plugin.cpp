@@ -48,6 +48,7 @@ QList<PluginAction*> ItkActionPlugin::getActions( QObject* parent ) const {
 
     QList<PluginAction*> actions;
     actions.append(new MedianFilterAction(parent));
+    actions.append(new ExtractSurfAction(parent));
     return actions;
 
 }

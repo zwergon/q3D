@@ -6,11 +6,16 @@
 #include <q3D/plugins/plugin_action.h>
 
 #include <q3D/itk/itk_cube_2_image.h>
+#include <q3D/itk/itk_mesh_model.h>
 
 #include <itkImage.h>
 #include <itkMeanImageFilter.h>
+#include <itkMesh.h>
+#include <itkBinaryMask3DMeshSource.h>
 
 namespace Q3D {
+
+/*------------------------------------------------*/
 
 class ITKSHARED_EXPORT MedianFilterAction : public PluginAction
 {
@@ -45,6 +50,22 @@ void MedianFilterAction::filter(Cube& src, float x_radius, float y_radius, float
     ImageType* output = filter->GetOutput();
     memcpy( src.data(), output->GetBufferPointer(), src.byteSize());
 }
+
+/*------------------------------------------------*/
+
+class ITKSHARED_EXPORT ExtractSurfAction : public PluginAction
+{
+    Q_OBJECT
+public:
+    ExtractSurfAction(QObject* parent = nullptr);
+
+    virtual bool canWorkOn(Model*) const override;
+    virtual bool execute(Model*) override;
+
+private:
+    ItkMeshModel* filter( Cube& cube, float lower_threshold, float upper_threshold );
+};
+
 
 
 

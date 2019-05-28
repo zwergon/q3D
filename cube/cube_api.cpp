@@ -69,6 +69,10 @@ double CubeAPI::norm(Cube* cube){
 
 void CubeAPI::extrema(Cube* cube, double& min, double& max){
 
+    if ( cube->data() == nullptr ){
+        return;
+    }
+
     min = cube->valueIdx(0);
     max = min;
 

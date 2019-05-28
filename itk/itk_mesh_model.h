@@ -32,6 +32,7 @@ public:
     PointType transformed( const PointType& pt ) const;
 
     virtual void update() override;
+    virtual QString tooltip() const override;
 
 private:
     MeshType::Pointer mesh_;
