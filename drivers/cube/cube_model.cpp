@@ -38,7 +38,7 @@ QString CubeModel::tooltip() const {
     char tooltip[] = "<html><head/><body>" \
                 "<p><b>dim:</b> %1 %2 %3 </p>" \
                 "<p><b>pixsize:</b> %4 %5 %6 </p>" \
-                "<p><b>orig:</b> %7 %8 %8 </p>" \
+                "<p><b>orig:</b> %7 %8 %9 </p>" \
                 "</body></html>";
     const uint32_t* dim = cube_->dim();
     const double* pixsize = cube_->pixelSize();

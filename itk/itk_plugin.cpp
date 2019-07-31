@@ -10,32 +10,9 @@ namespace Q3D {
 
 /**********************************************/
 
-ItkDriversPlugin::ItkDriversPlugin(QObject* parent ) : QObject(parent)
+ItkDriversPlugin::ItkDriversPlugin(QObject* parent ) : DriverInterface(parent)
 {
     drivers_.append(new ItkMeshDriver);
-}
-
-QStringList ItkDriversPlugin::drivers() const{
-    QStringList drivers;
-    QListIterator<ModelDriver*> itd( drivers_ );
-    while( itd.hasNext() ){
-        ModelDriver* driver = itd.next();
-        drivers.append( driver->description() );
-    }
-
-    return drivers;
-}
-
-ModelDriver* ItkDriversPlugin::driver( const QString& key ){
-    QListIterator<ModelDriver*> itd( drivers_ );
-    while( itd.hasNext() ){
-        ModelDriver* driver = itd.next();
-        if ( key == driver->description() ){
-            return driver;
-        }
-    }
-
-    return 0;
 }
 
 /**********************************************/

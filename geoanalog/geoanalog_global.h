@@ -1,0 +1,12 @@
+#ifndef GEOANALOG_GLOBAL_H
+#define GEOANALOG_GLOBAL_H
+
+#include <QtCore/qglobal.h>
+
+#if defined(GEOANALOG_LIBRARY)
+#  define GEOANALOGSHARED_EXPORT Q_DECL_EXPORT
+#else
+#  define GEOANALOGSHARED_EXPORT Q_DECL_IMPORT
+#endif
+
+#endif // GEOANALOG_GLOBAL_H

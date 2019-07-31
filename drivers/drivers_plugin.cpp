@@ -16,40 +16,18 @@ namespace Q3D {
 
 /**********************************************/
 
-DriversPlugin::DriversPlugin(QObject* parent ) : QObject(parent)
+DriversPlugin::DriversPlugin(QObject* parent ) : DriverInterface(parent)
 {
     drivers_.append(new FdaCubeDriver);
     drivers_.append(new NiftiCubeDriver);
 #ifdef WITH_MONGO
     drivers_.append(new MongoFoamDriver);
-    drivers_.append(new GeoAnalogDriver);
 #endif
     drivers_.append(new CpgMeshDriver);
     drivers_.append(new MeshDriver);
 }
 
-QStringList DriversPlugin::drivers() const{
-    QStringList drivers;
-    QListIterator<ModelDriver*> itd( drivers_ );
-    while( itd.hasNext() ){
-        ModelDriver* driver = itd.next();
-        drivers.append( driver->description() );
-    }
 
-    return drivers;
-}
-
-ModelDriver* DriversPlugin::driver( const QString& key ){
-    QListIterator<ModelDriver*> itd( drivers_ );
-    while( itd.hasNext() ){
-        ModelDriver* driver = itd.next();
-        if ( key == driver->description() ){
-            return driver;
-        }
-    }
-
-    return 0;
-}
 
 /**********************************************/
 
@@ -61,7 +39,6 @@ QList<PluginAction*> ActionsPlugin::getActions(QObject* parent) const {
     QList<PluginAction*> actions;
 #ifdef WITH_MONGO
     actions.append(new MongoLoadAction(parent));
-    actions.append(new GeoanalogAction(parent));
 #endif
     actions.append(new CubeWaveAction(parent));
     actions.append(new CubeResampleAction(parent));

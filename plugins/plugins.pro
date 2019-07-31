@@ -14,7 +14,8 @@ SOURCES += \
     plugins.cpp \
     plugin_dialog.cpp \
     plugin_action.cpp \
-    plugin_collection.cpp
+    plugin_collection.cpp \
+    plugin_interfaces.cpp
 
 HEADERS += \
     plugins.h\

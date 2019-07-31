@@ -34,8 +34,7 @@ HEADERS += \
     cube/cube_renderer_attribute_dlg.h \
     cube/fda_cube_driver.h \
     cube/cube_actions.h \
-    cube/nifti_cube_driver.h \
-    cube/geoanalog_mongo_dlg.h
+    cube/nifti_cube_driver.h
 
 SOURCES += \
     cpgmesh/cpgmesh.cpp \
@@ -57,14 +56,12 @@ SOURCES += \
     cube/cube_renderer_attribute_dlg.cpp \
     cube/fda_cube_driver.cpp \
     cube/cube_actions.cpp \
-    cube/nifti_cube_driver.cpp \
-    cube/geoanalog_mongo_dlg.cpp
+    cube/nifti_cube_driver.cpp
 
 FORMS += \
     mesh/mesh_renderer_attribute_dlg.ui \
     renderer_attribute_dlg.ui \
-    cube/cube_renderer_attribute_dlg.ui \
-    cube/geoanalog_mongo_dlg.ui
+    cube/cube_renderer_attribute_dlg.ui
 
 
 CONFIG(mongo){

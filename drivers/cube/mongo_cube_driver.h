@@ -21,6 +21,8 @@ public:
     const QString& getURI() const;
     void setURI( const QString& uri );
 
+    const QString& getHeaders() const;
+
     const QString& getDatabase() const;
     void setDatabase(const QString& database);
 
@@ -32,6 +34,7 @@ public:
 protected:
     QString uri_;
     QString database_;
+    QString headers_;
 };
 
 
@@ -59,29 +62,6 @@ private:
 };
 
 
-
-/*************************************************/
-class DRIVERSSHARED_EXPORT GeoAnalogOpenInfo : public MongoCubeOpenInfo {
-public:
-    GeoAnalogOpenInfo();
-
-    const QString& getStudy() const;
-    void setStudy(const QString& study);
-
-    float getFov() const;
-    void setFov(float fov);
-
-    int getIndex() const;
-    void setIndex( int index );
-
-    virtual QString getName() const override;
-    virtual bson_t* getQuery() const override;
-
-private:
-    QString study_;
-    float fov_;
-    int index_;
-};
 
 /*************************************************/
 class DRIVERSSHARED_EXPORT MongoCubeDriver  : public ModelDriver
@@ -129,22 +109,6 @@ protected:
             mongoc_cursor_t *cursor,
             float* orig,
             float* pixdim) const;
-};
-
-class DRIVERSSHARED_EXPORT GeoAnalogDriver  : public MongoCubeDriver
-{
-public:
-    GeoAnalogDriver();
-    virtual ModelOpenInfo* openInfo() const override;
-    virtual bool isValid( const ModelOpenInfo* ) const override;
-
-
-protected:
-    virtual bool readAffine(
-            mongoc_cursor_t *cursor,
-            float* orig,
-            float* pixdim) const override;
-
 };
 
 }

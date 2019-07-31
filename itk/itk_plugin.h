@@ -8,19 +8,12 @@
 
 namespace Q3D {
 
-class ITKSHARED_EXPORT ItkDriversPlugin : public QObject, public DriverInterface
+class ITKSHARED_EXPORT ItkDriversPlugin : public DriverInterface
 {
     Q_OBJECT
     Q_INTERFACES(Q3D::DriverInterface)
-
 public:
     explicit ItkDriversPlugin(QObject* parent = nullptr);
-
-    virtual QStringList drivers() const;
-    virtual ModelDriver* driver( const QString& key );
-
-private:
-    QList<ModelDriver*> drivers_;
 };
 
 class ItkActionPlugin : public QObject, public ActionInterface

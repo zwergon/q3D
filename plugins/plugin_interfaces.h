@@ -18,10 +18,15 @@ public:
 };
 
 
-class PLUGINSSHARED_EXPORT DriverInterface {
+class PLUGINSSHARED_EXPORT DriverInterface : public QObject {
+    Q_OBJECT
 public:
-    virtual QStringList drivers() const = 0;
-    virtual ModelDriver* driver( const QString& key ) = 0;
+    DriverInterface(QObject* parent =  nullptr);
+    virtual QStringList drivers() const;
+    virtual ModelDriver* driver( const QString& key );
+
+protected:
+    QList<ModelDriver*> drivers_;
 };
 
 class PLUGINSSHARED_EXPORT CollectionInterface {

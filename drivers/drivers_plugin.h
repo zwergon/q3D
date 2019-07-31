@@ -7,7 +7,7 @@
 
 namespace Q3D {
 
-class DRIVERSSHARED_EXPORT DriversPlugin : public QObject, public DriverInterface
+class DRIVERSSHARED_EXPORT DriversPlugin : public DriverInterface
 {
     Q_OBJECT
     Q_INTERFACES(Q3D::DriverInterface)
@@ -15,11 +15,6 @@ class DRIVERSSHARED_EXPORT DriversPlugin : public QObject, public DriverInterfac
 public:
     explicit DriversPlugin(QObject* parent = nullptr);
 
-    virtual QStringList drivers() const;
-    virtual ModelDriver* driver( const QString& key );
-
-private:
-    QList<ModelDriver*> drivers_;
 };
 
 class ActionsPlugin : public QObject, public ActionInterface

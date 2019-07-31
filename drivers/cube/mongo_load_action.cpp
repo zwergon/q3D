@@ -3,7 +3,6 @@
 #include <QAction>
 
 #include <q3D/drivers/cube/cube_load_mongo_dlg.h>
-#include <q3D/drivers/cube/geoanalog_mongo_dlg.h>
 
 namespace Q3D {
 
@@ -24,22 +23,5 @@ void MongoLoadAction::onActionTriggered(){
     dlg.exec();
 }
 
-
-GeoanalogAction::GeoanalogAction(QObject*parent):
-    PluginAction(PluginAction::IO_ACTION, parent)
-{
-    description_ = "Geoanalog load";
-    QIcon icon1;
-    icon1.addFile(QLatin1String(":/geoanalog.png"), QSize(), QIcon::Normal, QIcon::Off);
-    action_->setIcon(icon1);
-    action_->setText("Geoanalog");
-
-    connect(action_, &QAction::triggered, this, &GeoanalogAction::onActionTriggered );
-}
-
-void GeoanalogAction::onActionTriggered(){
-    GeoAnalogMongoDlg dlg;
-    dlg.exec();
-}
 
 }
