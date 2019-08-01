@@ -36,6 +36,11 @@ QVariant GeoanalogCollection::data(int ) const{
     return QVariant();
 }
 
+const GeoanalogExam* GeoanalogCollection::getGeoanalogExam() const {
+    return static_cast<GeoanalogExam*>(child(0));
+}
+
+
 /*************************************************/
 
 GeoanalogExam::GeoanalogExam(
@@ -43,7 +48,8 @@ GeoanalogExam::GeoanalogExam(
         const QString& exam_number,
         const QString& title,
         bool confidential,
-        int sheet ):
+        int sheet,
+        const char* jpg64):
     GeoanalogItem(root),
     data_(LAST)
 {
@@ -51,6 +57,11 @@ GeoanalogExam::GeoanalogExam(
     data_[TITLE] = QVariant(title);
     data_[CONFIDENTIAL] = QVariant(confidential);
     data_[SHEET] = QVariant(sheet);
+    jpg64_ = QString("%0").arg(jpg64);
+}
+
+const QString& GeoanalogExam::getIcon() const {
+    return jpg64_;
 }
 
 QString GeoanalogExam::getExamNumber() const {
@@ -61,6 +72,10 @@ QVariant GeoanalogExam::data(int column) const{
     if (column < 0 || column >= LAST)
         return QVariant();
     return data_.at(column);
+}
+
+const GeoanalogExam* GeoanalogExam::getGeoanalogExam() const {
+    return this;
 }
 
 /*************************************************/
@@ -81,7 +96,7 @@ QVariant GeoanalogFOV::data(int column) const{
    return QVariant();
 }
 
-GeoanalogExam* GeoanalogFOV::getGeoanalogExam() const {
+const GeoanalogExam* GeoanalogFOV::getGeoanalogExam() const {
     return static_cast<GeoanalogExam*>(parent());
 }
 
@@ -116,7 +131,7 @@ GeoanalogFOV* GeoanalogCube::getGeoanalogFOV() const {
 }
 
 
-GeoanalogExam* GeoanalogCube::getGeoanalogExam() const {
+const GeoanalogExam* GeoanalogCube::getGeoanalogExam() const {
     return getGeoanalogFOV()->getGeoanalogExam();
 }
 

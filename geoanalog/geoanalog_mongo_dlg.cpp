@@ -10,6 +10,7 @@
 struct AggregateResult {
     const char* exam_number;
     const char* title;
+    const uint8_t *jpg64;
     double fov;
     int index;
     bool is_3d;
@@ -24,6 +25,7 @@ struct AggregateResult {
         is_3d = true;
         confidential = true;
         sheet = -1;
+        jpg64 = nullptr;
     }
 
     QString key(){
@@ -73,11 +75,33 @@ void create_aggregate_query( bson_t& query, bool with_match = false ){
     bson_destroy(stage);
     i_stage++;
 
+    //lookup stage
+    stage = BCON_NEW("$lookup", "{",
+                     "from",  "Thumbnail",
+                     "localField",  "Exam number",
+                     "foreignField", "Exam number",
+                     "as",  "thumb",
+                     "}");
+    sprintf(i_str, "%d", i_stage);
+    bson_append_document(stages, i_str, -1, stage);
+    bson_destroy(stage);
+    i_stage++;
+
+    //unwind stage
+    stage = BCON_NEW("$unwind", "{",
+                     "path",  "$thumb",
+                     "}");
+    sprintf(i_str, "%d", i_stage);
+    bson_append_document(stages, i_str, -1, stage);
+    bson_destroy(stage);
+    i_stage++;
+
     //addField stage
     stage = BCON_NEW("$addFields", "{",
                      "Title",  "$exams.Title",
                      "Confidential",  "$exams.Confidential",
                      "Sheet number",  "$exams.Sheet number",
+                     "jpg64", "$thumb.jpg64",
                      "}");
     sprintf(i_str, "%d", i_stage);
     bson_append_document(stages, i_str, -1, stage);
@@ -93,6 +117,7 @@ void create_aggregate_query( bson_t& query, bool with_match = false ){
                      "xz_dim",  BCON_INT32(0),
                      "cube_id",  BCON_INT32(0),
                      "cube_type",  BCON_INT32(0),
+                     "thumb", BCON_INT32(0),
                      "exams",  BCON_INT32(0),
                      "}");
     sprintf(i_str, "%d", i_stage);
@@ -175,6 +200,11 @@ void GeoAnalogMongoDlg::getExams( GeoanalogCollection* geo_collection ) const {
                else if ( strcmp(key, "Sheet number") == 0 ){
                    row.sheet = bson_iter_int32(&iter);
                }
+               else if ( strcmp(key, "jpg64") == 0 ){
+                   bson_subtype_t subtype;
+                   uint32_t binary_len;
+                   bson_iter_binary(&iter, &subtype, &binary_len, &row.jpg64);
+               }
            }
        }
        if ( (row.sheet != -1) &&
@@ -191,7 +221,8 @@ void GeoAnalogMongoDlg::getExams( GeoanalogCollection* geo_collection ) const {
                                row.exam_number,
                                row.title,
                                row.confidential,
-                               row.sheet);
+                               row.sheet,
+                               (const char*)row.jpg64);
                    exams.insert(row.exam_number, exam);
                }
                else {

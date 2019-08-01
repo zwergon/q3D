@@ -1,6 +1,7 @@
 #include "geoanalog_model.h"
 
 #include <QDebug>
+#include <QColor>
 
 /*************************************************/
 
@@ -26,10 +27,33 @@ QVariant GeoanalogModel::data(const QModelIndex &index, int role) const {
     if (!index.isValid())
         return QVariant();
 
+    GeoanalogItem* item = static_cast<GeoanalogItem*>(index.internalPointer());
+    const GeoanalogExam* exam = item->getGeoanalogExam();
+    if ( exam != nullptr ){
+        if (role == Qt::BackgroundRole){
+            if  ( (index.column() > 0 ) ){
+                if (exam->row() % 2 == 0 ) {
+                    return QVariant(QColor(220,220,240));
+                }
+                else {
+                    return QVariant(QColor(240,240,240));
+                }
+            }
+            return QVariant();
+        }
+
+        if ( role == Qt::ToolTipRole){
+            if ( exam->getIcon() != nullptr ){
+                return QVariant(QString("<img src='data:image/jpeg;base64, %0'/>").arg(exam->getIcon()));
+            }
+            return QVariant();
+        }
+    }
+
     if (role != Qt::DisplayRole)
         return QVariant();
 
-    GeoanalogItem* item = static_cast<GeoanalogItem*>(index.internalPointer());
+
     if ( nullptr != item ){
         return item->data(index.column());
     }
