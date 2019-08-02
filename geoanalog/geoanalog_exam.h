@@ -5,17 +5,24 @@
 #include <QVariant>
 #include <QVector>
 
+#include <q3D/geoanalog/geoanalog_aggregate.h>
+
 class GeoanalogExam;
+
+/**
+ * @brief Tree Item structure for GeoanalogModel.
+ * Tree with nodes from up to bottom : GeoanalogCollection/GeoanalogExam/GeoanalogFOV/GeoanalogCube
+ */
 
 class GeoanalogItem : public QObject  {
     Q_OBJECT
 public:
     enum Column {
        EXAM_NUMBER = 0,
-       TITLE,
-       IS_3D,
-       CONFIDENTIAL,
        SHEET,
+       TITLE,
+       CONFIDENTIAL,
+       IS_3D,
        LAST
     };
 
@@ -52,11 +59,7 @@ class GeoanalogExam : public GeoanalogItem {
 public:
     GeoanalogExam(
             GeoanalogItem* parent,
-            const QString& exam_number,
-            const QString& title,
-            bool confidential,
-            int sheet,
-            const char* jpg64);
+            const GeoanalogAggregate& row );
 
     QString getExamNumber() const;
 

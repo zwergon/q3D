@@ -13,7 +13,8 @@ SOURCES += \
     geoanalog_action.cpp \
     geoanalog_driver.cpp \
     geoanalog_exam.cpp \
-    geoanalog_model.cpp
+    geoanalog_model.cpp \
+    geoanalog_aggregate.cpp
 
 HEADERS += \
         geoanalog_plugin.h \
@@ -21,7 +22,8 @@ HEADERS += \
     geoanalog_action.h \
     geoanalog_driver.h \
     geoanalog_exam.h \
-    geoanalog_model.h
+    geoanalog_model.h \
+    geoanalog_aggregate.h
 
 CONFIG(mongo){
     DEFINES += WITH_MONGO
