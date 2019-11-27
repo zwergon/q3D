@@ -22,28 +22,23 @@ public:
     virtual ~CubeLoadMongoDlg();
 
 private:
-    void listExperiences(QStringList& experiences) const;
-    void listNumeros(const QString& experience, QList<int>& numeros) const;
-    void listSeries(
-            const QString& experience,
-            int numero,
-            QList<int>& series) const;
-    void getHeader( QString& header ) const;
+    void clearTable();
+    void populateTable( const QString& request );
 
-    QString getExperience() const;
-    int getNumero() const;
-    int getSerie() const;
 
 private slots:
-    void on_buttonBox_accepted();
-    void on_experience_selection_changed(const QString&);
-    void on_numero_selection_changed(const QString&);
-    void on_serie_selection_changed(const QString&);
+    void on_button_box_accepted();
+    void on_search_button_clicked();
+
+
 
 private:
     Ui::CubeLoadMongoDlg* ui_;
-    MongoFoamOpenInfo moi_;
+    MongoIdOpenInfo moi_;
     mongoc_client_t* client_;
+    int i_col_;
+    int i_row_;
+
 };
 
 }

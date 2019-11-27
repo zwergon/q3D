@@ -11,23 +11,18 @@ CubeLoadMongoDlg::CubeLoadMongoDlg(QWidget* parent) :
     QDialog(parent),
     ui_(new Ui::CubeLoadMongoDlg),
     moi_(),
-    client_(nullptr)
+    client_(nullptr),
+    i_row_(-1),
+    i_col_(-1)
 {
      ui_->setupUi(this);
-     connect(ui_->buttonBox, &QDialogButtonBox::accepted,
-             this, &CubeLoadMongoDlg::on_buttonBox_accepted);
-     connect(ui_->experience_cb_, &QComboBox::currentTextChanged,
-             this, &CubeLoadMongoDlg::on_experience_selection_changed);
-     connect(ui_->numero_cb_, &QComboBox::currentTextChanged,
-             this, &CubeLoadMongoDlg::on_numero_selection_changed);
-     connect(ui_->serie_cb_, &QComboBox::currentTextChanged,
-             this, &CubeLoadMongoDlg::on_serie_selection_changed);
+     connect(ui_->button_box, &QDialogButtonBox::accepted,
+             this, &CubeLoadMongoDlg::on_button_box_accepted);
+     connect(ui_->search_button, &QPushButton::clicked,
+             this, &CubeLoadMongoDlg::on_search_button_clicked);
 
      client_ = moi_.createClient();
-     QStringList experiences;
-     listExperiences(experiences);
-     ui_->experience_cb_->addItems(experiences);
-     ui_->experience_cb_->setCurrentIndex(0);
+
 
 }
 
@@ -37,26 +32,21 @@ CubeLoadMongoDlg::~CubeLoadMongoDlg(){
     }
 }
 
-QString CubeLoadMongoDlg::getExperience() const {
-    return ui_->experience_cb_->currentText();
+
+void CubeLoadMongoDlg::clearTable(){
+    i_row_ = -1;
+    i_col_ = -1;
+    while( ui_->results_table->columnCount() > 0){
+        ui_->results_table->removeColumn(0);
+    }
+    ui_->results_table->setRowCount(0);
 }
 
-int CubeLoadMongoDlg::getNumero() const {
-    return ui_->numero_cb_->currentText().toInt();
-}
-
-int CubeLoadMongoDlg::getSerie() const {
-    return ui_->serie_cb_->currentText().toInt();
-}
-
-void CubeLoadMongoDlg::getHeader(QString &header) const {
-    bson_t* query = BCON_NEW(
-                "experience", BCON_UTF8(getExperience().toUtf8()),
-                "numero", BCON_INT32(getNumero()),
-                "serie", BCON_INT32(getSerie()));
+void CubeLoadMongoDlg::populateTable( const QString &) {
+    bson_t* query = BCON_NEW();
 
     mongoc_collection_t *collection =
-            mongoc_client_get_collection (client_, moi_.getDatabase().toUtf8(), "headers");
+            mongoc_client_get_collection (client_, moi_.getDatabase().toUtf8(), moi_.getHeaders().toUtf8());
     mongoc_cursor_t *cursor = mongoc_collection_find_with_opts (
                 collection,
                 query,
@@ -64,164 +54,107 @@ void CubeLoadMongoDlg::getHeader(QString &header) const {
                 nullptr); /* read prefs, NULL for default */
     bson_destroy (query);
 
-    const bson_t *doc;
-    while (mongoc_cursor_next (cursor, &doc)) {
-        char* str = bson_as_json (doc, NULL);
-        header += QString(str);
-        bson_free (str);
-    }
+    QSet<QString> columns;
 
-    mongoc_cursor_destroy (cursor);
+    int i_row = 0;
+
+    mongoc_cursor_t* local_cur = mongoc_cursor_clone(cursor);
+    const bson_t *doc;
+    while (mongoc_cursor_next (local_cur, &doc)) {
+        bson_iter_t iter;
+
+        if (bson_iter_init (&iter, doc)) {
+            while (bson_iter_next (&iter)) {
+                QString key(bson_iter_key (&iter));
+                columns.insert(key);
+            }
+        }
+        i_row++;
+        //bson_destroy (&doc);
+    }
+    columns.remove("cube_id");
+    columns.remove("cube_type");
+    columns.remove("header_type");
+
+    QStringList column_list = columns.toList();
+    qSort(column_list);
+
+    for( int i_col=0; i_col<column_list.size(); i_col++){
+        if (column_list.at(i_col) == "_id"){
+            i_col_ = i_col;
+        }
+    }
+    ui_->results_table->setColumnCount(column_list.size());
+    ui_->results_table->setRowCount(i_row);
+    ui_->results_table->setHorizontalHeaderLabels(column_list);
+    mongoc_cursor_destroy (local_cur);
+
+    i_row = 0;
+    local_cur = mongoc_cursor_clone(cursor);
+    while (mongoc_cursor_next (local_cur, &doc)) {
+        bson_iter_t iter;
+        QString cell_str;
+
+        for( int i_col=0; i_col<column_list.size(); i_col++){
+            QString key = column_list.at(i_col);
+            if ( bson_iter_init (&iter, doc) && bson_iter_find(&iter, key.toUtf8().constData()) )  {
+                const bson_value_t* value = bson_iter_value(&iter);
+                switch(value->value_type){
+                case BSON_TYPE_OID:
+                    char str[25];
+                    bson_oid_to_string(&value->value.v_oid, str);
+                    cell_str = QString(str);
+                    break;
+                case BSON_TYPE_INT32:
+                    cell_str = QString::number(value->value.v_int32);
+                    break;
+                case BSON_TYPE_INT64:
+                    cell_str = QString::number(value->value.v_int64);
+                    break;
+                case BSON_TYPE_BOOL:
+                    cell_str = (value->value.v_bool == true)? "true" : "false";
+                    break;
+                case BSON_TYPE_DOUBLE:
+                    cell_str = QString::number(value->value.v_double);
+                    break;
+                case BSON_TYPE_UTF8:
+                    cell_str = QString(value->value.v_utf8.str);
+                    break;
+                default:
+                    cell_str = "unknown";
+                    break;
+                }
+                ui_->results_table->setItem(i_row, i_col, new QTableWidgetItem(cell_str));
+            }
+        }
+        i_row++;
+        //bson_destroy (&doc);
+    }
+    mongoc_cursor_destroy (local_cur);
+
+
+    mongoc_cursor_destroy (cursor);  
     mongoc_collection_destroy (collection);
 }
 
-void CubeLoadMongoDlg::listExperiences(QStringList &experiences) const{
-    bson_t* command = BCON_NEW(
-                "distinct", BCON_UTF8("headers"),
-                "key", BCON_UTF8("experience"));
 
-    bson_t reply;
-    bson_error_t error;
-    mongoc_client_command_simple(
-                client_, moi_.getDatabase().toUtf8(),
-                command, nullptr,
-                &reply, &error);
+void CubeLoadMongoDlg::on_button_box_accepted(){
 
-    bson_iter_t iter;
-    bson_iter_t array_iter;
-    if ( (bson_iter_init_find (&iter, &reply, "values") &&
-          BSON_ITER_HOLDS_ARRAY (&iter) &&
-          bson_iter_recurse (&iter, &array_iter))) {
-        while (bson_iter_next (&array_iter)) {
-            if (BSON_ITER_HOLDS_UTF8 (&array_iter)) {
-                uint32_t length = 0;
-                auto val = bson_iter_utf8(&array_iter, &length);
-                experiences.append(val);
-            }
-        }
+    auto selected_rows = ui_->results_table->selectionModel()->selectedRows();
+    if ( selected_rows.isEmpty()){
+        return;
     }
-
-    experiences.sort();
-
-    bson_destroy (command);
-    bson_destroy (&reply);
-
-}
-
-void CubeLoadMongoDlg::listNumeros(const QString &experience, QList<int> &numeros) const {
-
-    bson_t* command = BCON_NEW(
-                "distinct", BCON_UTF8("headers"),
-                "key", BCON_UTF8("numero"),
-                "query", "{", "experience", BCON_UTF8(experience.toUtf8()), "}");
-
-    bson_t reply;
-    bson_error_t error;
-    mongoc_client_command_simple(
-                client_, moi_.getDatabase().toUtf8(),
-                command, nullptr,
-                &reply, &error);
-
-    bson_iter_t iter;
-    bson_iter_t array_iter;
-    if ( (bson_iter_init_find (&iter, &reply, "values") &&
-          BSON_ITER_HOLDS_ARRAY (&iter) &&
-          bson_iter_recurse (&iter, &array_iter))) {
-        while (bson_iter_next (&array_iter)) {
-            if (BSON_ITER_HOLDS_INT32 (&array_iter)) {
-                auto val = bson_iter_int32(&array_iter);
-                numeros.append(val);
-            }
-        }
-    }
-
-    qSort(numeros);
-
-    bson_destroy (command);
-    bson_destroy (&reply);
-
-}
-
-void CubeLoadMongoDlg::listSeries(
-        const QString &experience,
-        int numero,
-        QList<int> &series) const {
-
-    bson_t* command = BCON_NEW(
-                "distinct", BCON_UTF8("headers"),
-                "key", BCON_UTF8("serie"),
-                "query", "{",
-                    "experience", BCON_UTF8(experience.toUtf8()),
-                    "numero", BCON_INT32(numero),
-                "}");
-
-    bson_t reply;
-    bson_error_t error;
-    mongoc_client_command_simple(
-                client_, moi_.getDatabase().toUtf8(),
-                command, nullptr,
-                &reply, &error);
-
-    bson_iter_t iter;
-    bson_iter_t array_iter;
-    if ( (bson_iter_init_find (&iter, &reply, "values") &&
-          BSON_ITER_HOLDS_ARRAY (&iter) &&
-          bson_iter_recurse (&iter, &array_iter))) {
-        while (bson_iter_next (&array_iter)) {
-            if (BSON_ITER_HOLDS_INT32 (&array_iter)) {
-                auto val = bson_iter_int32(&array_iter);
-                series.append(val);
-            }
-        }
-    }
-
-    qSort(series);
-
-    bson_destroy (command);
-    bson_destroy (&reply);
-
-}
-
-void CubeLoadMongoDlg::on_buttonBox_accepted(){
-    moi_.setExperience(getExperience());
-    moi_.setNumero(getNumero());
-    moi_.setSerie(getSerie());
+    auto selected_row = selected_rows.at(0);
+    i_row_ = selected_row.row();
+    auto data = selected_row.data();
+    moi_.setId(data.toString());
     ModelManager::instance()->loadModel(moi_);
 }
 
-void CubeLoadMongoDlg::on_experience_selection_changed(const QString& experience){
-    QList<int> numeros;
-    listNumeros(experience, numeros);
-    ui_->numero_cb_->blockSignals(true);
-    ui_->numero_cb_->clear();
-    for( auto n : numeros ){
-        ui_->numero_cb_->addItem(QString::number(n));
-    }
-    ui_->numero_cb_->blockSignals(false);
-    if ( !numeros.isEmpty()){
-        on_numero_selection_changed(QString::number(numeros.at(0)));
-    }
-}
-
-void CubeLoadMongoDlg::on_numero_selection_changed(const QString& numero_str){
-    QList<int> series;
-    listSeries(getExperience(), numero_str.toInt(), series);
-    ui_->serie_cb_->blockSignals(true);
-    ui_->serie_cb_->clear();
-    for( auto n : series ){
-        ui_->serie_cb_->addItem(QString::number(n));
-    }
-    ui_->serie_cb_->blockSignals(false);
-    if ( !series.isEmpty() ){
-        on_serie_selection_changed(QString::number(series.at(0)));
-    }
-}
-
-void CubeLoadMongoDlg::on_serie_selection_changed(const QString& ) {
+void CubeLoadMongoDlg::on_search_button_clicked( ) {
     QString header;
-    ui_->header_text_->clear();
-    getHeader(header);
-    ui_->header_text_->setText(header);
+    clearTable();
+    populateTable(header);
 }
 
 

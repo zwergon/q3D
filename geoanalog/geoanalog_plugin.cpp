@@ -13,7 +13,6 @@
 GeoanalogDriverPlugin::GeoanalogDriverPlugin(QObject* parent ) : DriverInterface(parent)
 {
 #ifdef WITH_MONGO
-    qDebug() << "add GeoanalogDriver";
     drivers_.append(new GeoanalogDriver);
 #endif
 }

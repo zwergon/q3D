@@ -11,11 +11,12 @@
  * $Id: main.cpp 7 2008-08-01 13:07:36Z lecomtje $
  */
 
-
+#include <iostream>
 #include <QApplication>
 #include <QtPlugin>
 #include <QList>
 #include <QtOpenGL>
+
 
 #include <q3D/gui/main_window.h>
 #include <q3D/plugins/plugins.h>
@@ -51,14 +52,19 @@ int main(int argc, char **argv)
     QStringList fileNames = Plugins::instance()->get_plugins();
     foreach (QString fileName, fileNames) {
         QPluginLoader loader(fileName);
-        qDebug() << "try to load " << fileName;
+        std::cerr << "try to load " << fileName.toStdString() << std::endl;
         PluginCollection* plugin_collection =
                 qobject_cast<PluginCollection*>(loader.instance());
+
 
         if ( nullptr != plugin_collection ){
             plugins.append(plugin_collection);
             plugin_collection->start();
             extractDrivers(plugin_collection);
+        }
+        else {
+           std::cerr << fileName.toStdString() << " was not loaded "
+                     << loader.errorString().toStdString() << std::endl;
         }
 
     }

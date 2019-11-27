@@ -24,8 +24,8 @@ void GeoanalogAggregate::create_query( bson_t& query, bool with_match){
     //lookup stage
     stage = BCON_NEW("$lookup", "{",
                      "from",  "Exam",
-                     "localField",  "Exam number",
-                     "foreignField", "Exam number",
+                     "localField",  "exam_number",
+                     "foreignField", "exam_number",
                      "as",  "exams",
                      "}");
     sprintf(i_str, "%d", i_stage);
@@ -45,8 +45,8 @@ void GeoanalogAggregate::create_query( bson_t& query, bool with_match){
     //lookup stage
     stage = BCON_NEW("$lookup", "{",
                      "from",  "Thumbnail",
-                     "localField",  "Exam number",
-                     "foreignField", "Exam number",
+                     "localField",  "exam_number",
+                     "foreignField", "exam_number",
                      "as",  "thumb",
                      "}");
     sprintf(i_str, "%d", i_stage);
@@ -67,7 +67,7 @@ void GeoanalogAggregate::create_query( bson_t& query, bool with_match){
     stage = BCON_NEW("$addFields", "{",
                      "Title",  "$exams.Title",
                      "Confidential",  "$exams.Confidential",
-                     "Sheet number",  "$exams.Sheet number",
+                     "sheet_number",  "$exams.sheet_number",
                      "jpg64", "$thumb.jpg64",
                      "}");
     sprintf(i_str, "%d", i_stage);
@@ -86,6 +86,15 @@ void GeoanalogAggregate::create_query( bson_t& query, bool with_match){
                      "cube_type",  BCON_INT32(0),
                      "thumb", BCON_INT32(0),
                      "exams",  BCON_INT32(0),
+                     "}");
+    sprintf(i_str, "%d", i_stage);
+    bson_append_document(stages, i_str, -1, stage);
+    bson_destroy(stage);
+    i_stage++;
+
+    //sort stage
+    stage = BCON_NEW("$sort", "{",
+                     "exam_number",  BCON_INT32(1),
                      "}");
     sprintf(i_str, "%d", i_stage);
     bson_append_document(stages, i_str, -1, stage);
@@ -120,7 +129,7 @@ void GeoanalogAggregate::parse( const bson_t* doc ){
         while (bson_iter_next(&iter)) {
             uint32_t length;
             const char* key = bson_iter_key(&iter);
-            if ( strcmp(key, "Exam number" ) == 0 ){
+            if ( strcmp(key, "exam_number" ) == 0 ){
                 exam_number = bson_iter_utf8(&iter, &length);
             }
             else if ( strcmp(key, "fov" ) == 0 ){
@@ -135,7 +144,7 @@ void GeoanalogAggregate::parse( const bson_t* doc ){
             else if ( strcmp(key, "Confidential") == 0 ){
                 confidential = bson_iter_bool(&iter);
             }
-            else if ( strcmp(key, "Sheet number") == 0 ){
+            else if ( strcmp(key, "sheet_number") == 0 ){
                 sheet = bson_iter_int32(&iter);
             }
             else if ( strcmp(key, "jpg64") == 0 ){

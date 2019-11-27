@@ -14,8 +14,11 @@ SUBDIRS = \
     plugim \
 # unit tests
     tests \
-    itk \
     geoanalog
+
+CONFIG(debug, debug|release){
+    SUBDIRS += itk
+}
 
 CONFIG+=ordered
 

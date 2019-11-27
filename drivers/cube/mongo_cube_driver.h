@@ -39,26 +39,18 @@ protected:
 
 
 /*************************************************/
-class DRIVERSSHARED_EXPORT MongoFoamOpenInfo : public MongoCubeOpenInfo {
+class DRIVERSSHARED_EXPORT MongoIdOpenInfo : public MongoCubeOpenInfo {
 public:
-    MongoFoamOpenInfo();
+    MongoIdOpenInfo();
 
-    const QString& getExperience() const;
-    void setExperience(const QString& experience);
-
-    int getNumero() const;
-    void setNumero(int numero);
-
-    int getSerie() const;
-    void setSerie( int serie );
+    const QString& getId() const;
+    void setId(const QString& experience);
 
     virtual QString getName() const override;
     virtual bson_t* getQuery() const override;
 
 private:
-    QString experience_;
-    int numero_;
-    int serie_;
+    QString id_;
 };
 
 

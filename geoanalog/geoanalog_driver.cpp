@@ -54,7 +54,7 @@ void GeoAnalogOpenInfo::setIndex(int index){
 
 bson_t* GeoAnalogOpenInfo::getQuery() const {
     return BCON_NEW(
-                    "Exam number", BCON_UTF8(study_.toUtf8()),
+                    "exam_number", BCON_UTF8(study_.toUtf8()),
                     "fov", BCON_DOUBLE(fov_),
                     "index", BCON_INT32(index_)
                 );
@@ -83,7 +83,7 @@ bool GeoanalogDriver::readAffine(
         float* orig,
         float* pixdim) const
 {
-    bool valid = false;
+    bool valid = true;
     const bson_t *doc;
 
     mongoc_cursor_t* local_cur = mongoc_cursor_clone(cursor);
@@ -91,12 +91,7 @@ bool GeoanalogDriver::readAffine(
         bson_iter_t iter;
         if ( bson_iter_init (&iter, doc)){
             while (bson_iter_next (&iter)){
-                if (BSON_ITER_IS_KEY(&iter, "delta_y") &&
-                    BSON_ITER_HOLDS_DOUBLE (&iter)) {
-                    pixdim[1] = bson_iter_double(&iter);
-                    valid = true;
-                }
-                else if (BSON_ITER_IS_KEY(&iter, "orig") &&
+                if (BSON_ITER_IS_KEY(&iter, "orig") &&
                          BSON_ITER_HOLDS_ARRAY(&iter)){
                     const uint8_t * data = nullptr;
                     uint32_t len = 0;
@@ -111,7 +106,7 @@ bool GeoanalogDriver::readAffine(
                         orig[i] = bson_iter_double(&array_itr);
                     }
                 }
-                else if (BSON_ITER_IS_KEY(&iter, "xz_dim") &&
+                else if (BSON_ITER_IS_KEY(&iter, "pixel_size") &&
                          BSON_ITER_HOLDS_ARRAY(&iter)){
                     const uint8_t * data = nullptr;
                     uint32_t len = 0;
@@ -122,6 +117,9 @@ bool GeoanalogDriver::readAffine(
 
                     bson_iter_next(&array_itr);
                     pixdim[0] = bson_iter_double(&array_itr);
+
+                    bson_iter_next(&array_itr);
+                    pixdim[1] = bson_iter_double(&array_itr);
 
                     bson_iter_next(&array_itr);
                     pixdim[2] = bson_iter_double(&array_itr);

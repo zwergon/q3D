@@ -13,7 +13,7 @@ namespace Q3D {
 MongoCubeOpenInfo::MongoCubeOpenInfo()
     : uri_(QString::null),
       database_(QString::null),
-      headers_("headers")
+      headers_("Headers")
 {}
 
 const QString& MongoCubeOpenInfo::getURI() const{
@@ -61,51 +61,33 @@ mongoc_client_t* MongoCubeOpenInfo::createClient() const {
 
 /*************************************************/
 
-MongoFoamOpenInfo::MongoFoamOpenInfo()
+MongoIdOpenInfo::MongoIdOpenInfo()
     :  MongoCubeOpenInfo(),
-      experience_("cell1"),
-      numero_(24),
-      serie_(0)
+      id_("")
 {
     QSettings settings( "ifp", "q3D" );
     uri_ = settings.value( "mongodb/uri", "mongodb://localhost" ).toString();
     database_ = settings.value("mongodb/database", "tim8").toString();
 }
 
-QString MongoFoamOpenInfo::getName() const {
-    return QString("%1_%2_%3").arg(experience_).arg(numero_).arg(serie_);
+void MongoIdOpenInfo::setId(const QString& id){
+    id_ = id;
 }
 
-const QString& MongoFoamOpenInfo::getExperience() const{
-    return experience_;
+const QString& MongoIdOpenInfo::getId() const {
+    return id_;
 }
 
-void MongoFoamOpenInfo::setExperience(const QString &experience){
-    experience_ = experience;
+QString MongoIdOpenInfo::getName() const {
+    return id_;
 }
 
-int MongoFoamOpenInfo::getNumero() const {
-    return numero_;
-}
 
-void MongoFoamOpenInfo::setNumero(int numero){
-    numero_ = numero;
-}
-
-int MongoFoamOpenInfo::getSerie() const {
-    return serie_;
-}
-
-void MongoFoamOpenInfo::setSerie(int serie){
-    serie_ = serie;
-}
-
-bson_t* MongoFoamOpenInfo::getQuery() const {
-    return BCON_NEW(
-                    "experience", BCON_UTF8(experience_.toUtf8()),
-                    "numero", BCON_INT32(numero_),
-                    "serie", BCON_INT32(serie_)
-                );
+bson_t* MongoIdOpenInfo::getQuery() const {
+    bson_oid_t oid;
+    bson_oid_init(&oid, NULL);
+    bson_oid_init_from_string(&oid, id_.toUtf8().constData());
+    return BCON_NEW("_id", BCON_OID(&oid));
 }
 
 
@@ -142,7 +124,7 @@ void MongoCubeDriver::readCubeDescription(
                         cube_type = bson_iter_utf8(&iter, &length);
 
                     }
-                    else if (BSON_ITER_IS_KEY(&iter, "cube_size") &&
+                    else if (BSON_ITER_IS_KEY(&iter, "cube_dims") &&
                         BSON_ITER_HOLDS_ARRAY(&iter)){
                         const uint8_t * data = nullptr;
                         uint32_t len = 0;
@@ -200,6 +182,9 @@ Cube* MongoCubeDriver::createCube(
     }
     else if ( strcmp(cube_type, "float32") == 0 ){
         cube = new CubeT<float>();
+    }
+    else if ( strcmp(cube_type, "float64") == 0 ){
+        cube = new CubeT<double>();
     }
 
     if ( cube == nullptr ){
@@ -317,11 +302,11 @@ MongoFoamDriver::MongoFoamDriver()
 }
 
 ModelOpenInfo* MongoFoamDriver::openInfo() const {
-    return new MongoFoamOpenInfo();
+    return new MongoIdOpenInfo();
 }
 
 bool MongoFoamDriver::isValid( const ModelOpenInfo* moi ) const {
-    return dynamic_cast<const MongoFoamOpenInfo*>(moi) != nullptr;
+    return dynamic_cast<const MongoIdOpenInfo*>(moi) != nullptr;
 }
 
 bool MongoFoamDriver::readAffine(
